@@ -10,8 +10,8 @@
     <style>
         body { font-family: 'Noto Sans TC', sans-serif; background-color: #f3f4f6; }
         .timeline-line { position: absolute; left: 24px; top: 0; bottom: 0; width: 2px; background-color: #e5e7eb; z-index: 0; }
-        .card { transition: transform 0.2s; }
-        .card:hover { transform: translateY(-2px); }
+        .card { transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06); }
         .time-badge { background-color: #e0f2fe; color: #0369a1; font-weight: 600; font-size: 0.75rem; padding: 2px 8px; border-radius: 9999px; display: inline-flex; align-items: center; }
         .transport-badge { font-size: 0.7rem; padding: 1px 6px; border-radius: 4px; background-color: #f3f4f6; color: #666; border: 1px solid #ddd; margin-right: 5px; }
     </style>
@@ -60,6 +60,7 @@
                 <li><span class="font-medium text-gray-800">必訪美食：</span>茶六燒肉、鐵木 Ironwood City Coffee、**飪荇咖啡 Renxing CAFE**、吃茶三千、BUTTER HOTEL (but.)</li>
                 <li><span class="font-medium text-gray-800">必訪景點：</span>**台中綠美圖**、LaLaport 購物中心</li>
                 <li><span class="font-medium text-gray-800">交通策略：</span>市區短程建議搭乘 Uber/計程車以節省時間，長程使用公車/高鐵。</li>
+                <li class="text-teal-600 font-bold">新增功能：點擊據點卡片可彈出地圖資訊！</li>
             </ul>
         </div>
 
@@ -73,7 +74,7 @@
             <div class="relative pl-4 space-y-6">
                 <div class="timeline-line"></div>
 
-                <!-- Stop 1: High Speed Rail -->
+                <!-- Stop 1: High Speed Rail (No click action) -->
                 <div class="relative z-10">
                     <div class="bg-white rounded-lg shadow p-4 card border border-gray-100">
                         <div class="flex justify-between items-start">
@@ -115,14 +116,18 @@
                     </div>
                 </div>
 
-                <!-- Stop 2: Tea Six (Lunch) -->
+                <!-- Stop 2: Tea Six (Lunch) - Interactive -->
                 <div class="relative z-10">
-                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-orange-400">
+                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-orange-400"
+                        data-name="茶六燒肉堂 (新朝富店)" 
+                        data-address="台中市西屯區朝富路258號" 
+                        data-phone="(04) 2258-8977">
                         <div class="flex justify-between items-start">
                             <div>
                                 <div class="text-orange-600 font-bold text-sm">12:00 - 14:00</div>
                                 <h3 class="font-bold text-lg">茶六燒肉堂 (新朝富店)</h3>
                                 <p class="text-gray-500 text-xs mt-1"><i class="fas fa-map-marker-alt mr-1"></i>西屯區朝富路258號</p>
+                                <p class="text-gray-500 text-xs mt-1"><i class="fas fa-phone mr-1"></i><a href="tel:0422588977" class="hover:text-teal-600">(04) 2258-8977</a></p>
                             </div>
                         </div>
                         <p class="text-gray-600 text-sm mt-2">午餐時段。請務必提前預約。</p>
@@ -149,14 +154,18 @@
                     </div>
                 </div>
 
-                 <!-- Stop 3: Hotel Check-in & Rest -->
+                 <!-- Stop 3: Hotel Check-in & Rest - Interactive -->
                 <div class="relative z-10">
-                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-yellow-400">
+                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-yellow-400"
+                        data-name="采・寓halo house (飯店)" 
+                        data-address="台中市西屯區市政北七路189號" 
+                        data-phone="(04) 2259-2828">
                         <div class="flex justify-between items-start">
                             <div>
                                 <div class="text-yellow-600 font-bold text-sm">14:15 - 15:30</div>
                                 <h3 class="font-bold text-lg">飯店 Check-in & 稍作休息</h3>
                                 <p class="text-gray-500 text-xs mt-1"><i class="fas fa-suitcase mr-1"></i>西屯區市政北七路189號 (采・寓halo house)</p>
+                                <p class="text-gray-500 text-xs mt-1"><i class="fas fa-phone mr-1"></i><a href="tel:0422592828" class="hover:text-teal-600">(04) 2259-2828</a></p>
                             </div>
                         </div>
                         <p class="text-gray-600 text-sm mt-2">
@@ -185,14 +194,18 @@
                     </div>
                 </div>
 
-                 <!-- Stop 4: Green Museumbrary -->
+                 <!-- Stop 4: Green Museumbrary - Interactive -->
                 <div class="relative z-10">
-                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-green-500">
+                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-green-500"
+                        data-name="台中綠美圖" 
+                        data-address="台中市水湳經貿園區" 
+                        data-phone="(04) 2372-3552">
                         <div class="flex justify-between items-start">
                             <div>
                                 <div class="text-green-600 font-bold text-sm">16:00 - 17:30</div>
                                 <h3 class="font-bold text-lg">台中綠美圖</h3>
                                 <p class="text-gray-500 text-xs mt-1"><i class="fas fa-map-marker-alt mr-1"></i>水湳經貿園區</p>
+                                <p class="text-gray-500 text-xs mt-1"><i class="fas fa-phone mr-1"></i><a href="tel:0423723552" class="hover:text-teal-600">(04) 2372-3552</a></p>
                             </div>
                         </div>
                         <p class="text-gray-600 text-sm mt-2">
@@ -221,14 +234,18 @@
                     </div>
                 </div>
 
-                 <!-- Stop 5: BUTTER HOTEL (Dessert) -->
+                 <!-- Stop 5: BUTTER HOTEL (Dessert) - Interactive -->
                 <div class="relative z-10">
-                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-pink-500">
+                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-pink-500"
+                        data-name="BUTTER HOTEL 奶油飯店 (晚間甜點)" 
+                        data-address="台中市西區民權路217巷18號" 
+                        data-phone="(04) 2301-1866">
                         <div class="flex justify-between items-start">
                             <div>
                                 <div class="text-pink-600 font-bold text-sm">18:00 - 19:00</div>
                                 <h3 class="font-bold text-lg">BUTTER HOTEL 奶油飯店 (晚間甜點)</h3>
                                 <p class="text-gray-500 text-xs mt-1"><i class="fas fa-cookie mr-1"></i>西區民權路217巷18號</p>
+                                <p class="text-gray-500 text-xs mt-1"><i class="fas fa-phone mr-1"></i><a href="tel:0423011866" class="hover:text-teal-600">(04) 2301-1866</a></p>
                             </div>
                              <span class="bg-pink-100 text-pink-600 text-xs px-2 py-0.5 rounded">特色甜點</span>
                         </div>
@@ -258,14 +275,18 @@
                     </div>
                 </div>
 
-                <!-- Stop 6: Ironwood City Coffee -->
+                <!-- Stop 6: Ironwood City Coffee - Interactive -->
                 <div class="relative z-10">
-                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-amber-600">
+                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-amber-600"
+                        data-name="鐵木 Ironwood City Coffee" 
+                        data-address="台中市西區模範街21巷7號" 
+                        data-phone="(04) 2301-1977">
                         <div class="flex justify-between items-start">
                             <div>
                                 <div class="text-amber-600 font-bold text-sm">19:15 - 20:15</div>
                                 <h3 class="font-bold text-lg">鐵木 Ironwood City Coffee (咖啡/休息)</h3>
                                 <p class="text-gray-500 text-xs mt-1"><i class="fas fa-coffee mr-1"></i>西區模範街21巷7號</p>
+                                <p class="text-gray-500 text-xs mt-1"><i class="fas fa-phone mr-1"></i><a href="tel:0423011977" class="hover:text-teal-600">(04) 2301-1977</a></p>
                             </div>
                         </div>
                         <p class="text-gray-600 text-sm mt-2">
@@ -274,7 +295,7 @@
                     </div>
                 </div>
                 
-                 <!-- Stop 7: Dinner/Free Time -->
+                 <!-- Stop 7: Dinner/Free Time (No map needed) -->
                 <div class="relative z-10">
                     <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-gray-400">
                         <div class="flex justify-between items-start">
@@ -303,7 +324,7 @@
             <div class="relative pl-4 space-y-6">
                 <div class="timeline-line"></div>
 
-                 <!-- Transport: Hotel to Renxing Cafe - Taxi (New Start) -->
+                 <!-- Transport: Hotel to Renxing Cafe - Taxi -->
                  <div class="relative z-10 pl-8">
                     <!-- 計程車費用 item (Type TAXI) -->
                     <div class="bg-teal-50 rounded p-3 text-sm border border-teal-100 cost-item" data-cost="200" data-transport-type="taxi">
@@ -323,14 +344,18 @@
                     </div>
                 </div>
 
-                 <!-- Stop 1 (New): Renxing CAFE (修正名稱與地址) -->
+                 <!-- Stop 1 (New): Renxing CAFE - Interactive -->
                 <div class="relative z-10">
-                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-blue-400">
+                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-blue-400"
+                        data-name="飪荇咖啡 Renxing CAFE" 
+                        data-address="台中市西區向上路一段27-2號" 
+                        data-phone="(04) 2305-6587">
                         <div class="flex justify-between items-start">
                             <div>
                                 <div class="text-blue-600 font-bold text-sm">11:00 - 12:30</div>
                                 <h3 class="font-bold text-lg">飪荇咖啡 Renxing CAFE <span class="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-full ml-1">已修正名稱與地址</span></h3>
                                 <p class="text-gray-500 text-xs mt-1"><i class="fas fa-mug-hot mr-1"></i>西區向上路一段27-2號</p>
+                                <p class="text-gray-500 text-xs mt-1"><i class="fas fa-phone mr-1"></i><a href="tel:0423056587" class="hover:text-teal-600">(04) 2305-6587</a></p>
                             </div>
                             <span class="time-badge"><i class="fas fa-bed mr-1"></i>睡飽再出發</span>
                         </div>
@@ -360,14 +385,18 @@
                     </div>
                 </div>
 
-                <!-- Stop 2: LaLaport -->
+                <!-- Stop 2: LaLaport - Interactive -->
                 <div class="relative z-10">
-                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-pink-400">
+                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-pink-400"
+                        data-name="LaLaport 購物中心" 
+                        data-address="台中市東區進德路600號" 
+                        data-phone="(04) 2215-6991">
                         <div class="flex justify-between items-start">
                             <div>
                                 <div class="text-pink-600 font-bold text-sm">13:00 - 15:00</div>
                                 <h3 class="font-bold text-lg">LaLaport 購物中心 (午餐與購物)</h3>
                                 <p class="text-gray-500 text-xs mt-1"><i class="fas fa-shopping-bag mr-1"></i>東區進德路</p>
+                                <p class="text-gray-500 text-xs mt-1"><i class="fas fa-phone mr-1"></i><a href="tel:0422156991" class="hover:text-teal-600">(04) 2215-6991</a></p>
                             </div>
                         </div>
                         <p class="text-gray-600 text-sm mt-2">午餐 & 逛街。分為北館與南館，可逛性極高。</p>
@@ -394,14 +423,18 @@
                     </div>
                 </div>
 
-                <!-- Stop 3: Chi Cha San Chen -->
+                <!-- Stop 3: Chi Cha San Chen - Interactive -->
                 <div class="relative z-10">
-                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-green-700">
+                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-green-700"
+                        data-name="吃茶三千 台灣概念店" 
+                        data-address="台中市南屯區大英街607號" 
+                        data-phone="(04) 2328-5555">
                         <div class="flex justify-between items-start">
                             <div>
                                 <div class="text-green-700 font-bold text-sm">15:30 - 16:30</div>
                                 <h3 class="font-bold text-lg">吃茶三千 台灣概念店</h3>
                                 <p class="text-gray-500 text-xs mt-1"><i class="fas fa-leaf mr-1"></i>南屯區大英街607號</p>
+                                <p class="text-gray-500 text-xs mt-1"><i class="fas fa-phone mr-1"></i><a href="tel:0423285555" class="hover:text-teal-600">(04) 2328-5555</a></p>
                             </div>
                         </div>
                         <p class="text-gray-600 text-sm mt-2">
@@ -430,7 +463,7 @@
                     </div>
                 </div>
 
-                <!-- Stop 4: HSR Return -->
+                <!-- Stop 4: HSR Return (No map needed) -->
                 <div class="relative z-10">
                     <div class="bg-white rounded-lg shadow p-4 card border border-gray-100">
                         <div class="flex justify-between items-start">
@@ -456,10 +489,35 @@
         </div>
 
     </main>
+    
+    <!-- Map Modal Structure -->
+    <div id="map-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 hidden items-center justify-center p-4 z-[99]">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden transform scale-95 transition-all">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center p-4 border-b border-gray-200">
+                <h2 id="modal-title" class="text-xl font-bold text-teal-600">據點地圖資訊</h2>
+                <button id="close-modal-btn" class="text-gray-500 hover:text-gray-800 p-2 rounded-full hover:bg-gray-100 transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Modal Body (Map & Info) -->
+            <div class="p-4 space-y-4">
+                <div id="modal-info" class="text-sm space-y-1">
+                    <p><i class="fas fa-map-marker-alt text-red-500 mr-1"></i>地址: <span id="modal-address" class="font-medium text-gray-700"></span></p>
+                    <p><i class="fas fa-phone text-blue-500 mr-1"></i>電話: <a id="modal-phone-link" class="font-medium text-teal-600 hover:text-teal-800 underline"></a></p>
+                </div>
+                <div class="w-full aspect-[4/3] rounded-lg overflow-hidden border border-gray-300">
+                    <iframe id="modal-map-iframe" width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Calculate Totals
+        // Calculate Totals and Map/Phone Logic
         document.addEventListener('DOMContentLoaded', () => {
+            // --- 費用計算邏輯 (Total Calculation Logic) ---
             const costItems = document.querySelectorAll('.cost-item');
             let totalHsr = 0;
             let totalBus = 0;
@@ -477,34 +535,77 @@
                     } else if (type === 'taxi') {
                         totalTaxi += cost;
                     }
-                    // 忽略其他類型（如步行 walk），因為 cost 為 0
                 }
             });
             
-            // 總費用計算：
-            // Bus: 25 + 25 = 50
-            // Taxi: 250 + 150 + 200 + 150 + 150 = 900
-            // HSR: 700 * 2 = 1400
             const finalTotal = totalHsr + totalBus + totalTaxi; 
 
             // 更新 Header 中的數字
-            const headerHsrElement = document.getElementById('header-hsr-cost');
-            const headerBusElement = document.getElementById('header-bus-cost');
-            const headerTaxiElement = document.getElementById('header-taxi-cost');
-            const headerTotalElement = document.getElementById('header-total-cost');
+            document.getElementById('header-hsr-cost').innerText = `NT$ ${totalHsr}`;
+            document.getElementById('header-bus-cost').innerText = `NT$ ${totalBus}`;
+            document.getElementById('header-taxi-cost').innerText = `NT$ ${totalTaxi}`;
+            document.getElementById('header-total-cost').innerText = `NT$ ${finalTotal}`;
 
-            if (headerHsrElement) {
-                headerHsrElement.innerText = `NT$ ${totalHsr}`;
-            }
-            if (headerBusElement) {
-                headerBusElement.innerText = `NT$ ${totalBus}`;
-            }
-            if (headerTaxiElement) {
-                headerTaxiElement.innerText = `NT$ ${totalTaxi}`;
-            }
-            if (headerTotalElement) {
-                headerTotalElement.innerText = `NT$ ${finalTotal}`;
-            }
+            // --- 地圖彈窗邏輯 (Modal Map Logic) ---
+            const modal = document.getElementById('map-modal');
+            const closeBtn = document.getElementById('close-modal-btn');
+            const cards = document.querySelectorAll('.card');
+            
+            // 點擊卡片開啟地圖
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                const address = card.getAttribute('data-address');
+                const phone = card.getAttribute('data-phone');
+
+                // 只有有地址資訊的卡片才啟用點擊事件
+                if (address) {
+                    card.addEventListener('click', () => {
+                        // 設置標題
+                        document.getElementById('modal-title').innerText = name || '據點地圖資訊';
+                        
+                        // 設置地址
+                        document.getElementById('modal-address').innerText = address;
+                        
+                        // 設置電話 (若有)
+                        const phoneLink = document.getElementById('modal-phone-link');
+                        if (phone) {
+                            phoneLink.innerText = phone;
+                            phoneLink.href = `tel:${phone.replace(/[\s-()]/g, '')}`; // 清理電話號碼格式以用於tel:
+                        } else {
+                            phoneLink.innerText = '無提供';
+                            phoneLink.href = '#';
+                        }
+
+                        // 設置地圖 iframe
+                        const mapIframe = document.getElementById('modal-map-iframe');
+                        // 使用 Google Maps 嵌入查詢 (z=15 是縮放級別)
+                        const mapUrl = `https://maps.google.com/maps?q=${encodeURIComponent(address)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+                        mapIframe.src = mapUrl;
+
+                        // 顯示 Modal (使用 Tailwind flex 類別)
+                        modal.classList.remove('hidden');
+                        modal.classList.add('flex');
+                    });
+                }
+            });
+
+            // 關閉 Modal 函式
+            const closeModal = () => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+                // 清空 iframe src 以停止地圖加載
+                document.getElementById('modal-map-iframe').src = '';
+            };
+
+            // 關閉 Modal 事件
+            closeBtn.addEventListener('click', closeModal);
+
+            // 點擊 Modal 背景關閉
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
         });
     </script>
 </body>
