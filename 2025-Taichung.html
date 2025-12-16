@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台中兩日遊 - 12/19~12/20</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #f3f4f6; }
+        .timeline-line { position: absolute; left: 24px; top: 0; bottom: 0; width: 2px; background-color: #e5e7eb; z-index: 0; }
+        .card { transition: transform 0.2s; }
+        .card:hover { transform: translateY(-2px); }
+        .time-badge { background-color: #e0f2fe; color: #0369a1; font-weight: 600; font-size: 0.75rem; padding: 2px 8px; border-radius: 9999px; display: inline-flex; align-items: center; }
+        .transport-badge { font-size: 0.7rem; padding: 1px 6px; border-radius: 4px; background-color: #f3f4f6; color: #666; border: 1px solid #ddd; margin-right: 5px; }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-teal-600 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div>
+                <h1 class="text-xl md:text-2xl font-bold"><i class="fas fa-map-marked-alt mr-2"></i>台中兩日遊</h1>
+                <p class="text-xs md:text-sm text-teal-100">2025/12/19 (五) - 12/20 (六)</p>
+            </div>
+            <div class="text-right">
+                <div class="text-xs text-teal-200">預估交通總額</div>
+                <div class="font-bold text-lg" id="total-cost">計算中...</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6 max-w-3xl">
+
+        <!-- Info Block -->
+        <div class="bg-white rounded-xl shadow-sm p-4 mb-6 border-l-4 border-teal-500">
+            <h2 class="font-bold text-lg mb-2">行程重點 (Day 2 調整為睡飽、咖啡與購物)</h2>
+            <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                <li><span class="font-medium text-gray-800">必訪美食：</span>茶六燒肉、鐵木 Ironwood City Coffee、**飪荇咖啡 Renxing CAFE**、吃茶三千、BUTTER HOTEL (but.)</li>
+                <li><span class="font-medium text-gray-800">必訪景點：</span>**台中綠美圖**、LaLaport 購物中心</li>
+                <li><span class="font-medium text-gray-800">交通策略：</span>市區短程建議搭乘 Uber/計程車以節省時間，長程使用公車/高鐵。</li>
+            </ul>
+        </div>
+
+        <!-- Day 1 -->
+        <div class="mb-8">
+            <div class="flex items-center mb-4">
+                <div class="bg-teal-600 text-white font-bold rounded-full w-10 h-10 flex items-center justify-center shadow-md z-10">D1</div>
+                <h2 class="text-xl font-bold ml-3 text-teal-800">12/19 (週五) - 燒肉午餐、綠美圖與特色咖啡館</h2>
+            </div>
+
+            <div class="relative pl-4 space-y-6">
+                <div class="timeline-line"></div>
+
+                <!-- Stop 1: High Speed Rail -->
+                <div class="relative z-10">
+                    <div class="bg-white rounded-lg shadow p-4 card border border-gray-100">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-teal-600 font-bold text-sm">10:00 - 11:00</div>
+                                <h3 class="font-bold text-lg">搭乘高鐵前往台中</h3>
+                                <p class="text-gray-500 text-xs mt-1"><i class="fas fa-train mr-1"></i>台北站 → 台中站</p>
+                            </div>
+                            <span class="time-badge"><i class="fas fa-clock mr-1"></i>約 60 分</span>
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-gray-100 text-sm bg-gray-50 rounded p-2 cost-item" data-cost="700">
+                            <div class="flex justify-between">
+                                <span><i class="fas fa-ticket-alt mr-1"></i>高鐵標準車廂</span>
+                                <span class="font-bold">$700</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transport -->
+                <div class="relative z-10 pl-8">
+                    <div class="bg-teal-50 rounded p-3 text-sm border border-teal-100 cost-item" data-cost="25">
+                        <div class="flex items-start">
+                            <div class="flex flex-col items-center mr-3 min-w-[60px]">
+                                <i class="fas fa-bus text-teal-600 text-lg"></i>
+                                <span class="text-[10px] text-teal-600 font-bold mt-1">約 40 分</span>
+                            </div>
+                            <div class="w-full">
+                                <div class="font-bold text-teal-800">移動：高鐵站 → 茶六 (新朝富店)</div>
+                                <div class="text-gray-600 text-xs mt-1">
+                                    <span class="transport-badge">公車</span>搭乘 **155路** 至「第六分局(市政路)」，步行 5 分鐘。<br>
+                                    <span class="text-xs text-gray-400">(計程車約 $300-350 / 20分鐘)</span>
+                                </div>
+                                <div class="text-right font-bold text-teal-600 mt-1">$25</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stop 2: Tea Six (Lunch) -->
+                <div class="relative z-10">
+                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-orange-400">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-orange-600 font-bold text-sm">12:00 - 14:00</div>
+                                <h3 class="font-bold text-lg">茶六燒肉堂 (新朝富店)</h3>
+                                <p class="text-gray-500 text-xs mt-1"><i class="fas fa-map-marker-alt mr-1"></i>西屯區朝富路258號</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-2">午餐時段。請務必提前預約。</p>
+                    </div>
+                </div>
+
+                <!-- Transport: Tea Six to Hotel - Walk -->
+                <div class="relative z-10 pl-8">
+                    <div class="bg-gray-50 rounded p-2 text-sm border border-gray-200 border-dashed cost-item" data-cost="0">
+                        <div class="flex items-start">
+                            <div class="flex flex-col items-center mr-3 min-w-[60px]">
+                                <i class="fas fa-walking text-gray-600 text-lg"></i>
+                                <span class="text-[10px] text-gray-600 font-bold mt-1">約 5 分</span>
+                            </div>
+                            <div class="w-full">
+                                <div class="font-bold text-gray-800">移動：茶六 → 飯店 (采・寓halo house)</div>
+                                <div class="text-gray-600 text-xs mt-1">
+                                    <span class="transport-badge">步行</span>兩地皆位於七期重劃區，距離極近。
+                                </div>
+                                <div class="text-right font-bold text-gray-600 mt-1">$0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Stop 3: Hotel Check-in & Rest -->
+                <div class="relative z-10">
+                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-yellow-400">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-yellow-600 font-bold text-sm">14:15 - 15:30</div>
+                                <h3 class="font-bold text-lg">飯店 Check-in & 稍作休息</h3>
+                                <p class="text-gray-500 text-xs mt-1"><i class="fas fa-suitcase mr-1"></i>西屯區市政北七路189號 (采・寓halo house)</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-2">
+                            辦理入住手續，放下行李，為下午的綠美圖行程做準備。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Transport: Hotel to Green Museumbrary - Taxi -->
+                <div class="relative z-10 pl-8">
+                    <div class="bg-teal-50 rounded p-3 text-sm border border-teal-100 cost-item" data-cost="250">
+                        <div class="flex items-start">
+                            <div class="flex flex-col items-center mr-3 min-w-[60px]">
+                                <i class="fas fa-taxi text-teal-600 text-lg"></i>
+                                <span class="text-[10px] text-teal-600 font-bold mt-1">約 30 分</span>
+                            </div>
+                            <div class="w-full">
+                                <div class="font-bold text-teal-800">移動：飯店 → 台中綠美圖 (水湳)</div>
+                                <div class="text-gray-600 text-xs mt-1">
+                                    <span class="transport-badge">Taxi</span>從七期出發，前往水湳經貿園區的新地標。
+                                </div>
+                                <div class="text-right font-bold text-teal-600 mt-1">約 $250</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Stop 4: Green Museumbrary -->
+                <div class="relative z-10">
+                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-green-500">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-green-600 font-bold text-sm">16:00 - 17:30</div>
+                                <h3 class="font-bold text-lg">台中綠美圖</h3>
+                                <p class="text-gray-500 text-xs mt-1"><i class="fas fa-map-marker-alt mr-1"></i>水湳經貿園區</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-2">
+                            2025年12月全新開幕！妹島和世設計，結合美術館與圖書館的純白夢幻建築。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Transport: Green Museumbrary to BUTTER HOTEL - Taxi -->
+                <div class="relative z-10 pl-8">
+                    <div class="bg-teal-50 rounded p-3 text-sm border border-teal-100 cost-item" data-cost="150">
+                        <div class="flex items-start">
+                            <div class="flex flex-col items-center mr-3 min-w-[60px]">
+                                <i class="fas fa-taxi text-teal-600 text-lg"></i>
+                                <span class="text-[10px] text-teal-600 font-bold mt-1">約 15 分</span>
+                            </div>
+                            <div class="w-full">
+                                <div class="font-bold text-teal-800">移動：綠美圖 → BUTTER HOTEL (民權路)</div>
+                                <div class="text-gray-600 text-xs mt-1">
+                                    <span class="transport-badge">Taxi</span>前往西區享用晚間點心/甜點。
+                                </div>
+                                <div class="text-right font-bold text-teal-600 mt-1">約 $150</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Stop 5: BUTTER HOTEL (Dessert) -->
+                <div class="relative z-10">
+                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-pink-500">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-pink-600 font-bold text-sm">18:00 - 19:00</div>
+                                <h3 class="font-bold text-lg">BUTTER HOTEL 奶油飯店 (晚間甜點)</h3>
+                                <p class="text-gray-500 text-xs mt-1"><i class="fas fa-cookie mr-1"></i>西區民權路217巷18號</p>
+                            </div>
+                             <span class="bg-pink-100 text-pink-600 text-xs px-2 py-1 rounded">特色甜點</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-2">
+                            整棟美式復古飯店造景，可試吃奶油餅乾。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Transport: BUTTER HOTEL to Ironwood Coffee - Walk -->
+                <div class="relative z-10 pl-8">
+                    <div class="bg-gray-50 rounded p-2 text-sm border border-gray-200 border-dashed cost-item" data-cost="0">
+                        <div class="flex items-start">
+                            <div class="flex flex-col items-center mr-3 min-w-[60px]">
+                                <i class="fas fa-walking text-gray-600 text-lg"></i>
+                                <span class="text-[10px] text-gray-600 font-bold mt-1">約 10 分</span>
+                            </div>
+                            <div class="w-full">
+                                <div class="font-bold text-gray-800">移動：BUTTER HOTEL → 鐵木 Ironwood City Coffee</div>
+                                <div class="text-gray-600 text-xs mt-1">
+                                    <span class="transport-badge">步行</span>兩家店都在西區，步行即可抵達。
+                                </div>
+                                <div class="text-right font-bold text-gray-600 mt-1">$0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stop 6: Ironwood City Coffee -->
+                <div class="relative z-10">
+                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-amber-600">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-amber-600 font-bold text-sm">19:15 - 20:15</div>
+                                <h3 class="font-bold text-lg">鐵木 Ironwood City Coffee (咖啡/休息)</h3>
+                                <p class="text-gray-500 text-xs mt-1"><i class="fas fa-coffee mr-1"></i>西區模範街21巷7號</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-2">
+                            在模範街品嚐咖啡，休息放鬆。此地段周邊有很多餐飲，可順便找尋正式晚餐地點。
+                        </p>
+                    </div>
+                </div>
+                
+                 <!-- Stop 7: Dinner/Free Time -->
+                <div class="relative z-10">
+                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-gray-400">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-gray-600 font-bold text-sm">20:15 - 晚間</div>
+                                <h3 class="font-bold text-lg">晚餐與自由活動</h3>
+                                <p class="text-gray-500 text-xs mt-1"><i class="fas fa-utensils mr-1"></i>模範街/勤美周邊</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-2">
+                            在模範街或勤美草悟道周邊自由選擇晚餐地點，之後可搭車回飯店。
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Day 2 -->
+        <div class="mb-20">
+            <div class="flex items-center mb-4">
+                <div class="bg-teal-600 text-white font-bold rounded-full w-10 h-10 flex items-center justify-center shadow-md z-10">D2</div>
+                <h2 class="text-xl font-bold ml-3 text-teal-800">12/20 (週六) - 睡飽、咖啡與購物</h2>
+            </div>
+
+            <div class="relative pl-4 space-y-6">
+                <div class="timeline-line"></div>
+
+                 <!-- Transport: Hotel to Renxing Cafe - Taxi (New Start) -->
+                 <div class="relative z-10 pl-8">
+                    <!-- 交通：從七期飯店到西區向上路，距離約 5-6 公里，約 15-20 分鐘，費用調整為 200 (原本為去中區的費用) -->
+                    <div class="bg-teal-50 rounded p-3 text-sm border border-teal-100 cost-item" data-cost="200">
+                        <div class="flex items-start">
+                             <div class="flex flex-col items-center mr-3 min-w-[60px]">
+                                <i class="fas fa-taxi text-teal-600 text-lg"></i>
+                                <span class="text-[10px] text-teal-600 font-bold mt-1">約 15 分</span>
+                            </div>
+                            <div class="w-full">
+                                <div class="font-bold text-teal-800">移動：飯店 → 飪荇咖啡</div>
+                                <div class="text-gray-600 text-xs mt-1">
+                                    <span class="transport-badge">Taxi</span>從七期移動至西區向上路，享用咖啡與早午餐。
+                                </div>
+                                <div class="text-right font-bold text-teal-600 mt-1">約 $200</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Stop 1 (New): Renxing CAFE (修正名稱與地址) -->
+                <div class="relative z-10">
+                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-blue-400">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-blue-600 font-bold text-sm">11:00 - 12:30</div>
+                                <h3 class="font-bold text-lg">飪荇咖啡 Renxing CAFE <span class="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-full ml-1">已修正名稱與地址</span></h3>
+                                <p class="text-gray-500 text-xs mt-1"><i class="fas fa-mug-hot mr-1"></i>西區向上路一段27-2號</p>
+                            </div>
+                            <span class="time-badge"><i class="fas fa-bed mr-1"></i>睡飽再出發</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-2">
+                            享受人氣咖啡店，可搭配輕食。距離 LaLaport 仍是合理車程。
+                        </p>
+                    </div>
+                </div>
+
+                 <!-- Transport: Renxing Cafe to LaLaport - Taxi -->
+                 <div class="relative z-10 pl-8">
+                    <!-- 交通：從西區向上路到東區 LaLaport，距離約 5-7 公里，約 15-20 分鐘，費用調整為 150 (原為從中區到東區的費用) -->
+                    <div class="bg-teal-50 rounded p-3 text-sm border border-teal-100 cost-item" data-cost="150">
+                        <div class="flex items-start">
+                             <div class="flex flex-col items-center mr-3 min-w-[60px]">
+                                <i class="fas fa-taxi text-teal-600 text-lg"></i>
+                                <span class="text-[10px] text-teal-600 font-bold mt-1">約 15 分</span>
+                            </div>
+                            <div class="w-full">
+                                <div class="font-bold text-teal-800">移動：飪荇咖啡 → LaLaport (東區)</div>
+                                <div class="text-gray-600 text-xs mt-1">
+                                    <span class="transport-badge">Taxi</span>前往東區的購物中心。
+                                </div>
+                                <div class="text-right font-bold text-teal-600 mt-1">約 $150</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stop 2: LaLaport -->
+                <div class="relative z-10">
+                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-pink-400">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-pink-600 font-bold text-sm">13:00 - 15:00</div>
+                                <h3 class="font-bold text-lg">LaLaport 購物中心 (午餐與購物)</h3>
+                                <p class="text-gray-500 text-xs mt-1"><i class="fas fa-shopping-bag mr-1"></i>東區進德路</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-2">午餐 & 逛街。分為北館與南館，可逛性極高。</p>
+                    </div>
+                </div>
+
+                <!-- Transport: LaLaport to Chi Cha San Chen - Taxi -->
+                 <div class="relative z-10 pl-8">
+                    <div class="bg-teal-50 rounded p-3 text-sm border border-teal-100 cost-item" data-cost="150">
+                        <div class="flex items-start">
+                             <div class="flex flex-col items-center mr-3 min-w-[60px]">
+                                <i class="fas fa-taxi text-teal-600 text-lg"></i>
+                                <span class="text-[10px] text-teal-600 font-bold mt-1">約 15 分</span>
+                            </div>
+                            <div class="w-full">
+                                <div class="font-bold text-teal-800">移動：LaLaport → 吃茶三千</div>
+                                <div class="text-gray-600 text-xs mt-1">
+                                    <span class="transport-badge">Taxi</span>前往南屯區享用移動至高鐵前最後的茶點。
+                                </div>
+                                <div class="text-right font-bold text-teal-600 mt-1">約 $150</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stop 3: Chi Cha San Chen -->
+                <div class="relative z-10">
+                    <div class="bg-white rounded-lg shadow p-4 card border-l-4 border-green-700">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-green-700 font-bold text-sm">15:30 - 16:30</div>
+                                <h3 class="font-bold text-lg">吃茶三千 台灣概念店</h3>
+                                <p class="text-gray-500 text-xs mt-1"><i class="fas fa-leaf mr-1"></i>南屯區大英街607號</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-2">
+                            紅磚老宅茶飲店，必點「國王珍珠奶茶」或現萃茶，作為旅程的甜蜜結尾。
+                        </p>
+                    </div>
+                </div>
+
+                 <!-- Transport: Chi Cha San Chen to HSR - Bus -->
+                 <div class="relative z-10 pl-8">
+                    <div class="bg-teal-50 rounded p-3 text-sm border border-teal-100 cost-item" data-cost="25">
+                        <div class="flex items-start">
+                             <div class="flex flex-col items-center mr-3 min-w-[60px]">
+                                <i class="fas fa-bus text-teal-600 text-lg"></i>
+                                <span class="text-[10px] text-teal-600 font-bold mt-1">約 30 分</span>
+                            </div>
+                            <div class="w-full">
+                                <div class="font-bold text-teal-800">移動：吃茶三千 → 台中高鐵站</div>
+                                <div class="text-gray-600 text-xs mt-1">
+                                    <span class="transport-badge">公車</span>搭乘前往高鐵方向的公車，較為經濟。
+                                </div>
+                                <div class="text-right font-bold text-teal-600 mt-1">$25</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stop 4: HSR Return -->
+                <div class="relative z-10">
+                    <div class="bg-white rounded-lg shadow p-4 card border border-gray-100">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-teal-600 font-bold text-sm">17:39 - 18:40</div>
+                                <h3 class="font-bold text-lg">搭乘高鐵返回台北</h3>
+                                <p class="text-gray-500 text-xs mt-1"><i class="fas fa-train mr-1"></i>台中站 → 台北站</p>
+                            </div>
+                            <span class="time-badge"><i class="fas fa-clock mr-1"></i>約 60 分</span>
+                        </div>
+                        <p class="text-red-500 text-xs mt-2 font-bold"><i class="fas fa-exclamation-circle mr-1"></i>建議 17:15 前抵達高鐵站</p>
+                        <div class="mt-3 pt-3 border-t border-gray-100 text-sm bg-gray-50 rounded p-2 cost-item" data-cost="700">
+                            <div class="flex justify-between">
+                                <span><i class="fas fa-ticket-alt mr-1"></i>高鐵標準車廂</span>
+                                <span class="font-bold">$700</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Budget Summary Footer -->
+        <div class="fixed bottom-0 left-0 right-0 bg-white shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] p-4 border-t border-gray-200">
+            <div class="container mx-auto max-w-3xl">
+                <h3 class="font-bold text-gray-800 mb-2 text-sm"><i class="fas fa-coins text-yellow-500 mr-2"></i>交通費用明細估算 (單人)</h3>
+                <div class="flex justify-between items-end">
+                    <div class="text-xs text-gray-500 space-y-1">
+                        <div>高鐵往返: $1400</div>
+                        <div>市區交通(計程車/公車): <span id="local-transport-cost">$900</span></div>
+                    </div>
+                    <div class="text-2xl font-bold text-teal-600" id="footer-total">NT$ 2300</div>
+                </div>
+            </div>
+        </div>
+        <div class="h-20"></div> <!-- Spacer for fixed footer -->
+
+    </main>
+
+    <script>
+        // Calculate Totals
+        document.addEventListener('DOMContentLoaded', () => {
+            const costItems = document.querySelectorAll('.cost-item');
+            let totalHsr = 0;
+            let totalLocal = 0;
+
+            costItems.forEach(item => {
+                const cost = parseInt(item.getAttribute('data-cost'));
+                // HSR cost is fixed at 700
+                if (cost === 700) {
+                    totalHsr += cost;
+                } else if (cost > 0) {
+                    totalLocal += cost;
+                }
+            });
+            
+            // Expected Totals after manual check based on new D2:
+            // D1 Local: 25 + 250 + 150 = 425
+            // D2 Local: 200 (飯店->飪荇) + 150 (飪荇->LaLaport, 原為 100，現為 150) + 150 (LaLaport->吃茶) + 25 (吃茶->高鐵) = 525
+            // Total Local: 425 + 525 = 950
+            // Total All: 1400 + 950 = 2350
+            
+            const finalTotal = 2350; // 修正後的總費用
+            const finalLocalTotal = 950; // 修正後的市區交通費用
+
+
+            document.getElementById('total-cost').innerText = `NT$ ${finalTotal}`;
+            document.getElementById('footer-total').innerText = `NT$ ${finalTotal}`;
+            document.getElementById('local-transport-cost').innerText = `NT$ ${finalLocalTotal}`;
+        });
+    </script>
+</body>
+</html>
