@@ -1,0 +1,1709 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photoshop 33頁完整數位設計寶典</title>
+    <!-- Tailwind CSS for modern responsive layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght=300;400;500;700;900&family=JetBrains+Mono:wght=400;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        code, pre {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Print styling for exporting to perfect PDF */
+        @media print {
+            body {
+                background-color: #ffffff;
+                color: #000000;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-page-break {
+                page-break-after: always;
+                break-after: page;
+            }
+            .print-container {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+            }
+            .page-card {
+                box-shadow: none !important;
+                border: 1px solid #e2e8f0 !important;
+                margin-bottom: 2rem !important;
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Beautiful glowing custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00a3e0;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Print Help Modal (Hidden on Print & Hidden by Default) -->
+    <div id="printModal" class="no-print fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 animate-fade-in">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-slate-100 transform transition-all scale-100">
+            <div class="flex items-center space-x-3 text-[#001c3a] mb-4">
+                <div class="bg-blue-50 p-2.5 rounded-full text-[#00a3e0]">
+                    <i class="fa-solid fa-circle-info text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold">智慧列印 / PDF 匯出指南</h3>
+            </div>
+            
+            <p class="text-sm text-slate-600 leading-relaxed mb-6">
+                由於此預覽畫面運行在獨立的安全沙盒（Iframe）中，瀏覽器可能會阻擋直接點擊列印。請使用以下方式順利下載：
+            </p>
+
+            <div class="space-y-3.5 mb-6 text-sm text-slate-700">
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-150 flex items-start space-x-3">
+                    <span class="bg-[#001c3a] text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5">1</span>
+                    <p class="text-xs">先在<strong>預覽畫面（右側海報內容區）的任意空白處點一下滑鼠左鍵</strong>，將系統焦點移至此處。</p>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-150 flex items-start space-x-3">
+                    <span class="bg-[#001c3a] text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5">2</span>
+                    <p class="text-xs">按下鍵盤快捷鍵：Windows 請按 <kbd class="bg-white border px-1.5 py-0.5 rounded shadow-sm font-bold">Ctrl + P</kbd> / Mac 請按 <kbd class="bg-white border px-1.5 py-0.5 rounded shadow-sm font-bold">Cmd + P</kbd>。</p>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-150 flex items-start space-x-3">
+                    <span class="bg-[#001c3a] text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5">3</span>
+                    <p class="text-xs">或者，在預覽畫面的空白處<strong>點擊滑鼠右鍵</strong>，選擇<strong>「列印... (Print...)」</strong>。</p>
+                </div>
+                <div class="bg-emerald-50 text-emerald-800 p-3 rounded-xl border border-emerald-100 flex items-center space-x-2.5">
+                    <i class="fa-solid fa-circle-check text-base"></i>
+                    <p class="text-xs font-bold">在印表機目標中選擇「另存為 PDF」即可無損下載！</p>
+                </div>
+            </div>
+
+            <div class="flex space-x-3">
+                <button onclick="triggerSystemPrint()" class="flex-1 bg-[#00a3e0] hover:bg-cyan-500 text-white py-2.5 rounded-xl font-bold text-sm transition-all shadow-md">
+                    嘗試強制呼叫列印
+                </button>
+                <button onclick="closePrintModal()" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl font-medium text-sm transition-all">
+                    我知道了
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Navigation Bar (Hidden on Print) -->
+    <header class="no-print bg-[#001c3a] text-white shadow-lg sticky top-0 z-50 px-6 py-4 flex flex-wrap justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <div class="bg-[#00a3e0] text-white p-2.5 rounded-lg shadow-md flex items-center justify-center">
+                <i class="fa-solid fa-palette text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-black tracking-wider flex items-center">
+                    PHOTOSHOP <span class="text-[#00a3e0] ml-2 text-sm bg-[#002855] px-2 py-0.5 rounded border border-[#00a3e0]/30">33 頁數位寶典</span>
+                </h1>
+                <p class="text-[10px] text-slate-300 tracking-widest uppercase">Traditional Chinese Masterclass Notebook</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center space-x-4 mt-3 sm:mt-0">
+            <div class="relative">
+                <input type="text" id="searchInput" oninput="searchNotes()" placeholder="搜尋關鍵字 (例如: 去背, CMYK, 筆刷)..." 
+                       class="bg-[#002855] text-white text-sm px-4 py-2 pl-10 rounded-full border border-slate-700 focus:border-[#00a3e0] focus:outline-none w-64 transition-all duration-300">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-xs"></i>
+            </div>
+            <!-- Modified click event to show modern helper modal first -->
+            <button onclick="openPrintModal()" class="bg-[#00a3e0] hover:bg-cyan-500 text-white px-5 py-2 rounded-full font-bold text-sm shadow-md flex items-center space-x-2 transition-all duration-300 transform hover:-translate-y-0.5">
+                <i class="fa-solid fa-file-pdf"></i>
+                <span>列印 / 匯出 PDF</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container Layout -->
+    <div class="flex-1 max-w-[1600px] w-full mx-auto flex flex-col lg:flex-row print-container">
+        
+        <!-- Left Side: Interactive Navigation (Hidden on Print) -->
+        <nav class="no-print w-full lg:w-80 bg-white border-r border-slate-200 p-4 max-h-[calc(100vh-80px)] overflow-y-auto shrink-0">
+            <div class="mb-4">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">筆記頁面目錄</h3>
+                <div class="h-1 w-10 bg-[#00a3e0] rounded"></div>
+            </div>
+            <div class="space-y-1.5" id="sidebarMenu">
+                <!-- Javascript will populate the list items with links -->
+            </div>
+        </nav>
+
+        <!-- Right Side: Content Area -->
+        <main class="flex-1 p-4 sm:p-8 overflow-y-auto max-h-[calc(100vh-80px)] print:max-h-none print:overflow-visible" id="notesContent">
+            
+            <!-- Welcome Info Card (Hidden on Print) -->
+            <div class="no-print bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100 rounded-2xl p-6 mb-8 shadow-sm">
+                <h2 class="text-lg font-bold text-[#001c3a] flex items-center mb-2">
+                    <i class="fa-solid fa-circle-info text-[#00a3e0] mr-2.5"></i>
+                    歡迎使用 Photoshop 完整數位寶典！
+                </h2>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    本系統已為您將上傳的 <strong>33 頁手動手寫模糊筆記</strong> 進行了完整文字轉錄、語意補全與設計師級精確校對。下方頁面包含了精緻的<strong>淺色設計風格卡片</strong>與<strong>互動式 Photoshop 設計插圖模擬</strong>。我們已全面清除了所有會引起排版亂碼的數學公式符號，並直接改用標準乾淨的文字呈現！
+                </p>
+            </div>
+
+            <!-- Page-by-Page Container -->
+            <div class="space-y-12" id="pagesContainer">
+                
+                <!-- PAGE 1 -->
+                <section id="page-1" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 01 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">基礎設定</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">7/22 上午 課堂環境與伺服器連線</h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-2 text-slate-500 text-sm">
+                                <i class="fa-solid fa-user-pen"></i>
+                                <span>學員紀錄：<strong>CHE-JUNG LEE</strong></span>
+                            </div>
+                            <p class="text-slate-600 leading-relaxed text-sm">
+                                課程首日著重於遠端連線、下載老師上課教材、建立專案資料夾與熟悉 Photoshop 儲存格式。
+                            </p>
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 text-sm space-y-2">
+                                <h3 class="font-bold text-[#001c3a]">🖥️ 連線設定參數</h3>
+                                <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                    <li>使用伺服器：<strong>Adobe 專用主機</strong></li>
+                                    <li>主機 IP 網址：<code class="bg-white px-1.5 py-0.5 rounded border border-slate-200">163.14.15.161</code></li>
+                                    <li>登入權限模式：<span class="text-emerald-600 font-semibold">Public</span>（公開目錄）</li>
+                                    <li>教師部落格：<a href="http://scudeyign.blogspot.tw" target="_blank" class="text-[#00a3e0] underline">scudeyign.blogspot.tw</a></li>
+                                    <li>教師 Email 信箱：<code class="bg-white px-1.5 py-0.5 rounded border border-slate-200">glab=@gmail.com</code></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Interactive FileZilla UI Mockup -->
+                        <div class="bg-slate-900 text-slate-300 rounded-xl p-4 font-mono text-xs shadow-inner border border-slate-800 space-y-3">
+                            <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                                <span class="text-white font-bold"><i class="fa-solid fa-network-wired text-[#00a3e0] mr-1.5"></i> FileZilla Client 介面</span>
+                                <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 px-1.5 py-0.5 rounded text-[10px]">⚠️ 提示更新：按「取消」</span>
+                            </div>
+                            <div class="space-y-1">
+                                <p class="text-slate-500">// 快速連線步驟</p>
+                                <p><span class="text-cyan-400">① 點選：</span> [快速連結] 快速登入 IP 主機</p>
+                                <p><span class="text-cyan-400">② 使用者名稱：</span> 輸入課堂專屬帳號</p>
+                                <p><span class="text-cyan-400">③ 本地站台：</span> 定位至 <span class="text-yellow-400">[Desktop] (桌面)</span></p>
+                                <p><span class="text-cyan-400">④ 選取教材路徑：</span> <span class="text-emerald-400">老師 JONA</span> &rarr; 人才培訓 &rarr; Photoshop</p>
+                            </div>
+                            <div class="bg-slate-800/50 p-2.5 rounded border border-slate-700/50 text-[11px] leading-relaxed">
+                                <strong>💡 儲存核心規範：</strong><br>
+                                另存新檔至左側導覽列的 <span class="text-yellow-400">class01</span> 資料夾。檔案格式務必設定為 <span class="text-cyan-400">.PSD</span> 或 <span class="text-cyan-400">.PDD</span>，方能完整保留圖層結構與未來的影像尺寸調整彈性。
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 2 -->
+                <section id="page-2" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 02 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">品牌核心觀念</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">企業識別系統 (CI) 與標誌 LOGO 設計原理</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <p class="text-slate-600 leading-relaxed text-sm">
+                            企業識別系統 (Corporate Identity, CI) 旨在落實企業自我同一化，透過教育、明星化策略提升品牌大眾印象。其由三大核心識別板塊架構而成：
+                        </p>
+
+                        <!-- CI Structure Table -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left border-collapse border border-slate-200 rounded-xl overflow-hidden">
+                                <thead class="bg-slate-50 text-[#001c3a] font-bold">
+                                    <tr>
+                                        <th class="p-3 border border-slate-200">三大識別體系</th>
+                                        <th class="p-3 border border-slate-200">原文對應</th>
+                                        <th class="p-3 border border-slate-200">實質定義與落實範疇</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-slate-600">
+                                    <tr>
+                                        <td class="p-3 border border-slate-200 font-bold text-[#001c3a]">MI (理念識別)</td>
+                                        <td class="p-3 border border-slate-200 font-mono text-xs">Mind Identity</td>
+                                        <td class="p-3 border border-slate-200">企業經營理念、品質精神、品牌哲學。<strong>（CI 系統的核心原動力與靈魂、非視覺性）</strong></td>
+                                    </tr>
+                                    <tr class="bg-slate-50/50">
+                                        <td class="p-3 border border-slate-200 font-bold text-[#001c3a]">BI (行為識別)</td>
+                                        <td class="p-3 border border-slate-200 font-mono text-xs">Behavior Identity</td>
+                                        <td class="p-3 border border-slate-200">員工教育、禮貌儀表、服務態度、工作規範。對外舉凡公益活動、文化推廣等。<strong>（非視覺性的動態實踐）</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 border border-slate-200 font-bold text-[#001c3a]">VI (視覺識別)</td>
+                                        <td class="p-3 border border-slate-200 font-mono text-xs">Visual Identity</td>
+                                        <td class="p-3 border border-slate-200">視覺整體系統，分為基本系統（標誌、字體、主色）與應用系統（名片、信紙、招牌等）。</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- LOGO Design section -->
+                        <div class="bg-[#f5f8fa] rounded-2xl p-6 border border-slate-200">
+                            <h3 class="text-md font-extrabold text-[#001c3a] mb-3 flex items-center">
+                                <i class="fa-solid fa-bezier-curve text-[#00a3e0] mr-2"></i>
+                                LOGO 靜態識別設計的三大黃金原則
+                            </h3>
+                            <p class="text-xs text-slate-500 mb-4">「好看只是基本分，更重要的是品牌理念與精神的準確傳遞。」</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                                    <span class="text-xs font-black text-slate-300">PRINCIPLE 01</span>
+                                    <h4 class="font-bold text-sm text-[#001c3a] mt-1 mb-2">① 準確性</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed">設計造型必須能精準傳達品牌的行業屬性，避免語意混淆。</p>
+                                </div>
+                                <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                                    <span class="text-xs font-black text-slate-300">PRINCIPLE 02</span>
+                                    <h4 class="font-bold text-sm text-[#001c3a] mt-1 mb-2">② 關聯性</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed">設計符號與企業的主體商品、品牌名稱之間應具備強烈邏輯性。</p>
+                                </div>
+                                <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                                    <span class="text-xs font-black text-slate-300">PRINCIPLE 03</span>
+                                    <h4 class="font-bold text-sm text-[#001c3a] mt-1 mb-2">③ 獨特性</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed">造型輪廓需具備極佳辨識度，在競品市場中不易被抄襲混淆。</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 text-xs text-amber-600 bg-amber-50 p-3 rounded-lg border border-amber-100 flex items-center space-x-2">
+                                <i class="fa-solid fa-circle-exclamation text-sm"></i>
+                                <strong>色彩警語：</strong> LOGO色彩不可隨意變更。色彩定義不佳會直接影響完稿與後續印刷製程的呈現。
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 3 -->
+                <section id="page-3" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 03 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">軟體介面</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">Photoshop 介面重設、新增檔案與色彩模式</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-bold text-sm text-[#001c3a] border-b pb-2">🛠️ 軟體介面救急與參數設定</h3>
+                            <ul class="space-y-2.5 text-sm text-slate-600">
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-square-caret-right text-[#00a3e0] mt-1 mr-2.5"></i>
+                                    <span><strong>工作區還原</strong>：選單欄選擇 <code class="bg-slate-100 px-1 py-0.5 rounded">視窗</code> &rarr; <code class="bg-slate-100 px-1 py-0.5 rounded">工作區</code> &rarr; <code class="bg-slate-100 px-1 py-0.5 rounded">重設基本功能</code>（Reset Essentials）即可一鍵復原消失的面板。</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-square-caret-right text-[#00a3e0] mt-1 mr-2.5"></i>
+                                    <span><strong>屬性列（Options Bar）</strong>：當前啟用的工具，其對應的調節屬性、數值，會即時聯動顯示於最頂部上列屬性面板中。</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-square-caret-right text-[#00a3e0] mt-1 mr-2.5"></i>
+                                    <span><strong>新增檔案規格 (Ctrl + N)</strong>：
+                                        <ul class="list-disc list-inside pl-4 mt-1 text-xs space-y-1">
+                                            <li>國際標準紙張：如 <strong>A4 規格</strong>。</li>
+                                            <li>解析度：印刷設定在 <span class="text-rose-600 font-bold">300 dpi 以上</span> 列印才會細緻；網頁設定 72 dpi ~ 150 dpi。</li>
+                                            <li>色彩模式：設計可先採用 <strong>RGB (三原色)</strong> 以啟用完整濾鏡，印刷完稿時再行轉為 <strong>CMYK (四色)</strong>。</li>
+                                        </ul>
+                                    </span>
+                                </li>
+                            </ul>
+
+                            <div class="bg-[#f5f8fa] p-4 rounded-xl border border-slate-200">
+                                <h4 class="font-bold text-xs text-[#001c3a] mb-2"><i class="fa-solid fa-magnifying-glass-plus mr-1"></i> 畫布縮放快捷操作</h4>
+                                <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
+                                    <li>按住 <kbd class="bg-white border px-1.5 py-0.5 rounded shadow-sm">Alt</kbd> + 滑鼠滾輪：向上滾動放大，向下滾動縮小。</li>
+                                    <li>按住 <kbd class="bg-white border px-1.5 py-0.5 rounded shadow-sm">Alt</kbd> + 滑鼠左鍵點擊：滑鼠圖示變為減號，單點會縮小；直接單點會放大。</li>
+                                    <li>搭配控制：可使用導覽器（Navigator）面板無損調整檢視百分比。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- RGB & CMYK Mixer Simulation Diagram -->
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-between">
+                            <h4 class="font-bold text-sm text-[#001c3a] mb-4 text-center">🎨 色彩顯色原理動態圖解</h4>
+                            
+                            <div class="flex flex-col sm:flex-row justify-around items-center space-y-6 sm:space-y-0">
+                                <!-- RGB Circle -->
+                                <div class="text-center">
+                                    <div class="relative w-28 h-28 mx-auto">
+                                        <div class="absolute top-0 left-4 w-16 h-16 bg-red-600 rounded-full mix-blend-screen opacity-80"></div>
+                                        <div class="absolute bottom-2 left-0 w-16 h-16 bg-green-500 rounded-full mix-blend-screen opacity-80"></div>
+                                        <div class="absolute bottom-2 right-2 w-16 h-16 bg-blue-600 rounded-full mix-blend-screen opacity-80"></div>
+                                        <div class="absolute top-8 left-8 w-12 h-12 bg-white rounded-full mix-blend-screen flex items-center justify-center">
+                                            <span class="text-slate-900 text-[9px] font-black">RGB</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs font-bold text-[#001c3a] mt-3">色光相加 (螢幕顯示)</p>
+                                    <p class="text-[10px] text-slate-400">越高溫越接近純白</p>
+                                </div>
+
+                                <!-- CMYK Circle -->
+                                <div class="text-center">
+                                    <div class="relative w-28 h-28 mx-auto">
+                                        <div class="absolute top-0 left-4 w-16 h-16 bg-cyan-400 rounded-full mix-blend-multiply opacity-80"></div>
+                                        <div class="absolute bottom-2 left-0 w-16 h-16 bg-magenta-500 rounded-full mix-blend-multiply opacity-80"></div>
+                                        <div class="absolute bottom-2 right-2 w-16 h-16 bg-yellow-300 rounded-full mix-blend-multiply opacity-80"></div>
+                                        <div class="absolute top-8 left-8 w-12 h-12 bg-black rounded-full flex items-center justify-center">
+                                            <span class="text-white text-[9px] font-black">CMYK</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs font-bold text-[#001c3a] mt-3">色料相減 (實體印刷)</p>
+                                    <p class="text-[10px] text-slate-400">重疊疊色越深接近純黑</p>
+                                </div>
+                            </div>
+                            
+                            <div class="text-slate-400 text-[10px] text-center mt-4">
+                                * 註：影像尺寸（Image Size）與畫布尺寸（Canvas Size）可分別獨立控制大小。
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 4 -->
+                <section id="page-4" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 04 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">筆刷與圖層</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">筆刷設定、圖層堆疊管理與歷史記錄</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="bg-[#f5f8fa] p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-paintbrush mr-1.5 text-[#00a3e0]"></i> 筆刷工具核心規範</h3>
+                            <ul class="text-xs text-slate-600 space-y-2 list-disc list-inside">
+                                <li><strong>筆刷尺寸調整快捷鍵</strong>：
+                                    <ul class="pl-4 mt-1 list-none space-y-1">
+                                        <li>放大：鍵盤右中括號 <kbd class="bg-white border px-1 py-0.5 rounded shadow-sm">]</kbd></li>
+                                        <li>縮小：鍵盤左中括號 <kbd class="bg-white border px-1 py-0.5 rounded shadow-sm">[</kbd></li>
+                                    </ul>
+                                </li>
+                                <li class="text-amber-600 font-medium">⚠️ 注意：若系統處於「中文輸入法」狀態下，筆刷縮放快捷鍵會失效。請切換回英文輸入法。</li>
+                                <li><strong>超色域警告</strong>：若檢色器內出現「三角形驚嘆號」代表此色彩在實際 CMYK 列印時會失真、印不出來。</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-[#f5f8fa] p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-layer-group mr-1.5 text-[#00a3e0]"></i> 圖層面板操控學</h3>
+                            <ul class="text-xs text-slate-600 space-y-2 list-disc list-inside">
+                                <li>圖層為 Photoshop 的心臟。最上方的圖層會完全遮蓋下方的圖層。</li>
+                                <li><strong>分層繪製優勢</strong>：物件分離後，您可以任意單獨移動、新增、合併圖層。若畫錯時，可單獨拿橡皮擦工具塗改，絕不破壞其餘圖層底色。</li>
+                                <li>背景圖層通常鎖定，可使用油漆桶工具倒入底色。</li>
+                                <li><strong>新增圖層位置</strong>：點擊新增後，新圖層必定產生在當前所選圖層的「正上方」。</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-[#f5f8fa] p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-clock-rotate-left mr-1.5 text-[#00a3e0]"></i> 歷史記錄與拷貝</h3>
+                            <ul class="text-xs text-slate-600 space-y-2 list-disc list-inside">
+                                <li>歷史記錄面板預設最多可紀錄 <strong>20 步</strong> 操作步驟。</li>
+                                <li>做錯時，可在面板中點選「往前（上一步）」恢復。</li>
+                                <li>點選歷史記錄面板下方的「相機」圖示可以建立<strong>快照（Snapshot）</strong>，方便做下一個大膽嘗試，失敗時能一鍵退回。</li>
+                                <li><strong>拷貝貼上基本快捷鍵</strong>：
+                                    <ul class="pl-4 mt-1 list-none space-y-1">
+                                        <li>選取：可選取方形或圓形區域。</li>
+                                        <li>取消選取：<kbd class="bg-white border px-1 py-0.5 rounded shadow-sm">Ctrl + D</kbd></li>
+                                        <li>拷貝：<kbd class="bg-white border px-1 py-0.5 rounded shadow-sm">Ctrl + C</kbd></li>
+                                        <li>貼上：<kbd class="bg-white border px-1 py-0.5 rounded shadow-sm">Ctrl + V</kbd></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 5 -->
+                <section id="page-5" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 05 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">選取與去背</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">套索工具家族、魔術棒去背與調整邊緣</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4 text-sm text-slate-600">
+                            <h3 class="font-extrabold text-[#001c3a] border-b pb-2"><i class="fa-solid fa-wand-magic-sparkles mr-1 text-[#00a3e0]"></i> 各式選取與去背工具</h3>
+                            <ul class="space-y-3">
+                                <li><strong>一般套索工具 (L)</strong>：滑鼠按住自由塗畫，手寫形能圈選起要保留的圖形。</li>
+                                <li><strong>多邊形套索工具</strong>：點對點直線圈選，適合硬質、幾何、多邊形物體去背。</li>
+                                <li><strong>磁性套索工具</strong>：滑鼠游標拖移，會自動感應、辨識並吸附在對比強烈的色彩邊緣線上（極常用）。</li>
+                                <li><strong>魔術棒工具 (W)</strong>：點選特定像素，會自動將相鄰且相同或相近顏色的背景一次選取，去背底色好用。</li>
+                                <li><strong>容許度 (Tolerance)</strong>：調整魔術棒數值，可變更色彩選取寬度。預設數值一般不太會大範圍異動。</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-circle-nodes mr-1.5 text-[#00a3e0]"></i> 選取區加減運算與邊緣微調</h3>
+                            
+                            <div class="grid grid-cols-2 gap-4 text-xs text-slate-600">
+                                <div class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm">
+                                    <span class="font-bold text-[#001c3a]">➕ 選區相加 (聯集)</span>
+                                    <p class="mt-1 text-[11px] text-slate-400">按住 <kbd class="border px-1 rounded">Shift</kbd>，可調整選取範圍不斷變大、合併新選區。</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm">
+                                    <span class="font-bold text-[#001c3a]">➖ 選區相減 (差集)</span>
+                                    <p class="mt-1 text-[11px] text-slate-400">按住 <kbd class="border px-1 rounded">Alt</kbd>，可扣除重複或不要的選區範圍。</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-xl border border-slate-150 text-xs text-slate-600 space-y-2">
+                                <span class="font-bold text-[#001c3a]"><i class="fa-solid fa-sliders"></i> 屬性列：調整邊緣（Refine Edge）</span>
+                                <p class="text-[11px] leading-relaxed">
+                                    此控制面板能調整選取區的線條。<strong>「平滑」</strong>能將鋸齒變得滑順；<strong>「羽化」（Feather）</strong>會使邊緣變霧、產生漸變融合感而不顯得模糊突兀；<strong>「內縮 / 外擴」</strong>可手動微調去背邊界。
+                                </p>
+                            </div>
+
+                            <div class="text-[11px] text-amber-600 bg-amber-50 p-2.5 rounded border border-amber-100 flex items-center space-x-2">
+                                <i class="fa-solid fa-trash-can"></i>
+                                <span><strong>防手震修正</strong>：選取途中點錯，點擊 <kbd class="border px-1 bg-white">Del</kbd> 鍵可刪除上一個錨點。按 <kbd class="border px-1 bg-white">ESC</kbd> 鍵可全部取消選取。</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 6 & 7 -->
+                <section id="page-6-7" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 06 - 07 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">漸層與光影</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">3/22 下午 漸層工具拉線與落地陰影製作</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <div class="bg-[#f5f8fa] p-4 rounded-xl border border-slate-200">
+                                <span class="text-xs font-black text-slate-400">專案規格</span>
+                                <p class="text-sm font-bold text-[#001c3a] mt-1">寬 800 Pixels / 高 600 Pixels / 解析度 72 dpi / RGB模式 / 背景透明</p>
+                            </div>
+                            
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-circle-half-stroke mr-1.5 text-[#00a3e0]"></i> 漸層工具與打光效果</h3>
+                            <ul class="text-xs text-slate-600 space-y-2 list-disc list-inside leading-relaxed">
+                                <li><strong>漸層拉線技術</strong>：拉一條引導線即可套用色彩。若先將圖片縮小，將線由左往右「跨過畫布拉得極長」，漸層轉移效果會更淡、更自然。</li>
+                                <li><strong>打燈效果 (放射狀)</strong>：
+                                    <ul class="pl-4 mt-1 list-decimal space-y-1">
+                                        <li>新增圖層，選取前景色至透明漸層.</li>
+                                        <li>屬性列選擇「放射性漸層」，由物體中心往外拉產生光圈。</li>
+                                        <li>把該打燈圖層往下拖移到倒數第二個位置（主角圖層的正下方），光效就會呈現於主角背景。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-between">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] mb-3"><i class="fa-solid fa-umbrella mr-1.5 text-[#00a3e0]"></i> 逼真陰影 (Shadow) 製作</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                                光效有了，還需要陰影。傳統作法是直接用深色筆刷刷抹，但專業手法需要藉由「變形工具」進行無損拉伸控制：
+                            </p>
+                            
+                            <!-- Simple Graphic Box showing Shadow deformation -->
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center relative overflow-hidden">
+                                <div class="w-12 h-12 bg-amber-500 rounded-full mx-auto relative z-10 animate-bounce"></div>
+                                <div class="w-16 h-3 bg-slate-900/20 rounded-full mx-auto mt-4 relative z-0 scale-x-125"></div>
+                                <p class="text-[10px] text-slate-400 mt-2">物體與其受光的變形壓扁影子</p>
+                            </div>
+
+                            <ol class="text-xs text-slate-600 mt-4 space-y-1.5 list-decimal list-inside leading-relaxed">
+                                <li>新增圖層，選取合適顏色（一般採用深色或筆刷取樣環境色）。</li>
+                                <li>複製物體（圖層），點選 <kbd class="border px-1">Ctrl + T</kbd> 進行自由變形。</li>
+                                <li>將控制點往下壓扁，使其變形呈落於地面之形狀。</li>
+                                <li>在圖層面板中調降其<strong>不透明度（Opacity）</strong>，使影子呈自然的半透落塵光感。</li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 8 -->
+                <section id="page-8" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 08 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">筆型與向量</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">向量筆型工具 (Pen Tool)、細部修飾與變形</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] border-b pb-2"><i class="fa-solid fa-pen-nib mr-1.5 text-[#00a3e0]"></i> 筆型工具 (P) 核心觀念</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                筆型工具是用於描繪高難度幾何與流暢弧線（去背或繪製插圖）的向量級工具。其不會隨影像放大而模糊，是非像素點陣圖特性。
+                            </p>
+                            <ul class="text-xs text-slate-600 space-y-2 list-disc list-inside">
+                                <li><strong>屬性列選擇</strong>：可切換成「路徑」或「形狀」。若選擇「形狀」，在繪製閉合圖形後，內部會自動填入屬性欄所選的顏色。</li>
+                                <li><strong>修飾與控制雙箭頭</strong>：
+                                    <ul class="pl-4 mt-1 list-none space-y-1">
+                                        <li><strong>路徑選取工具（黑箭頭）</strong>：點選並搬移整組向量框與圖案。</li>
+                                        <li><strong>直接選取工具（白箭頭）</strong>：用於點選單個「錨點（Anchor Point）」進行單點把手調整（控制把手只有在選到點時才會顯現）。</li>
+                                    </ul>
+                                </li>
+                                <li class="text-rose-600 font-semibold">⚠️ 弧形調控：若要拉出完美的弧形，必須在錨點處點著滑鼠不放，並朝「同一個方向拖拉」把手控制線，方能控制膨脹的凹凸方向。</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4 flex flex-col justify-between">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-wand-magic mr-1.5 text-[#00a3e0]"></i> 各式微調與修飾工具</h3>
+                            <div class="grid grid-cols-2 gap-3 text-xs text-slate-600">
+                                <div class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm">
+                                    <span class="font-bold text-[#001c3a]">加深 / 減淡工具</span>
+                                    <p class="mt-1 text-[11px] text-slate-400">針對照片區域進行加深（例如：加深眉毛、眼睛、唇角輪廓）與局部調亮。</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm">
+                                    <span class="font-bold text-[#001c3a]">海綿與模糊工具</span>
+                                    <p class="mt-1 text-[11px] text-slate-400">海綿可改變局部飽和度。模糊工具可將背景虛化，顯現出突出的主體。</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-3.5 rounded-xl border border-slate-150 text-xs text-slate-600">
+                                <strong>💡 自由變形比例規則 (Ctrl + T)</strong>：<br>
+                                進行縮放編輯修改時，<strong>務必按住 <kbd class="border px-1 rounded">Shift</kbd> 鍵</strong> 以維持原長寬比例。一般只能等比例縮小，因放大點陣圖檔會產生嚴重馬賽克與失真。
+                            </div>
+
+                            <div class="text-[11px] text-amber-600 bg-amber-50 p-2.5 rounded border border-amber-100 leading-relaxed">
+                                <strong>⚠️ 斷線重置技巧</strong>：繪製複雜路徑時，若中途滑鼠不小心點到外部圖層而「斷線」，請拿筆型工具點擊最後一個動作的錨點（指標旁出現一條鍊條符號）即可完美接續。
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 9 & 10 -->
+                <section id="page-9-10" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 09 - 10 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">實戰排版</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">7/8 上午 DM 酷卡設計尺寸、配色社群與字型排版</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] border-b pb-2">📦 DM 酷卡設計規格設定</h3>
+                            <ul class="text-xs text-slate-600 space-y-2 leading-relaxed">
+                                <li>DM 酷卡製作，在 Photoshop 內需要設定含有出血的設計範圍，防止印出後邊緣留白：
+                                    <ul class="list-disc list-inside pl-4 mt-1 space-y-1">
+                                        <li><strong>含出血製作尺寸</strong>：107 x 150 mm (四周各加 1 mm 裁切空間)</li>
+                                        <li><strong>實際裁切完成尺寸</strong>：105 x 148 mm (A6 標準明信片)</li>
+                                        <li><strong>色彩與解析度規格</strong>：解析度 <span class="text-rose-600 font-bold">300 dpi</span>、RGB 色彩、背景透明</li>
+                                    </ul>
+                                </li>
+                                <li><strong>名設計師設計思路與提案四部曲</strong>：
+                                    <div class="text-[11px] font-bold text-[#001c3a] mt-1.5 flex justify-between bg-slate-50 p-2.5 rounded border">
+                                        <span>問題發現</span> &rarr; <span>解決方案</span> &rarr; <span>視覺設計</span> &rarr; <span>簡報提案</span>
+                                    </div>
+                                </li>
+                                <li><strong>參考資源</strong>：
+                                    <ul class="list-disc list-inside pl-4 mt-1 space-y-1 text-slate-500">
+                                        <li>配色書籍：<strong>《配色分類字典》</strong></li>
+                                        <li>配色網頁：<strong>配色社群 COLOURlovers</strong></li>
+                                        <li>英文字型網：<strong>urbanfonts</strong></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-align-left text-[#00a3e0] mr-1"></i> 字型排版與文字方塊操控</h3>
+                            <ul class="text-xs text-slate-600 space-y-2.5 list-disc list-inside leading-relaxed">
+                                <li><strong>段落文字框</strong>：輸入詳細說明（長文字）時，務必拿文字工具 (T) 按住拖曳出一個「文字方塊框」，再將文字貼入。這能實現文字自動換行與寬度對齊，絕不會超出畫布。</li>
+                                <li><strong>字元與段落面板</strong>：雙擊圖層下的文字縮圖可全選。可在面板中使用滑鼠滾輪上下滾動，以微調行距、字體大小或更改顏色。</li>
+                                <li><strong>變形縮放比例限制</strong>：搭配自由變形縮放時，<strong>必須同比例縮放</strong>，且屬性列上的自動連結（鎖鍊符號）要適時取消，以防止文字遭到捏扁扭曲。</li>
+                                <li><strong>畫布操作小技巧</strong>：
+                                    <ul class="list-none pl-4 mt-1 space-y-1 text-slate-500">
+                                        <li>按住 <kbd class="border px-1 bg-white">空白鍵</kbd>：滑鼠變為手掌工具，可在放大時隨意拖動畫面。</li>
+                                        <li>選單 <code class="bg-white border px-1 rounded">檢視</code> &rarr; 勾選 <code class="bg-white border px-1 rounded">靠齊</code>（Snap）以方便拉動引導線。</li>
+                                        <li>移動引導線：微調精確度，每次移動鍵盤方向鍵可推移 0.10 cm。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 11 -->
+                <section id="page-11" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 11 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">圖層快速選取</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">3/8 下午 圖層錨點極致快速選取與香水瓶身複製</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <div class="bg-[#f5f8fa] p-5 rounded-xl border border-slate-200">
+                                <h3 class="font-extrabold text-sm text-[#001c3a] mb-2">⭐ 骨灰級快捷去背選取秘笈</h3>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    如果您想快速取得某個圖層內物件的外框去背，不需重新使用魔術棒慢慢點。
+                                    <br><br>
+                                    <strong>操作</strong>：按住鍵盤 <kbd class="bg-white border px-1.5 py-0.5 rounded shadow-sm">Ctrl</kbd> 鍵，滑鼠左鍵直接點擊該圖層的<strong>「縮圖（Thumbnail）」</strong>，系統就會瞬間載入該物件的完美外圍選取範圍！
+                                </p>
+                            </div>
+                            
+                            <div class="text-xs text-slate-600 leading-relaxed space-y-2">
+                                <h4 class="font-bold text-[#001c3a]">🎀 愛心葉子圖樣拼貼：</h4>
+                                <ol class="list-decimal list-inside space-y-1">
+                                    <li>選擇自訂形狀工具 &rarr; 挑選愛心加在背景上。</li>
+                                    <li>按住 <kbd class="border px-1">Ctrl</kbd> 點選愛心圖層產生選取範圍，點點眼睛關閉該圖層。</li>
+                                    <li>回到背景圖樣（滿是葉子的圖），點擊拷貝 &rarr; 新增貼上，即可切出心形框的唯美滿版葉子圖。</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <!-- Perfume Bottle rotation diagram -->
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-between">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] mb-2"><i class="fa-solid fa-repeat text-[#00a3e0] mr-1.5"></i> 香水瓶身對稱複製與旋轉實作</h3>
+                            
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden h-36 flex items-end justify-center space-x-6">
+                                <!-- Left Bottle -->
+                                <div class="w-8 h-16 bg-[#00a3e0]/30 border border-[#00a3e0]/50 rounded-md transform -rotate-12 origin-bottom scale-90 relative">
+                                    <span class="absolute bottom-1 left-2 text-[8px] text-cyan-600">Left 25°</span>
+                                </div>
+                                <!-- Center Bottle -->
+                                <div class="w-10 h-20 bg-[#001c3a]/20 border border-[#001c3a]/50 rounded-md relative flex items-center justify-center">
+                                    <span class="text-[9px] text-[#001c3a] font-bold">Center</span>
+                                    <!-- Rotational Axis anchor point -->
+                                    <div class="absolute bottom-0 w-2 h-2 bg-rose-600 rounded-full border border-white"></div>
+                                </div>
+                                <!-- Right Bottle -->
+                                <div class="w-8 h-16 bg-[#00a3e0]/30 border border-[#00a3e0]/50 rounded-md transform rotate-12 origin-bottom scale-90 relative">
+                                    <span class="absolute bottom-1 left-2 text-[8px] text-cyan-600">Right 25°</span>
+                                </div>
+                            </div>
+
+                            <ol class="text-xs text-slate-600 mt-4 space-y-1 list-decimal list-inside leading-relaxed">
+                                <li>使用筆型工具描繪出瓶身外框，將瓶身複製兩份副本圖層。</li>
+                                <li>點選自由變形 <kbd class="border px-1">Ctrl + T</kbd>，<strong>將中心定位點（錨點）垂直往下拉到瓶子底部底端</strong>。</li>
+                                <li>在頂部屬性欄直接輸入精準旋轉度數：右移旋轉 <span class="text-rose-600 font-bold">25°</span>。左側比照複製並逆向旋轉 -25°。</li>
+                                <li>搭配按住 <kbd class="border px-1">Shift</kbd> 等比例稍微縮小左右兩側的瓶身，做出景深感。</li>
+                                <li>選取側邊瓶身，開啟 `Ctrl + U` (色相/飽和度) 稍微調低飽和度，調整左右砂磨瓶身顏色。</li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 12 -->
+                <section id="page-12" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 12 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">漸層進階</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">漸層編輯器進階調校、雜訊與圖層混合模式</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] border-b pb-2"><i class="fa-solid fa-sliders text-[#00a3e0] mr-1.5"></i> 漸層編輯器 (Gradient Editor)</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                新圖層可自選色彩或新增色阻。雙擊漸層色條，上方滑桿可調節<strong>透明度（Opacity）</strong>；下方滑桿可決定<strong>顏色阻尼點</strong>。
+                            </p>
+                            <div class="bg-[#f5f8fa] p-4 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-2">
+                                <span class="font-bold text-[#001c3a]">🎨 雜訊與粗糙度漸層：</span>
+                                <p class="leading-relaxed">
+                                    將漸層類型由「純色」切換為「雜訊」，並將<strong>「粗糙度」設定在 70% 以上</strong>。此時畫面會顯現高對比、如微粒子般極清亮的砂礫質感。勾選「限制顏色」與「加入透明度」能隨機變更出色彩斑斕的裝氣、流體科幻質感。
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-layer-group text-[#00a3e0] mr-1.5"></i> 圖層混合模式 (Blend Mode)</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                用於決定上下兩個圖層如何融合呈色。常見的有：<strong>「色彩增值」</strong>（變暗，去白留黑）、<strong>「濾色」</strong>（變亮，去黑留白）與<strong>「覆蓋」</strong>（加強光影對比）。
+                            </p>
+                            <div class="bg-white p-4 rounded-xl border border-slate-150 text-xs text-slate-600 space-y-2">
+                                <span class="font-bold text-[#001c3a]">💡 唯美聚光燈 (Spotlight) 效果製作：</span>
+                                <ol class="list-decimal list-inside space-y-1 text-slate-500">
+                                    <li>新開圖層，拿白色霧狀大軟筆刷在畫布正中央點一下。</li>
+                                    <li>使用自由變形將該白色光點往左右拉伸、壓扁。</li>
+                                    <li>將該圖層混合模式設定為「覆蓋」或「柔光」，即能在背景打出漂亮的立體聚光燈。</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 13 -->
+                <section id="page-13" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 13 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">液化與樣式</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">液化濾鏡修容、圖層樣式與水滴質感實作</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] border-b pb-2"><i class="fa-solid fa-face-smile text-[#00a3e0] mr-1.5"></i> 液化濾鏡與修形 (Ctrl + Shift + X)</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                「液化」是人像修圖的絕對利器。可以用滑鼠揉捏、修飾照片，例如讓下巴曲線變自然、微調眼神、縮小臉頰等。
+                            </p>
+                            
+                            <div class="bg-[#f5f8fa] p-4 rounded-xl border border-slate-200 text-xs text-slate-600">
+                                <span class="font-bold text-[#001c3a]">⭐ 圖層樣式（Layer Style）開啟三方法：</span>
+                                <ul class="list-decimal list-inside mt-1.5 space-y-1">
+                                    <li>雙擊圖層面板空白處（注意不能雙擊到文字名稱，否則會變更名稱）。</li>
+                                    <li>點擊圖層面板底部的 <code class="font-bold">fx</code> 快捷鍵圖標。</li>
+                                    <li>選單欄選擇：<code class="bg-white border px-1 rounded">圖層</code> &rarr; <code class="bg-white border px-1 rounded">圖層樣式</code>。</li>
+                                </ul>
+                                <p class="mt-2 text-[11px] text-slate-400">
+                                    * 核心秘密：「不透明度（Opacity）」降低會讓整個圖層含樣式變透明；而「填滿（Fill）」降至 0% 則會隱藏本體填色，只保留立體的圖層外觀樣式效果。
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 3D Waterdrop Graphic Mockup -->
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-between">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] mb-2"><i class="fa-solid fa-droplet text-[#00a3e0] mr-1.5"></i> 立體真實水滴效果合成實作</h3>
+                            
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden h-32 flex items-center justify-center">
+                                <div class="relative w-16 h-16 bg-slate-100 rounded-full border border-white shadow-[inset_0_2px_10px_rgba(0,0,0,0.1),_0_8px_15px_rgba(0,0,0,0.15)] flex items-center justify-center">
+                                    <!-- Inner highlight reflection -->
+                                    <div class="absolute top-2 left-2 w-3 h-1.5 bg-white rounded-full transform -rotate-12"></div>
+                                    <span class="text-[9px] text-[#001c3a] font-bold">Fill 0%</span>
+                                </div>
+                            </div>
+
+                            <ol class="text-xs text-slate-600 mt-4 space-y-1 list-decimal list-inside leading-relaxed">
+                                <li><strong>基本塑形</strong>：新增一空白圖層，填充黑色，使用液化濾鏡隨意扭拉、捏揉出不規則的自然水滴塊狀。</li>
+                                <li><strong>斜角與浮雕</strong>：樣式設定中調整細節尺寸，使其表面呈現凸透亮面的高光折射。</li>
+                                <li><strong>陰影</strong>：加強色彩增值模式的下墜陰影，調低不透明度，使投影柔和。</li>
+                                <li><strong>筆畫與內光暈</strong>：增加邊界通透度。<strong>筆畫要在特定空白處才能設定數值</strong>；內發光選擇與背景接近的色彩。</li>
+                                <li><strong>隱藏本底色</strong>：最後將圖層面版的<strong>「填滿（Fill）」調低至 0%</strong>，黑底消失，通透、立體的真實水滴瞬間成形。</li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 14 -->
+                <section id="page-14" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 14 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">圓角矩形與扭曲</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">圓角矩形半徑、波形濾鏡與背光漸層</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] border-b pb-2"><i class="fa-solid fa-shapes text-[#00a3e0] mr-1.5"></i> 圓角矩形與波形扭曲</h3>
+                            <ul class="text-xs text-slate-600 space-y-2.5 list-disc list-inside leading-relaxed">
+                                <li><strong>圓角矩形工具</strong>：屬性列可即時調整<strong>圓角半徑</strong>數值。數值越大，角形越圓滑。</li>
+                                <li><strong>波形效果模擬水滴流動</strong>：
+                                    <ul class="pl-4 mt-1 list-none space-y-1 text-slate-500">
+                                        <li>選單：<code class="bg-white border px-1 rounded">濾鏡</code> &rarr; <code class="bg-white border px-1 rounded">扭曲</code> &rarr; <code class="bg-white border px-1 rounded">波形效果</code>。</li>
+                                        <li>參數細調：將<strong>「波長拉長」</strong>、<strong>「振幅拉小」</strong>，即可製造水波、水滴滑落或水溶的自然擺動與細緻陰影效果。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-clone text-[#00a3e0] mr-1.5"></i> 樣式複製與背光漸層技術</h3>
+                            <ul class="text-xs text-slate-600 space-y-2.5 list-disc list-inside leading-relaxed">
+                                <li><strong>圖層樣式複製快捷操作</strong>：
+                                    <p class="mt-1">
+                                        在已做好的水滴樣式圖層上點右鍵 &rarr; <code class="bg-white border px-1 rounded">複製圖層樣式</code>；接著在瓶身圖層上點右鍵 &rarr; <code class="bg-white border px-1 rounded">貼上圖層樣式</code>，再選取「縮放效果」微調大小，就能無損套用透明立體水凝質感。
+                                    </p>
+                                </li>
+                                <li><strong>瓶身後方背光發亮效果</strong>：
+                                    <p class="mt-1">
+                                        前景色至背景色的漸層。在新建立的背光圖層中，在圖片正中央由內往外拖移拉出漸層，營造瓶身背部打光發亮的立體感（注意背光圖層在面板中要往下拉，不要移蓋到主角瓶身）。
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 15 -->
+                <section id="page-15" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 15 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">印刷與輸出</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">7/15 上午 網頁完稿與印刷輸出完稿重要法則</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] border-b pb-2"><i class="fa-solid fa-file-export text-[#00a3e0] mr-1.5"></i> 網頁用儲存規範</h3>
+                            <ul class="text-xs text-slate-600 space-y-2 list-disc list-inside">
+                                <li><strong>影像平面化</strong>：點選圖層選單 &rarr; 選擇「影像平面化」，將所有分散的圖層合成單一圖層。</li>
+                                <li><strong>調整影像大小</strong>：將解析度降調為 <span class="text-emerald-600 font-bold">150 dpi</span> 或 <span class="text-emerald-600 font-bold">72 dpi</span>（確保檔案檔案精簡，不佔網頁空間）。</li>
+                                <li><strong>輸出格式</strong>：另存新檔 &rarr; 選擇 <strong>JPEG 格式</strong>，調整品質項指後儲存。</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-print text-[#00a3e0] mr-1.5"></i> 實體印刷與製版完稿四步驟</h3>
+                            <p class="text-xs text-slate-500 leading-relaxed">
+                                實體印刷對色彩與格式極為嚴苛，印刷不符規格會被退件。標準完稿步驟：
+                            </p>
+                            <ol class="text-xs text-slate-600 space-y-1.5 list-decimal list-inside leading-relaxed">
+                                <li><strong>平面化前留存備份</strong>：在執行影像平面化之前，務必另存一份保留原圖層的備份。</li>
+                                <li><strong>影像平面化</strong>：合為單一背景。</li>
+                                <li><strong>色彩模式變更</strong>：點選選單 &rarr; 將 RGB 色彩模式變更轉化為 <strong>CMYK 列印色彩</strong>。</li>
+                                <li><strong>啟用色域警告</strong>：點選屬性可開啟色域警告，若畫面上出現灰色塊，表示該 RGB 顏色列印時會變深。直接使用 CMYK 輸出即可防止此色偏。</li>
+                            </ol>
+                            <p class="text-[10px] text-slate-400">
+                                * 註：印刷格式一般存為 <strong>TIFF (.tif)</strong> 或 EPS。
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 16 -->
+                <section id="page-16" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 16 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">文創與商標</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">文創形象設計、自訂字型下載與向量 LOGO 實作</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <div class="bg-[#f5f8fa] p-5 rounded-xl border border-slate-200">
+                                <h3 class="font-extrabold text-sm text-[#001c3a] mb-2">🦌 文創案例與字型管理</h3>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    文創代表案：<strong>《鹿港形象識別設計》</strong>。字型除了內建外，常需要自訂：
+                                    <br><br>
+                                    <strong>操作</strong>：至 urbanfonts 下載如 <strong>Handwritten (手寫)</strong> 或 Famous 字型。至 Windows 系統 &rarr; 控制台 &rarr; 字型。將下載解壓後的字型檔整包拖入貼上，即可啟用。
+                                </p>
+                            </div>
+                            <div class="text-xs text-slate-505 leading-relaxed">
+                                <strong>⚠️ 專業提醒</strong>：LOGO 形象設計一般在原型設計時使用 Illustrator 這套向量軟體，Photoshop 不適合製作純向量商標。設計前，<strong>務必與企劃溝通確認「核心要傳達的是哪一句话？」</strong>再動手排版。
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-apple-whole text-[#00a3e0] mr-1.5"></i> 實作：櫻桃商標 (Cherry Logo) 排版</h3>
+                            <p class="text-xs text-slate-550">
+                                尺寸規格：解析度 300 dpi / RGB 色彩 / 背景透明。
+                            </p>
+                            <ol class="text-xs text-slate-600 space-y-1 list-decimal list-inside leading-relaxed">
+                                <li>開啟櫻桃 LOGO 舊檔背景。</li>
+                                <li>拿筆型工具，屬性列選「形狀」 &rarr; 精確描繪出櫻桃外框錨點。</li>
+                                <li>使用筆型屬性列的<strong>「減去前面形狀」布林運算</strong>：畫出嘴巴形狀，扣除櫻桃嘴部範圍。</li>
+                                <li>同樣步驟：利用減去前面形狀畫出橢圓，挖除眼睛多餘部分。</li>
+                                <li>櫻桃上方的枝葉，同樣拿筆型工具框起形狀。完成後，將原先的手繪參考底圖直接刪除丟掉。</li>
+                                <li>變形縮小櫻桃圖形，打上商標字：<span class="text-rose-600 font-bold">AGOGO FRESH CHERRY</span>。</li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 17 -->
+                <section id="page-17" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 17 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">群組與名片</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">圖層建立群組、跨檔案拖移與名片字型對齊</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <div class="bg-[#f5f8fa] p-5 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-2">
+                                <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-folder-plus text-[#00a3e0] mr-1"></i> 圖層建立群組 (Ctrl + G)</h3>
+                                <p class="leading-relaxed">
+                                    全選所有 LOGO 零件圖層 &rarr; 按 <kbd class="border px-1">Ctrl + G</kbd> 建立群組，重新命名為「LOGO」。
+                                </p>
+                                <span class="font-bold text-[#001c3a] mt-2 block">📂 跨專案檔案拖移：</span>
+                                <p class="leading-relaxed">
+                                    使用移動工具選中該群組 &rarr; 滑鼠直接拖著圖案，移往上方其他開起的檔案標籤（上列標籤反黑時） &rarr; 拖入新畫布的正中央再鬆開滑鼠，即可完美移轉（途中不可沒在檔案範圍內就鬆開）。
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-font text-[#00a3e0] mr-1.5"></i> 中文字體字型結構分類</h3>
+                            <div class="grid grid-cols-2 gap-3 text-xs text-slate-600">
+                                <div class="bg-white p-3 rounded-lg border">
+                                    <strong class="text-[#001c3a]">圓體字</strong>
+                                    <p class="text-[11px] text-slate-400 mt-0.5">邊角圓潤，適合親切感設計。</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg border">
+                                    <strong class="text-[#001c3a]">黑體字</strong>
+                                    <p class="text-[11px] text-slate-400 mt-0.5">橫平豎直、粗細一致，具現代感。</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg border">
+                                    <strong class="text-[#001c3a]">明體字 (宋體)</strong>
+                                    <p class="text-[11px] text-slate-400 mt-0.5">橫細直粗、有裝飾角 (細/中/粗)。</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg border">
+                                    <strong class="text-[#001c3a]">美術字 (變體)</strong>
+                                    <p class="text-[11px] text-slate-400 mt-0.5">具裝飾與手繪造型風格。</p>
+                                </div>
+                            </div>
+                            <div class="text-xs text-slate-600 bg-white p-3 rounded-xl border mt-2">
+                                <strong>💡 名片對齊：</strong><br>
+                                置入 LOGO 與姓名、地址資訊後，先手動將首尾文字推移至合適位置。按住 <kbd class="border px-1">Shift</kbd> 複選右側圖層，使用上方「齊底 / 水平對齊」以微調字體基準線位置。
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 18 -->
+                <section id="page-18" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 18 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">圖樣與紋理</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">自訂滿版背景圖樣定義與覆蓋操作限制</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] border-b pb-2"><i class="fa-solid fa-images text-[#00a3e0] mr-1.5"></i> 自訂圖樣定義與滿版填充</h3>
+                            <ul class="text-xs text-slate-600 space-y-2.5 list-disc list-inside leading-relaxed">
+                                <li><strong>定義圖樣</strong>：畫出一個圖形（例如：手繪一愛心圖） &rarr; 選擇選單 <code class="bg-white border px-1 rounded">編輯</code> &rarr; <code class="bg-white border px-1 rounded">定義圖樣</code>，命名指定確定。</li>
+                                <li><strong>滿版填充背景</strong>：
+                                    <p class="mt-1">
+                                        新建白色畫布 &rarr; 使用油漆桶工具 &rarr; 將上列屬性列由「前景色」切換為「圖樣」 &rarr; 選擇剛剛儲存的愛心，倒入全圖即可拼貼滿滿愛心圖。
+                                    </p>
+                                </li>
+                                <li class="text-rose-600 font-semibold">⚠️ 填充法缺點：直接倒入背景後，若發現愛心太大、太小或角度不符，將完全無法進行單一調整。</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-gem text-[#00a3e0] mr-1.5"></i> 樣式非破壞性填充 (推薦)</h3>
+                            <ul class="text-xs text-slate-600 space-y-2.5 list-disc list-inside leading-relaxed">
+                                <li><strong>非破壞性圖樣覆蓋</strong>：
+                                    <p class="mt-1">
+                                        新建一個空白圖層 &rarr; 雙擊進入圖層樣式 &rarr; 勾選<strong>「圖樣覆蓋」</strong> &rarr; 在對話框內，您可以自由調整不透明度，並無損拖拉「縮放百分比」以自由縮小/放大圖形。
+                                    </p>
+                                </li>
+                                <li><strong>暗角特效 (Vignette)</strong>：
+                                    <p class="mt-1">
+                                        選用大筆刷，在名片四周刷上深色。將圖層混合模式調整為色彩增值或柔光，即可將目光焦點聚焦在名片正中央。
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 19 -->
+                <section id="page-19" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 19 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">合版印刷</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">3/15 下午 合版印刷四大黃金法則與局部上光檔案</h2>
+                    </div>
+
+                    <div class="bg-[#f5f8fa] p-5 rounded-2xl border border-slate-200 mb-6 text-sm text-slate-600">
+                        合版印刷為多個客戶的卡片合併在一大張紙上共用版費列印，必須嚴格遵守以下物理規範，否則極易產生退件大色差：
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                            <h3 class="font-bold text-sm text-rose-600">① 總油墨量不得超過 200%</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                大面積色塊在 CMYK 四色套色時，四個顏色的總和絕對不能超過 <strong class="text-rose-600 font-bold">200%</strong> (例如 `C:80, M:60, Y:60, K:10` = 210% 即超標)。
+                                <br><br>
+                                <strong>後果</strong>：總量過高會使油墨堆積、久乾不透，在裁切與運輸疊放時極易引發嚴重的「背印疊色與黏紙毀損」。
+                            </p>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                            <h3 class="font-bold text-sm text-rose-600">② 純黑中文字 K100 限制</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                小中文字型、電話等細節文字，CMYK 的 C、M、Y 三色務必設為 `0%`，<strong>僅單獨在 K 填入 100%</strong>。
+                                <br><br>
+                                <strong>原因</strong>：印刷機四色套印會有微小物理偏位，若文字用四色混色黑（四色黑）印刷，印出會產生模糊、重影與嚴重的七彩毛邊。
+                            </p>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                            <h3 class="font-bold text-sm text-[#001c3a]">③ 大面積特黑 (Rich Black) 配方</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                如果是大面積的純黑背景，若只單獨填 K100，印出會呈現灰白無光感。
+                                <br><br>
+                                <strong>配方</strong>：可改設為 <strong class="text-[#00a3e0]">C:40, M:0, Y:0, K:100</strong>。利用少許青色打底，能使純黑底色呈現厚實、飽滿的特黑亮面質感。
+                            </p>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                            <h3 class="font-bold text-sm text-[#001c3a]">④ 局部上光 (Varnish) 完稿黑版</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                製作局部亮面光阻效果檔案：
+                                <br><br>
+                                <strong>操作</strong>：將需要上亮面的字體、圖層複製一份。套用顏色覆蓋 &rarr; 將其強制改為<strong>純黑色 K100</strong>。新增一空白圖層，倒入白色。此白底纯黑字檔案即為局部光阻黑版，另存成 <strong>TIFF 格式</strong>與原圖一同出貨印刷。
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 20 -->
+                <section id="page-20" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 20 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">鋼鐵拉絲字</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">TPC 鋼鐵拉絲字樣、色版曲線光澤與塑膠覆膜</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] border-b pb-2"><i class="fa-solid fa-dumbbell text-[#00a3e0] mr-1.5"></i> TPC 鋼鐵質感字實作步驟</h3>
+                            <ol class="text-xs text-slate-600 space-y-2 list-decimal list-inside leading-relaxed">
+                                <li>偏好設定改為 mm 易於辨識尺寸。新建一白色圖層。</li>
+                                <li>輸入文字 PC，顏色設定為純白。</li>
+                                <li>點擊樣式勾選「斜角與浮雕」，調大尺寸，周圍產生強烈立體陰影。</li>
+                                <li><strong>拆解圖層樣式</strong>：在圖層 PC 的效果上點右鍵 &rarr; 選擇<strong>「建立圖層」</strong>。這能將剛剛的立體斜角效果強制打碎並獨立成多個點陣圖層，此時物件會變小，更方便後續局部調校。</li>
+                                <li><strong>曲線對比 (Ctrl + M)</strong>：調出曲線面板。可以選取紅、綠、藍或 RGB 綜合色版。將曲線拉成波浪狀（S曲線），可使高光更閃亮、暗部更深沉，產生金屬拉絲般光澤。</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-photo-film text-[#00a3e0] mr-1.5"></i> 濾鏡收藏館塑膠覆膜增強</h3>
+                            <ul class="text-xs text-slate-600 space-y-2 list-disc list-inside leading-relaxed">
+                                <li><strong>塑膠覆膜 (Plastic Wrap) 濾鏡</strong>：
+                                    <p class="mt-1">
+                                        選取文字圖層，點選選單 &rarr; <code class="bg-white border px-1 rounded">濾鏡</code> &rarr; <code class="bg-white border px-1 rounded">濾鏡收藏館</code> &rarr; 選擇「藝術風：塑膠覆膜」。
+                                    </p>
+                                </li>
+                                <li><strong>效果</strong>：字體表面隨即會被覆上一層亮面反射光感，看起來像鋼鐵不銹鋼，也極像液態水凝。</li>
+                                <li><strong>混合模式與修飾</strong>：
+                                    <p class="mt-1">
+                                        將此亮面層不透明度降低，疊合在拉絲字上方。使用燒錄、加深工具點塗陰影，使其光澤呈現立體的銀白鋼鐵光彩。
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 21 -->
+                <section id="page-21" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 21 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">文宣實戰</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">設計理念文宣、燈泡影像置入與文字遮色片</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] border-b pb-2"><i class="fa-solid fa-lightbulb text-[#00a3e0] mr-1.5"></i> 創意燈泡海報排版步驟</h3>
+                            <ol class="text-xs text-slate-600 space-y-2 list-decimal list-inside leading-relaxed">
+                                <li>新建專案：寬 900 Pixels / 高 900 Pixels / 解析度 72 dpi / RGB 色彩 / 背景透明。</li>
+                                <li>上網搜尋「designideas」字，整段複製文字內容。</li>
+                                <li>在 Photoshop 中，文字工具滑鼠「按住並拖曳」拉出寬文字框，編輯貼上。微調行距與粗體，使其呈現裝實的文字牆底色背景。</li>
+                                <li>置入燈泡圖片，按 <kbd class="border px-1">Ctrl + T</kbd> 變形縮小放置在海報正中央。</li>
+                                <li><strong>添加圖層遮色片 (Layer Mask)</strong>：點擊圖層面板下方的白色相機圖示，添加遮色片。拿黑色大號軟筆刷，在遮色片上輕刷遮掩燈泡硬邊，使其朦朧漸變地融入後方背景文字牆。</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3 flex flex-col justify-between">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-cube text-[#00a3e0] mr-1.5"></i> 內建 3D 擠出字樣</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                輸入主體大字 &rarr; 選單欄選擇：<code class="bg-white border px-1 rounded">3D</code> &rarr; <code class="bg-white border px-1 rounded">從選取圖層建立 3D 擠出</code>。
+                            </p>
+                            <div class="bg-white p-4 rounded-xl border text-xs text-slate-505 space-y-2 leading-relaxed">
+                                3D 面版中可以旋轉虛擬立方體，變更光源，拉大立體深度。但此效果對電腦配置要求高，很容易當機，請確保電腦性能充足再操作。
+                            </div>
+                            <div class="text-[11px] text-amber-600 bg-amber-50 p-2 rounded border border-amber-100 flex items-center space-x-2">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                                <span><strong>儲存提醒</strong>：此類大型立體海報存檔時，請注意格式與硬體負載，適時合併無用圖層。</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 22 -->
+                <section id="page-22" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 22 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">軟體協作</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">AI 3D文字突出效果製作與無損導入 PSD</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] border-b pb-2"><i class="fa-solid fa-arrows-spin text-[#00a3e0] mr-1.5"></i> Illustrator 向量級 3D 製作流程</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                業界最推薦之 3D 立體字工作流，是先在 Adobe Illustrator (AI) 做完立體，再帶入 Photoshop 合成：
+                            </p>
+                            <ol class="text-xs text-slate-600 space-y-2 list-decimal list-inside leading-relaxed">
+                                <li>開啟 AI 新盤專案，輸入大寫文字，填色設為灰色。</li>
+                                <li>按住 <kbd class="border px-1">Shift</kbd> 鍵可多選，單獨旋轉某些字母，排列出活潑參差的視覺。</li>
+                                <li>點選選單欄：<code class="bg-white border px-1 rounded">效果</code> &rarr; <code class="bg-white border px-1 rounded">3D</code> &rarr; <code class="bg-white border px-1 rounded">突出與斜角</code>。</li>
+                                <li>勾選下方「預視（Preview）」選項。將深度設定為 <strong class="text-rose-600 font-bold">80 pt</strong>（控制厚度）。拖動虛擬 3D 立方體調整透視。</li>
+                                <li>對立體字更改表面顏色，產生的陰影會極具真立體感。</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3 flex flex-col justify-between">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-file-import text-[#00a3e0] mr-1.5"></i> 跨軟體匯入 Photoshop 優化</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                在 AI 中選取：儲存 &rarr; 轉存為 <strong>PSD 檔案格式</strong>。在 Photoshop 中開啟該檔，即可完美保留透明去背層。
+                            </p>
+                            
+                            <div class="bg-white p-4 rounded-xl border text-xs text-slate-505 space-y-2 leading-relaxed">
+                                <span class="font-bold text-[#001c3a]">✨ 後續手動上色與修飾：</span>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>新增背景圖層，拉一條典雅的漸層色。</li>
+                                    <li>轉換色彩模式為 CMYK 印刷，解析度轉 300 dpi。</li>
+                                    <li>選取套索，拿<strong>加深工具（Burn Tool）</strong>針對 3D 文字底下的受光面、側面進行局部刷塗，調低容許度至 3%，即可刷出如手動噴槍繪製的立體深邃陰影。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 23 -->
+                <section id="page-23" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 23 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">人像與修圖</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">3/22 上午 頂級人像修相片合成與瑕疵修復三大工具</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] border-b pb-2"><i class="fa-solid fa-camera text-[#00a3e0] mr-1.5"></i> 人像修片黃金觀念</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                照片去背景與後方合成物的合度決定了合成照片的好看度。動手修片前，應多參考其他優秀海報的打光方向、明暗，方有正確的修圖與調色目標。
+                            </p>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                <strong>修合成相片最常用技法</strong>：拷貝後貼上，再利用修飾刷進行影像合成。
+                            </p>
+                            <div class="bg-rose-50 text-rose-700 p-3.5 rounded-xl border border-rose-100 text-xs">
+                                <strong>⚠️ 紅眼工具限制</strong>：夜間拍照眼睛常會出現刺眼紅光。紅眼工具能快速修飾、蓋除。但若紅眼範圍過大，實際修飾效果仍然極為有限。
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-stamp text-[#00a3e0] mr-1.5"></i> 修相片必修三大武器</h3>
+                            <div class="space-y-3 text-xs text-slate-600">
+                                <div class="bg-white p-3 rounded-xl border">
+                                    <span class="font-bold text-[#001c3a] flex items-center"><i class="fa-solid fa-stamp mr-1"></i> ① 仿製印章工具 (S)</span>
+                                    <p class="mt-1 leading-relaxed text-[11px] text-slate-505">
+                                        選定好筆刷，按住 <kbd class="border px-1">Alt</kbd> 鍵，滑鼠左鍵在無暇的皮膚上點擊（此時十字符號代表完成取樣）。放開 Alt 在臉上痘痘、疤痕點塗，即可將好皮膚完全拷貝覆蓋過去。
+                                    </p>
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border">
+                                    <span class="font-bold text-[#001c3a] flex items-center"><i class="fa-solid fa-heart mr-1 text-rose-500"></i> ② 污點修復筆刷 (智慧取樣)</span>
+                                    <p class="mt-1 leading-relaxed text-[11px] text-slate-550">
+                                        功能與印章相同，但系統會自動辨識刷塗處四周的色澤強度，自動融色、美化膚色。比印章更好用、更自然，不易產生色差疤痕。
+                                    </p>
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border">
+                                    <span class="font-bold text-[#001c3a] flex items-center"><i class="fa-solid fa-scissors mr-1"></i> ③ 修補與內容感知移動工具 (J)</span>
+                                    <p class="mt-1 leading-relaxed text-[11px] text-slate-550">
+                                        拿修補工具把想移除的人、雜物「圈選起來」，滑鼠按著選區中間往旁邊乾淨背景拖過去放開，雜物就會被完美抹除。<strong>（限制：背景最好類似，去背去色融合才好看）</strong>。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 24 -->
+                <section id="page-24" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 24 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">色調與曲線</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">影像色調符合、陰影/高光與相片色彩平衡</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] border-b pb-2"><i class="fa-solid fa-sliders text-[#00a3e0] mr-1.5"></i> 極速色彩調配技法</h3>
+                            <ul class="text-xs text-slate-600 space-y-2.5 list-disc list-inside leading-relaxed">
+                                <li><strong>符合顏色 (Match Color)</strong>：
+                                    <p class="mt-1 pl-4">
+                                        當兩張合成照片冷暖色調落差極大時，選單選擇：<code class="bg-white border px-1 rounded">調整</code> &rarr; <code class="bg-white border px-1 rounded">符合顏色</code>，設定好來源，系統會自動偵測色差進行自動校正，一秒修正人臉面部發黃的問題。
+                                    </p>
+                                </li>
+                                <li><strong>陰影/高光 調整</strong>：
+                                    <p class="mt-1 pl-4">
+                                        此功能為影像調整神器。能單獨將相片中過暗的地方調亮（不透明度），或將過亮、過曝的高光壓低，大幅提升亮暗部細節。
+                                    </p>
+                                </li>
+                                <li><strong>色彩平衡</strong>：
+                                    <p class="mt-1 pl-4">
+                                        選取調整色彩面板 &rarr; 更改青-洋紅、色調整參數。若照片想增加朦朧氣息：新開圖層，拿前景色筆刷刷上顏色，即可製造出美麗的霧狀朦朧效果。
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4 flex flex-col justify-between">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-wand-magic-sparkles text-[#00a3e0] mr-1.5"></i> 快速自動增強與明暗</h3>
+                            <p class="text-xs text-slate-505">
+                                影像選單下的三個快捷自動指令，在一般日常中能提供極佳的修飾效果：
+                            </p>
+                            <div class="space-y-2 text-xs text-slate-600">
+                                <div class="bg-white p-3 rounded-lg border flex justify-between items-center">
+                                    <strong>① 自動色調 (Auto Tone)</strong>
+                                    <span class="text-[10px] text-slate-400">快速分配亮暗區間</span>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg border flex justify-between items-center">
+                                    <strong>② 自動對比 (Auto Contrast)</strong>
+                                    <span class="text-[10px] text-slate-400">一鍵去除蒙霧灰感</span>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg border flex justify-between items-center">
+                                    <strong>③ 自動顏色 (Auto Color)</strong>
+                                    <span class="text-[10px] text-slate-400">自動修正白平衡與偏色</span>
+                                </div>
+                            </div>
+                            <div class="bg-white p-3.5 rounded-xl border border-slate-150 text-[11px] text-slate-550 leading-relaxed">
+                                * 核心必用：<strong>曲線（Curves，快捷鍵 Ctrl + M）</strong>是用於微調相片明暗對比的最常用第一名工具。
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 25 -->
+                <section id="page-25" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 25 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">RAW與暗房</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">Bridge 圖片管理、Camera Raw 頂級白平衡修片與高斯柔焦</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] border-b pb-2"><i class="fa-solid fa-photo-film text-[#00a3e0] mr-1.5"></i> Bridge 與 Camera Raw 數位暗房</h3>
+                            <ul class="text-xs text-slate-600 space-y-2.5 list-disc list-inside leading-relaxed">
+                                <li><strong>開啟流程</strong>：點選選單 &rarr; 選擇在 <code class="bg-white border px-1 rounded">Bridge 中瀏覽</code>。找到目標圖片，點選右鍵 &rarr; 選擇開啟方式為 <code class="bg-white border px-1 rounded">Camera Raw</code>。</li>
+                                <li><strong>Camera Raw 核心操控欄</strong>：
+                                    <ul class="pl-4 mt-1 list-none space-y-1">
+                                        <li><strong>基本白平衡</strong>：可精細滑動滑桿，調校出正確冷暖色溫。</li>
+                                        <li><strong>清晰度與去霧</strong>：能大幅度抹除相片霧氣，使文字與邊緣顯得銳利清晰。</li>
+                                    </ul>
+                                </li>
+                                <li class="text-rose-600 font-semibold">⚠️ 儲存注意：雖然在 Camera Raw 調整完了，但必須在左下角點選「儲存/另存新檔」，原本相片才會變更儲存為調整後的相片。格式一般選最高品質的 JPEG。</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-ghost text-[#00a3e0] mr-1.5"></i> 人像唯美高斯柔焦效果 (Orton Effect)</h3>
+                            <p class="text-xs text-slate-500">
+                                常用於婚紗照與浪漫風景的人像唯美霧狀融合效果：
+                            </p>
+                            <ol class="text-xs text-slate-600 space-y-1.5 list-decimal list-inside leading-relaxed">
+                                <li>點選右鍵 &rarr; 複製背景圖層。</li>
+                                <li>套用選單：<code class="bg-white border px-1 rounded">濾鏡</code> &rarr; <code class="bg-white border px-1 rounded">模糊</code> &rarr; <code class="bg-white border px-1 rounded">高斯模糊</code>，調高強度使整張照片模糊。</li>
+                                <li>複製該模糊圖層副本，將圖層混合模式調整為<strong>「濾色」或「覆蓋」</strong>。</li>
+                                <li>拿橡皮擦（或建立遮色片拿黑色大軟刷），將人像中五官（如眼睛、嘴唇等）模糊抹除，使其顯現出底層原本清晰的亮暗細節。</li>
+                                <li>調整透明度，即可做出朦朧唯美的夢幻柔焦人像。</li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 26 & 27 -->
+                <section id="page-26-27" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 26 - 27 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">色板與遮色片</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">放射漸層邊界、色相飽和度調色與色板黑白遮色片</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] border-b pb-2"><i class="fa-solid fa-circle-half-stroke text-[#00a3e0] mr-1.5"></i> 放射漸層拖拉技巧與避坑</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                <strong>放射性漸層</strong>繪製背景時（中間白、外圍黑），滑鼠必須由貼圖中心點起筆、垂直水平往外拉。
+                                <br><br>
+                                <span class="text-rose-600 font-semibold">⚠️ 避坑</span>：不可拉得太長。若拖拉引導線拉得太長、超出圖案邊界太多，外圍黑色的淡化退暈效果會完全消失，黑色直接貼在圖案邊界，看起來會極死板、不好看。
+                            </p>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-palette text-[#00a3e0] mr-1.5"></i> 色版高強度對比快速選取去背</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                利用色板黑白兩色的高對比度，可以實現完美的髮絲去背：
+                            </p>
+                            <ol class="text-xs text-slate-600 space-y-1 list-decimal list-inside leading-relaxed">
+                                <li>點開色板面板，點選紅、綠、藍色版，尋找一張明暗、輪廓對比最強烈的色版。</li>
+                                <li>複製該色版 &rarr; 按 <kbd class="border px-1">Ctrl + L</kbd> (色階)，強行將高光拉亮、陰影拉暗，使其呈高強度黑白對比。</li>
+                                <li>拿黑色筆刷將不需要去背的雜點塗黑，主體塗白。</li>
+                                <li>按著 <kbd class="border px-1">Ctrl</kbd> 點選該色版縮圖以載入其選取範圍。</li>
+                                <li>回到彩色 RGB，即可精緻地拷貝去背。</li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 28 -->
+                <section id="page-28" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 28 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">紙張材質覆蓋</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">紙質紋理材質 (Paper Texture) 疊加、去雜點與高斯背景</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <div class="bg-[#f5f8fa] p-5 rounded-xl border border-slate-200">
+                                <h3 class="font-extrabold text-sm text-[#001c3a] mb-2"><i class="fa-solid fa-scroll text-[#00a3e0] mr-1"></i> 紙張材質 (Paper Texture) 疊加技法</h3>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    若要讓畫面或字體產生復古、手繪或精緻的高級紙張顆粒質感：
+                                    <br><br>
+                                    <strong>操作</strong>：上網下載免費的高解析度 <strong>Paper Texture (材質檔)</strong> &rarr; 在 Photoshop 中開啟。
+                                    <br><br>
+                                    <strong>快捷流程</strong>：按 <kbd class="border px-1">Ctrl + A</kbd> (全選) &rarr; <kbd class="border px-1">Ctrl + C</kbd> (複製)。回到海報的羅馬主畫面，按 <kbd class="border px-1">Ctrl + V</kbd> 貼上。按 <kbd class="border px-1">Ctrl + T</kbd> 調整覆蓋滿版。最後將該圖層混合模式設定為「色彩增值」或「覆蓋」，即可將紙張纖維、砂質紋理完美融合於原照片中。
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3 leading-relaxed">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-moon text-[#00a3e0] mr-1.5"></i> 精緻背景與球體打光</h3>
+                            <ul class="text-xs text-slate-600 space-y-2 list-disc list-inside">
+                                <li><strong>背景高斯虛化</strong>：複製背景圖層，套用高斯模糊，並配合快速遮色片，將眼神五官遮蔽。</li>
+                                <li><strong>暗部雜點噪點注入</strong>：新開空白圖層倒入黑漆，配合濾鏡噪點，降低透明度，即可消除漸層的大塊色階斷裂，使圖片過渡平滑。</li>
+                                <li><strong>球體與十字架打光</strong>：新開圖層 &rarr; 選擇黃色或青色 &rarr; 拿霧狀大軟筆刷，在混合模式下調低透明度，使球體產生高反光的金屬球體與十字架神聖光澤。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 29 -->
+                <section id="page-29" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 29 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">批次自動化</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">3/22 下午 動作面板批次錄製與 DeviantArt 動作包載入</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4 text-sm text-slate-600">
+                            <h3 class="font-extrabold text-[#001c3a] border-b pb-2"><i class="fa-solid fa-clapperboard text-[#00a3e0] mr-1.5"></i> 動作面板自動批次化</h3>
+                            <p class="text-xs leading-relaxed">
+                                當手上有幾百張照片要進行同等縮小尺寸、調色或去背時，使用手動調整會耗費大量時間。可啟用自動「動作（Actions）」：
+                            </p>
+                            <ol class="text-xs space-y-2 list-decimal list-inside leading-relaxed">
+                                <li>選單選擇：<code class="bg-white border px-1 rounded">視窗</code> &rarr; 勾選開啟 <code class="bg-white border px-1 rounded">動作</code> 面板。</li>
+                                <li>點擊面板下方的新建動作，面板上會亮起<strong>「紅色錄製鈕（Record）」</strong>，此時系統會忠實錄製您的每一步操作。</li>
+                                <li>開始編輯：調整影像大小、套用曲線調色、最後另存新檔。</li>
+                                <li>完成後，按下「停止鍵（方形按鈕）」。批次流程即錄製完成。</li>
+                                <li>開啟其餘照片，點選該動作並按「播放（三角形按鈕）」，數秒內即自動執行完畢。</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3 flex flex-col justify-between">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-cloud-arrow-down text-[#00a3e0] mr-1.5"></i> DeviantArt 動作包資源載入</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                推薦歐美最大設計交流社群網站：<a href="http://www.deviantart.com" target="_blank" class="text-[#00a3e0] underline">www.deviantart.com</a>。
+                            </p>
+                            <div class="bg-white p-4 rounded-xl border text-xs text-slate-505 space-y-1.5 leading-relaxed">
+                                <span class="font-bold text-[#001c3a]">🚀 載入與應用大師級調色動作包：</span>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>搜尋「Photoshop Actions」或 PSD 動作。</li>
+                                    <li>點選 Popular All Time (經典熱門)，將喜歡的效果 Download 下載。</li>
+                                    <li>解壓縮下載後的文件。</li>
+                                    <li>在 Photoshop 動作面板空白處點右鍵 &rarr; 選擇<strong>「載入動作」</strong>，載入已解壓之檔案。即可免費套用極限調色動作。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 30 -->
+                <section id="page-30" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 30 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">液化與去背</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">液化微調膨脹、頭髮髮絲極致去背與智慧型偵測</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] border-b pb-2"><i class="fa-solid fa-user-tie text-[#00a3e0] mr-1.5"></i> 液化細部工具調校身材</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                在液化選單中，除了單純揉捏扭拉外，還可進行局部膨脹與收縮微調：
+                            </p>
+                            <ul class="text-xs text-slate-600 space-y-2 list-disc list-inside">
+                                <li><strong>膨脹工具</strong>：點擊滑鼠可局部放大（常用於放大胸部、讓眼睛變大）。</li>
+                                <li><strong>縮小 (重組) 工具</strong>：點擊滑鼠可局部收縮（常用於修飾多餘贅肉、收細手臂、細大腿）。</li>
+                                <li><strong>連結色</strong>：點選連結，調整時才不會扭曲、動到你已畫好的邊界範圍。</li>
+                                <li><strong>解凍遮色片 / 凍結工具</strong>：按右鍵可凍結部位，保護圖案不變形；完成後按解凍即可。</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-scissors text-[#00a3e0] mr-1.5"></i> 頭髮髮絲極致精密去背 (Select & Mask)</h3>
+                            <p class="text-xs text-slate-505 leading-relaxed">
+                                去背最難之處在於散亂不齊、有環境底色的頭髮。精密步驟：
+                            </p>
+                            <ol class="text-xs text-slate-600 space-y-1.5 list-decimal list-inside leading-relaxed">
+                                <li>拿快速選取工具粗略選起人像，貼到背景圖片。</li>
+                                <li>點擊上列屬性列之<strong>「調整邊緣」</strong>（選取並遮住）。</li>
+                                <li>邊緣偵測：勾選<strong>「智慧型半徑」</strong>，調高像素值。</li>
+                                <li>拿起調整邊緣筆刷，在頭髮散亂、夾雜背景色的細毛邊緣細刷，系統會自動智慧清除邊界背景色。</li>
+                                <li>最重要一步：勾選底部的<strong>「淨化顏色（Decontaminate Colors）」</strong>，確定。</li>
+                                <li>系統會自動產生一個帶有遮色片的新圖層。對遮色片點擊右鍵 &rarr; 套用圖層遮色片，即可得到完美去背的人像。</li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 31 -->
+                <section id="page-31" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 31 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">綜合實戰</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">林書豪衝刺動態海報 (Jeremy Lin) 步驟拆解</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] border-b pb-2">🏀 運動大片級海報製作步驟</h3>
+                            <p class="text-xs text-slate-505 leading-relaxed">
+                                規格：寬 950 Pixels / 高 500 Pixels / 解析度 72 dpi / 背景透明。
+                            </p>
+                            <ol class="text-xs text-slate-600 space-y-1.5 list-decimal list-inside leading-relaxed">
+                                <li>新檔案，填入純黑色。</li>
+                                <li>選擇筆刷工具 &rarr; 從 class4 載入特殊畫刷，在畫布下方塗刷出強烈的白光探照光效。</li>
+                                <li>新增圖層，選矩形工具 &rarr; 點選上列屬性列「相加模式」 &rarr; 手動繪製出參差並列的多個白網格。按 `Ctrl + T` <strong>旋轉 45°</strong>，調低不透明度。</li>
+                                <li>載入林書豪圖片 &rarr; 貼上海報，利用快速選取配合「智慧型半徑去背」與「淨化顏色」將林書豪無損去背。套用遮色片。</li>
+                                <li><strong>製作衝刺殘影</strong>：複製林書豪圖層。選中底下副本，開啟 `Ctrl + U` 將飽和度拉至最低（使人物變黑白）。</li>
+                                <li>套用：<code class="bg-white border px-1 rounded">濾鏡</code> &rarr; <code class="bg-white border px-1 rounded">模糊</code> &rarr; <code class="bg-white border px-1 rounded">動態模糊</code>（角度設定為 62°）。</li>
+                                <li>再次套用：<code class="bg-white border px-1 rounded">濾鏡</code> &rarr; <code class="bg-white border px-1 rounded">模糊</code> &rarr; <code class="bg-white border px-1 rounded">放射狀模糊</code>（選「縮放」，數量 6，中心點往下拉）。</li>
+                                <li>最後，將上方原本清晰的林書豪彩色原圖移到圖層面板最頂層，重合對稱。即可在人物下方呈現震撼的衝刺放射殘影。</li>
+                            </ol>
+                        </div>
+
+                        <!-- Motion Blur Layers Simulation Visualizer -->
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-between">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] mb-3"><i class="fa-solid fa-bars-staggered text-[#00a3e0] mr-1.5"></i> 海報圖層殘影視覺堆疊</h3>
+                            
+                            <div class="relative w-full h-44 bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-800 flex flex-col justify-between p-4">
+                                <!-- Top Layer: Sharp Original -->
+                                <div class="bg-white/10 hover:bg-white/20 border border-white/20 rounded p-2 text-[10px] text-white flex justify-between items-center transition-all">
+                                    <span><i class="fa-solid fa-layer-group text-[#00a3e0] mr-1"></i> 圖層 3：林書豪彩色原稿 (Sharp)</span>
+                                    <span class="bg-[#00a3e0] text-xs font-bold px-1.5 py-0.5 rounded text-white scale-90">最頂層</span>
+                                </div>
+                                <!-- Middle Layer: Motion Blurred Black & White -->
+                                <div class="bg-[#00a3e0]/10 hover:bg-[#00a3e0]/20 border border-[#00a3e0]/30 rounded p-2 text-[10px] text-cyan-200 flex justify-between items-center transition-all blur-[0.5px]">
+                                    <span><i class="fa-solid fa-wind mr-1"></i> 圖層 2：黑白動態殘影 (62° Motion Blur)</span>
+                                    <span class="bg-[#00a3e0]/40 text-[9px] px-1.5 rounded text-cyan-200 scale-90">放射模糊</span>
+                                </div>
+                                <!-- Bottom Layer: Flares & Grids -->
+                                <div class="bg-slate-800 border border-slate-700 rounded p-2 text-[10px] text-slate-400 flex justify-between items-center">
+                                    <span><i class="fa-solid fa-shapes mr-1"></i> 圖層 1：白條紋網格 (45°) + 底部白光</span>
+                                    <span class="bg-slate-700 text-[9px] px-1.5 rounded text-slate-400 scale-90">背景層</span>
+                                </div>
+                            </div>
+                            
+                            <div class="text-[11px] text-slate-550 bg-white p-3 rounded-lg border mt-3 leading-relaxed">
+                                <strong>💡 下載推薦</strong>：下載海報需要的字型、特殊刷子。可至網頁搜尋「PS動作下載」與「字型下載」。
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 32 -->
+                <section id="page-32" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 32 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">網頁排版</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">非破壞性色彩平衡調整圖層與網頁版面警語</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] border-b pb-2"><i class="fa-solid fa-circle-half-stroke text-[#00a3e0] mr-1.5"></i> 非破壞性調整圖層</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                在圖層面板底部的半圓圖示（調整圖層）點選新增：<strong>色彩平衡、曲線等調整圖層</strong>。
+                            </p>
+                            <div class="bg-white p-4 rounded-xl border text-xs text-slate-505 space-y-2 leading-relaxed">
+                                <span class="font-bold text-[#001c3a]">✨ 調整圖層三大優勢：</span>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li><strong>不需要合併圖層</strong>，絕不破壞原圖，隨時雙擊可重複微調、更改顏色。</li>
+                                    <li>只會對位於「它下方」的所有圖層產生色彩變更，它上方的圖層完全不受干擾影響。</li>
+                                    <li>色彩平衡中：可針對陰影部、中間調、高光進行細部分離控制。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-circle-exclamation text-rose-600 mr-1.5"></i> 網頁設計字型向量警語 (重要！)</h3>
+                            <ul class="text-xs text-slate-600 space-y-2.5 list-disc list-inside leading-relaxed">
+                                <li>網頁中有文字、表格或細緻的中文字，請<strong>務必在 Illustrator (AI) 向量軟體</strong>中進行完稿排版，而非直接在 Photoshop 中寫字。</li>
+                                <li class="text-rose-600 font-bold">原因：Photoshop 排版後的文字與表格一旦執行影像平面化或存成點陣圖片，文字就會完全像素化，以後就再也無法更改文字字元內容。</li>
+                                <li>置入火箭隊 LOGO 圖，貼在 Jeremy Lin 旁。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 33 -->
+                <section id="page-33" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 33 / 33</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">動態網頁</span>
+                        <h2 class="text-xl font-extrabold text-[#001c3a]">網頁 GIF 動畫時間軸面板與永遠重複循環</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-extrabold text-sm text-[#001c3a] border-b pb-2"><i class="fa-solid fa-film text-[#00a3e0] mr-1.5"></i> 時間軸 (Timeline) 製作動態廣告</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Photoshop 不僅能處理靜態海報，更內建了製作動態 Banner 廣告的動畫功能：
+                            </p>
+                            <ol class="text-xs text-slate-600 space-y-2 list-decimal list-inside leading-relaxed">
+                                <li>點選選單：<code class="bg-white border px-1 rounded">視窗</code> &rarr; 勾選 <code class="bg-white border px-1 rounded">時間軸</code>，啟用網頁動畫編輯器。</li>
+                                <li>點選「建立格動畫」。</li>
+                                <li><strong>影格複製</strong>：在時間軸面版下方點擊新建複製影格（例如複製出 3 個影格）。</li>
+                                <li>在不同的影格中，於圖層面板上開啟或關閉特定眼睛（控制物件閃爍）、或利用移動工具變更字體與瓶身位置（控制物件飄移）。</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3 flex flex-col justify-between">
+                            <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-arrows-spin text-[#00a3e0] mr-1.5"></i> GIF 循環與動態匯出</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                在每個影格下方，您可以點擊微調停留延遲秒數（例如：0.2秒）。
+                            </p>
+                            <div class="bg-white p-4 rounded-xl border text-xs text-slate-505 space-y-1.5 leading-relaxed">
+                                <span class="font-bold text-[#001c3a]">⭐ 循環模式與網頁儲存：</span>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>時間軸底部的循環設定，務必下拉選擇<strong>「永遠」</strong>（Forever）。這樣動畫在網頁中開啟時才會無限循環播放，不致於播完一次就停下。</li>
+                                    <li>選擇選單：匯出 &rarr; <code class="bg-white border px-1 rounded">儲存為網頁用 (舊版)</code>。格式選擇 <strong>GIF</strong> 格式，按下存檔。即可完成網頁專用動態廣告 Banner。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+            
+            <!-- Footer Signature (Hidden on Print) -->
+            <footer class="no-print mt-16 pt-8 border-t border-slate-200 text-center text-slate-400 text-xs">
+                <p>© 2026 CHE-JUNG LEE Photoshop 課堂數位筆記手動重製寶典. All Rights Reserved.</p>
+                <p class="mt-1">Designed by Gemini Web 3.0 CC Masterclass Suite.</p>
+            </footer>
+        </main>
+    </div>
+
+    <!-- JavaScript block for rendering navigation links and interactive features -->
+    <script>
+        // Array of all 33 pages info
+        const pages = [
+            { id: "page-1", title: "Page 01: 7/22 課堂教材與 FileZilla 傳輸連線" },
+            { id: "page-2", title: "Page 02: 企業識別系統 (CI) 與 LOGO 三大精神" },
+            { id: "page-3", title: "Page 03: 介面基本還原、新增畫布與 RGB/CMYK" },
+            { id: "page-4", title: "Page 04: 筆刷放大縮小、圖層分層與歷史紀錄" },
+            { id: "page-5", title: "Page 05: 磁性套索去背、魔術棒容許度與調整邊緣" },
+            { id: "page-6-7", title: "Page 06-07: 漸層打燈、高斯陰影與變形壓扁影子" },
+            { id: "page-8", title: "Page 08: 向量筆型工具 (P)、直接選取白箭頭錨點" },
+            { id: "page-9-10", title: "Page 09-10: DM設計尺寸出血、文字方塊折行與行距" },
+            { id: "page-11", title: "Page 11: Ctrl點縮圖快速選取、香水瓶身25°旋轉" },
+            { id: "page-12", title: "Page 12: 雜訊漸層與 70% 粗糙度、圖層混合模式" },
+            { id: "page-13", title: "Page 13: 液化修飾人臉五官、斜角/浮雕立體水滴" },
+            { id: "page-14", title: "Page 14: 圓角半徑屬性、波形濾鏡扭曲與背光漸層" },
+            { id: "page-15", title: "Page 15: 影像平面化與 150Dpi、CMYK色彩模式轉移" },
+            { id: "page-16", title: "Page 16: 鹿港VI形象設計、自訂字型、櫻桃向量LOGO" },
+            { id: "page-17", title: "Page 17: Ctrl+G圖層群組、跨檔案拖曳與對齊線" },
+            { id: "page-18", title: "Page 18: 定義愛心背景圖樣、樣式圖樣覆蓋縮放" },
+            { id: "page-19", title: "Page 19: 合版印刷、總量限200%與黑字純K100疊印" },
+            { id: "page-20", title: "Page 20: TPC鋼鐵字樣、建立圖層與S曲線拉絲質感" },
+            { id: "page-21", title: "Page 21: 設計海報、文字方塊貼字、燈泡遮色片" },
+            { id: "page-22", title: "Page 22: AI向量3D擠出 80pt 轉 PSD 導入" },
+            { id: "page-23", title: "Page 23: 人像修片合成、仿製印章、修補抹除物" },
+            { id: "page-24", title: "Page 24: 符合顏色色偏消除、陰影/高光明暗優化" },
+            { id: "page-25", title: "Page 25: Bridge與Camera Raw、人像高斯夢幻柔焦" },
+            { id: "page-26-27", title: "Page 26-27: 放射漸層邊界、色階對比與色版髮絲去背" },
+            { id: "page-28", title: "Page 28: 紙質紋理 Paper Texture 疊加覆蓋" },
+            { id: "page-29", title: "Page 29: 動作 Actions 批次錄製、DeviantArt動作包" },
+            { id: "page-30", title: "Page 30: 液化膨脹收縮微調、智慧型頭髮去背" },
+            { id: "page-31", title: "Page 31: 林書豪衝刺海報、放射狀動態殘影模糊" },
+            { id: "page-32", title: "Page 32: 非破壞性調整圖層、網頁平面文字轉向量" },
+            { id: "page-33", title: "Page 33: 時間軸 GIF 動畫影格建立、永遠重複循環" }
+        ];
+
+        // Populate Sidebar Navigation
+        const sidebarMenu = document.getElementById("sidebarMenu");
+        pages.forEach((page, index) => {
+            const link = document.createElement("a");
+            link.href = `#${page.id}`;
+            link.className = "flex items-center space-x-2.5 px-3 py-2 text-xs font-medium rounded-lg text-slate-600 hover:text-[#001c3a] hover:bg-slate-100 transition-all duration-200 border border-transparent hover:border-slate-200";
+            link.innerHTML = `
+                <span class="bg-slate-200 text-slate-600 font-bold w-5 h-5 rounded-full flex items-center justify-center text-[10px] shrink-0">${index + 1}</span>
+                <span class="truncate">${page.title}</span>
+            `;
+            sidebarMenu.appendChild(link);
+        });
+
+        // Search Notes Functionality
+        function searchNotes() {
+            const query = document.getElementById("searchInput").value.toLowerCase();
+            const cards = document.getElementsByClassName("page-card");
+            
+            for (let card of cards) {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            }
+        }
+
+        // Highlight active page on scroll
+        const contentArea = document.getElementById("notesContent");
+        contentArea.addEventListener("scroll", () => {
+            const sections = document.querySelectorAll(".page-card");
+            let currentActiveId = "";
+            
+            sections.forEach(sec => {
+                const rect = sec.getBoundingClientRect();
+                if (rect.top >= 0 && rect.top <= 250) {
+                    currentActiveId = sec.id;
+                }
+            });
+            
+            if (currentActiveId) {
+                const navLinks = sidebarMenu.querySelectorAll("a");
+                navLinks.forEach(link => {
+                    const href = link.getAttribute("href").replace("#", "");
+                    if (href === currentActiveId) {
+                        link.classList.add("bg-[#00a3e0]/10", "text-[#001c3a]", "border-slate-200");
+                        link.classList.remove("text-slate-600", "bg-transparent");
+                    } else {
+                        link.classList.remove("bg-[#00a3e0]/10", "text-[#001c3a]", "border-slate-200");
+                        link.classList.add("text-slate-600");
+                    }
+                });
+            }
+        });
+
+        // Print Helper Functions to bypass Iframe sandbox blocks
+        function openPrintModal() {
+            const modal = document.getElementById("printModal");
+            modal.classList.remove("hidden");
+        }
+
+        function closePrintModal() {
+            const modal = document.getElementById("printModal");
+            modal.classList.add("hidden");
+        }
+
+        function triggerSystemPrint() {
+            try {
+                window.print();
+            } catch (e) {
+                console.warn("Iframe blocked standard print command:", e);
+            }
+        }
+
+        // Close modal if user clicks outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById("printModal");
+            if (event.target == modal) {
+                closePrintModal();
+            }
+        }
+    </script>
+</body>
+</html>
