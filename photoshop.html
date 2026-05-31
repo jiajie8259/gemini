@@ -69,7 +69,7 @@
 <body class="min-h-screen flex flex-col">
 
     <!-- Print Help Modal (Hidden on Print & Hidden by Default) -->
-    <div id="printModal" class="no-print fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 animate-fade-in">
+    <div id="printModal" class="no-print fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-slate-100 transform transition-all scale-100">
             <div class="flex items-center space-x-3 text-[#001c3a] mb-4">
                 <div class="bg-blue-50 p-2.5 rounded-full text-[#00a3e0]">
@@ -115,9 +115,31 @@
     <!-- Top Navigation Bar (Hidden on Print) -->
     <header class="no-print bg-[#001c3a] text-white shadow-lg sticky top-0 z-50 px-6 py-4 flex flex-wrap justify-between items-center">
         <div class="flex items-center space-x-3">
-            <button onclick="toggleSidebar()" class="bg-[#002855] hover:bg-slate-700 border border-[#00a3e0]/30 text-white p-2 rounded-lg transition-all flex items-center justify-center mr-1" title="顯示/隱藏目錄">
+            <!-- Sidebar toggle button -->
+            <button onclick="toggleSidebar()" class="bg-[#002855] hover:bg-[#003875] border border-[#00a3e0]/30 text-white p-2 rounded-lg transition-all flex items-center justify-center mr-1" title="顯示/隱藏目錄">
                 <i id="toggleIcon" class="fa-solid fa-angles-left text-lg"></i>
             </button>
+            
+            <!-- Author Exclusive Widget (Vibrant Colored Pop-Art Glow Style) - Placed to the left of the Logo -->
+            <div class="flex items-center space-x-2.5 hover:scale-105 transition-all duration-300 group mr-2">
+                <div class="relative w-10 h-10 rounded-full overflow-hidden bg-gradient-to-tr from-amber-400 via-rose-500 to-indigo-600 p-[2px] shrink-0 shadow-lg shadow-rose-500/20">
+                    <div class="w-full h-full rounded-full overflow-hidden bg-white">
+                        <img src="B.png" alt="Notes Author" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                </div>
+                <div class="hidden sm:block">
+                    <div class="flex items-center space-x-1">
+                        <span class="text-[10px] font-black text-white tracking-wider">專屬數位珍藏</span>
+                        <span class="bg-gradient-to-r from-amber-500 to-rose-500 text-white text-[8px] px-1.5 py-0.2 rounded-full font-bold shadow-sm">Pro</span>
+                    </div>
+                    <p class="text-[9px] text-rose-400 font-bold tracking-widest uppercase">Master Edition • APPLE</p>
+                </div>
+            </div>
+
+            <!-- Vertical Separator in Header -->
+            <div class="h-8 w-[1px] bg-slate-700/50 mr-2 hidden sm:block"></div>
+
+            <!-- Brand Logo Area -->
             <div class="bg-[#00a3e0] text-white p-2.5 rounded-lg shadow-md flex items-center justify-center">
                 <i class="fa-solid fa-palette text-xl"></i>
             </div>
@@ -135,7 +157,6 @@
                        class="bg-[#002855] text-white text-sm px-4 py-2 pl-10 rounded-full border border-slate-700 focus:border-[#00a3e0] focus:outline-none w-64 transition-all duration-300">
                 <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-xs"></i>
             </div>
-            <!-- Modified click event to show modern helper modal first -->
             <button onclick="openPrintModal()" class="bg-[#00a3e0] hover:bg-cyan-500 text-white px-5 py-2 rounded-full font-bold text-sm shadow-md flex items-center space-x-2 transition-all duration-300 transform hover:-translate-y-0.5">
                 <i class="fa-solid fa-file-pdf"></i>
                 <span>列印 / 匯出 PDF</span>
@@ -147,26 +168,13 @@
     <div class="flex-1 max-w-[1600px] w-full mx-auto flex flex-col lg:flex-row print-container overflow-hidden">
         
         <!-- Left Side: Interactive Navigation (Hidden on Print) -->
-        <nav id="sidebar" class="no-print w-full lg:w-80 bg-white border-r border-slate-200 p-4 max-h-[calc(100vh-80px)] overflow-y-auto shrink-0 transition-all duration-300 ease-in-out flex flex-col justify-between">
-            <div>
-                <div class="mb-4">
-                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">筆記頁面目錄</h3>
-                    <div class="h-1 w-10 bg-[#00a3e0] rounded"></div>
-                </div>
-                <div class="space-y-1.5" id="sidebarMenu">
-                    <!-- Javascript will populate the list items with links -->
-                </div>
+        <nav id="sidebar" class="no-print w-full lg:w-80 bg-white border-r border-slate-200 p-4 max-h-[calc(100vh-80px)] overflow-y-auto shrink-0 transition-all duration-300 ease-in-out">
+            <div class="mb-4">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">筆記頁面目錄</h3>
+                <div class="h-1 w-10 bg-[#00a3e0] rounded"></div>
             </div>
-
-            <!-- Author Exclusive Widget -->
-            <div class="mt-8 pt-6 border-t border-slate-100 flex items-center space-x-3 opacity-50 hover:opacity-90 transition-opacity duration-300">
-                <div class="relative w-10 h-10 rounded-full overflow-hidden border border-slate-200 shrink-0 shadow-sm">
-                    <img src="APPLE.png" alt="Notes Author" class="w-full h-full object-cover filter grayscale contrast-110">
-                </div>
-                <div>
-                    <p class="text-[11px] font-bold text-[#001c3a] tracking-wider">專屬數位筆記珍藏</p>
-                    <p class="text-[9px] text-slate-400">Personalized Master Edition</p>
-                </div>
+            <div class="space-y-1.5" id="sidebarMenu">
+                <!-- Javascript will populate the list items with links -->
             </div>
         </nav>
 
@@ -187,7 +195,7 @@
             <!-- Page-by-Page Container -->
             <div class="space-y-12" id="pagesContainer">
                 
-                <!-- PAGE 1 (遞補原第 2 頁) -->
+                <!-- PAGE 1 -->
                 <section id="page-2" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 01</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -236,7 +244,7 @@
                                 <i class="fa-solid fa-bezier-curve text-[#00a3e0] mr-2"></i>
                                 LOGO 靜態識別設計的三大黃金原則
                             </h3>
-                            <p class="text-xs text-slate-500 mb-4">「好看只是基本分，更重要的是品牌理念與精神的準確傳遞。」</p>
+                            <p class="text-xs text-slate-505 mb-4">「好看只是基本分，更重要的是品牌理念與精神的準確傳遞。」</p>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
                                     <span class="text-xs font-black text-slate-300">PRINCIPLE 01</span>
@@ -262,7 +270,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 2 (遞補原第 3 頁) -->
+                <!-- PAGE 2 -->
                 <section id="page-3" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 02</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -345,7 +353,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 3 (遞補原第 4 頁) -->
+                <!-- PAGE 3 -->
                 <section id="page-4" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 03</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -386,7 +394,7 @@
                                 <li>點選歷史記錄面板下方的「相機」圖示可以建立<strong>快照（Snapshot）</strong>，方便做下一個大膽嘗試，失敗時能一鍵退回。</li>
                                 <li><strong>拷貝貼上基本快捷鍵</strong>：
                                     <ul class="pl-4 mt-1 list-none space-y-1">
-                                        <li>選取：可選取方形或圓形區域。</li>
+                                        <li>選取：可選取方形或圓形區域.</li>
                                         <li>取消選取：<kbd class="bg-white border px-1 py-0.5 rounded shadow-sm">Ctrl + D</kbd></li>
                                         <li>拷貝：<kbd class="bg-white border px-1 py-0.5 rounded shadow-sm">Ctrl + C</kbd></li>
                                         <li>貼上：<kbd class="bg-white border px-1 py-0.5 rounded shadow-sm">Ctrl + V</kbd></li>
@@ -397,7 +405,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 4 (遞補原第 5 頁) -->
+                <!-- PAGE 4 -->
                 <section id="page-5" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 04</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -446,7 +454,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 5 (遞補原第 6 & 7 頁) -->
+                <!-- PAGE 5 -->
                 <section id="page-6-7" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 05</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -497,7 +505,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 6 (遞補原第 8 頁) -->
+                <!-- PAGE 6 -->
                 <section id="page-8" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 06</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -548,7 +556,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 7 (遞補原第 9 & 10 頁) -->
+                <!-- PAGE 7 -->
                 <section id="page-9-10" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 07</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -600,7 +608,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 8 (遞補原第 11 頁) -->
+                <!-- PAGE 8 -->
                 <section id="page-11" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 08</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -651,7 +659,7 @@
                             </div>
 
                             <ol class="text-xs text-slate-600 mt-4 space-y-1 list-decimal list-inside leading-relaxed">
-                                <li>使用筆型工具描繪出瓶身外框，將瓶身複製兩份副本圖層。</li>
+                                <li>使用筆型工具描繪出瓶身外框，將瓶身複製兩份副本圖層.</li>
                                 <li>點選自由變形 <kbd class="border px-1">Ctrl + T</kbd>，<strong>將中心定位點（錨點）垂直往下拉到瓶子底部底端</strong>。</li>
                                 <li>在頂部屬性欄直接輸入精準旋轉度數：右移旋轉 <span class="text-rose-600 font-bold">25°</span>。左側比照複製並逆向旋轉 -25°。</li>
                                 <li>搭配按住 <kbd class="border px-1">Shift</kbd> 等比例稍微縮小左右兩側的瓶身，做出景深感。</li>
@@ -661,7 +669,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 9 (遞補原第 12 頁) -->
+                <!-- PAGE 9 -->
                 <section id="page-12" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 09</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -700,7 +708,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 10 (遞補原第 13 頁) -->
+                <!-- PAGE 10 -->
                 <section id="page-13" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 10</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -751,7 +759,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 11 (遞補原第 14 頁) -->
+                <!-- PAGE 11 -->
                 <section id="page-14" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 11</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -791,7 +799,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 12 (遞補原第 15 頁) -->
+                <!-- PAGE 12 -->
                 <section id="page-15" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 12</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -811,7 +819,7 @@
 
                         <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
                             <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-print text-[#00a3e0] mr-1.5"></i> 實體印刷與製版完稿四步驟</h3>
-                            <p class="text-xs text-slate-500 leading-relaxed">
+                            <p class="text-xs text-slate-505 leading-relaxed">
                                 實體印刷對色彩與格式極為嚴苛，印刷不符規格會被退件。標準完稿步驟：
                             </p>
                             <ol class="text-xs text-slate-600 space-y-1.5 list-decimal list-inside leading-relaxed">
@@ -827,7 +835,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 13 (遞補原第 16 頁) -->
+                <!-- PAGE 13 -->
                 <section id="page-16" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 13</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -867,7 +875,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 14 (遞補原第 17 頁) -->
+                <!-- PAGE 14 -->
                 <section id="page-17" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 14</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -917,7 +925,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 15 (遞補原第 18 頁) -->
+                <!-- PAGE 15 -->
                 <section id="page-18" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 15</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -957,7 +965,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 16 (遞補原第 19 頁) -->
+                <!-- PAGE 16 -->
                 <section id="page-19" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 16</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -1008,7 +1016,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 17 (遞補原第 20 頁) -->
+                <!-- PAGE 17 -->
                 <section id="page-20" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 17</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -1047,7 +1055,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 18 (遞補原第 21 頁) -->
+                <!-- PAGE 18 -->
                 <section id="page-21" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 18</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -1083,7 +1091,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 19 (遞補原第 22 頁) -->
+                <!-- PAGE 19 -->
                 <section id="page-22" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 19</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -1124,7 +1132,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 20 (遞補原第 23 頁) -->
+                <!-- PAGE 20 -->
                 <section id="page-23" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 20</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -1172,7 +1180,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 21 (遞補原第 24 頁) -->
+                <!-- PAGE 21 -->
                 <section id="page-24" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 21</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -1228,7 +1236,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 22 (遞補原第 25 頁) -->
+                <!-- PAGE 22 -->
                 <section id="page-25" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 22</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -1253,7 +1261,7 @@
 
                         <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
                             <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-ghost text-[#00a3e0] mr-1.5"></i> 人像唯美高斯柔焦效果 (Orton Effect)</h3>
-                            <p class="text-xs text-slate-500">
+                            <p class="text-xs text-slate-505">
                                 常用於婚紗照與浪漫風景的人像唯美霧狀融合效果：
                             </p>
                             <ol class="text-xs text-slate-600 space-y-1.5 list-decimal list-inside leading-relaxed">
@@ -1267,11 +1275,11 @@
                     </div>
                 </section>
 
-                <!-- PAGE 23 (遞補原第 26 & 27 頁) -->
+                <!-- PAGE 23 -->
                 <section id="page-26-27" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 23</span>
                     <div class="flex items-center space-x-3 mb-6">
-                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">色板與遮色片</span>
+                        <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">色版與遮色片</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">放射漸層邊界、色相飽和度調色與色板黑白遮色片</h2>
                     </div>
 
@@ -1301,7 +1309,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 24 (遞補原第 28 頁) -->
+                <!-- PAGE 24 -->
                 <section id="page-28" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 24</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -1334,7 +1342,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 25 (遞補原第 29 頁) -->
+                <!-- PAGE 25 -->
                 <section id="page-29" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 25</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -1375,7 +1383,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 26 (遞補原第 30 頁) -->
+                <!-- PAGE 26 -->
                 <section id="page-30" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 26</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -1414,7 +1422,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 27 (遞補原第 31 頁) -->
+                <!-- PAGE 27 -->
                 <section id="page-31" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 27</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -1469,7 +1477,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 28 (遞補原第 32 頁) -->
+                <!-- PAGE 28 -->
                 <section id="page-32" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 28</span>
                     <div class="flex items-center space-x-3 mb-6">
@@ -1504,7 +1512,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 29 (遞補原第 33 頁) -->
+                <!-- PAGE 29 -->
                 <section id="page-33" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
                     <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 29</span>
                     <div class="flex items-center space-x-3 mb-6">
