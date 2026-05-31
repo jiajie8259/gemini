@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photoshop 32頁完整數位設計寶典</title>
+    <title>Photoshop 完整數位設計寶典</title>
     <!-- Tailwind CSS for modern responsive layout -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome for icons -->
@@ -115,12 +115,15 @@
     <!-- Top Navigation Bar (Hidden on Print) -->
     <header class="no-print bg-[#001c3a] text-white shadow-lg sticky top-0 z-50 px-6 py-4 flex flex-wrap justify-between items-center">
         <div class="flex items-center space-x-3">
+            <button onclick="toggleSidebar()" class="bg-[#002855] hover:bg-slate-700 border border-[#00a3e0]/30 text-white p-2 rounded-lg transition-all flex items-center justify-center mr-1" title="顯示/隱藏目錄">
+                <i id="toggleIcon" class="fa-solid fa-angles-left text-lg"></i>
+            </button>
             <div class="bg-[#00a3e0] text-white p-2.5 rounded-lg shadow-md flex items-center justify-center">
                 <i class="fa-solid fa-palette text-xl"></i>
             </div>
             <div>
                 <h1 class="text-xl font-black tracking-wider flex items-center">
-                    PHOTOSHOP <span class="text-[#00a3e0] ml-2 text-sm bg-[#002855] px-2 py-0.5 rounded border border-[#00a3e0]/30">32 頁數位寶典</span>
+                    PHOTOSHOP <span class="text-[#00a3e0] ml-2 text-sm bg-[#002855] px-2 py-0.5 rounded border border-[#00a3e0]/30">數位設計寶典</span>
                 </h1>
                 <p class="text-[10px] text-slate-300 tracking-widest uppercase">Traditional Chinese Masterclass Notebook</p>
             </div>
@@ -141,21 +144,34 @@
     </header>
 
     <!-- Main Container Layout -->
-    <div class="flex-1 max-w-[1600px] w-full mx-auto flex flex-col lg:flex-row print-container">
+    <div class="flex-1 max-w-[1600px] w-full mx-auto flex flex-col lg:flex-row print-container overflow-hidden">
         
         <!-- Left Side: Interactive Navigation (Hidden on Print) -->
-        <nav class="no-print w-full lg:w-80 bg-white border-r border-slate-200 p-4 max-h-[calc(100vh-80px)] overflow-y-auto shrink-0">
-            <div class="mb-4">
-                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">筆記頁面目錄</h3>
-                <div class="h-1 w-10 bg-[#00a3e0] rounded"></div>
+        <nav id="sidebar" class="no-print w-full lg:w-80 bg-white border-r border-slate-200 p-4 max-h-[calc(100vh-80px)] overflow-y-auto shrink-0 transition-all duration-300 ease-in-out flex flex-col justify-between">
+            <div>
+                <div class="mb-4">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">筆記頁面目錄</h3>
+                    <div class="h-1 w-10 bg-[#00a3e0] rounded"></div>
+                </div>
+                <div class="space-y-1.5" id="sidebarMenu">
+                    <!-- Javascript will populate the list items with links -->
+                </div>
             </div>
-            <div class="space-y-1.5" id="sidebarMenu">
-                <!-- Javascript will populate the list items with links -->
+
+            <!-- Author Exclusive Widget -->
+            <div class="mt-8 pt-6 border-t border-slate-100 flex items-center space-x-3 opacity-50 hover:opacity-90 transition-opacity duration-300">
+                <div class="relative w-10 h-10 rounded-full overflow-hidden border border-slate-200 shrink-0 shadow-sm">
+                    <img src="APPLE.png" alt="Notes Author" class="w-full h-full object-cover filter grayscale contrast-110">
+                </div>
+                <div>
+                    <p class="text-[11px] font-bold text-[#001c3a] tracking-wider">專屬數位筆記珍藏</p>
+                    <p class="text-[9px] text-slate-400">Personalized Master Edition</p>
+                </div>
             </div>
         </nav>
 
         <!-- Right Side: Content Area -->
-        <main class="flex-1 p-4 sm:p-8 overflow-y-auto max-h-[calc(100vh-80px)] print:max-h-none print:overflow-visible" id="notesContent">
+        <main class="flex-1 p-4 sm:p-8 overflow-y-auto max-h-[calc(100vh-80px)] print:max-h-none print:overflow-visible transition-all duration-300 relative" id="notesContent">
             
             <!-- Welcome Info Card (Hidden on Print) -->
             <div class="no-print bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100 rounded-2xl p-6 mb-8 shadow-sm">
@@ -164,7 +180,7 @@
                     歡迎使用 Photoshop 完整數位寶典！
                 </h2>
                 <p class="text-sm text-slate-600 leading-relaxed">
-                    本系統已為您將上傳的 <strong>32 頁手動手寫模糊筆記</strong> 進行了完整文字轉錄、語意補全與設計師級精確校對。下方頁面包含了精緻的<strong>淺色設計風格卡片</strong>與<strong>互動式 Photoshop 設計插圖模擬</strong>。我們已全面清除了所有會引起排版亂碼的數學公式符號，並直接改用標準乾淨的文字呈現！
+                    本系統已為您將上傳的 <strong>手動手寫模糊筆記</strong> 進行了完整文字轉錄、語意補全與設計師級精確校對。下方頁面包含了精緻的<strong>淺色設計風格卡片</strong>與<strong>互動式 Photoshop 設計插圖模擬</strong>。我們已全面清除了所有會引起排版亂碼的數學公式符號，並直接改用標準乾淨的文字呈現！
                 </p>
             </div>
 
@@ -173,7 +189,7 @@
                 
                 <!-- PAGE 1 (遞補原第 2 頁) -->
                 <section id="page-2" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 01 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 01</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">品牌核心觀念</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">企業識別系統 (CI) 與標誌 LOGO 設計原理</h2>
@@ -181,7 +197,7 @@
 
                     <div class="space-y-6">
                         <p class="text-slate-600 leading-relaxed text-sm">
-                            企業識別系統 (Corporate Identity, CI) 旨在落實企業自我同一化，透過教育、明星化策略提升品牌大眾印象。其由三大核心識別板塊架構而成：
+                            企業識別系統 (Corporate Identity, CI) 旨在落實企業自我同一化，透過教育、明星化策略提升 brand 大眾印象。其由三大核心識別板塊架構而成：
                         </p>
 
                         <!-- CI Structure Table -->
@@ -248,7 +264,7 @@
 
                 <!-- PAGE 2 (遞補原第 3 頁) -->
                 <section id="page-3" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 02 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 02</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">軟體介面</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">Photoshop 介面重設、新增檔案與色彩模式</h2>
@@ -331,7 +347,7 @@
 
                 <!-- PAGE 3 (遞補原第 4 頁) -->
                 <section id="page-4" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 03 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 03</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">筆刷與圖層</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">筆刷設定、圖層堆疊管理與歷史記錄</h2>
@@ -383,7 +399,7 @@
 
                 <!-- PAGE 4 (遞補原第 5 頁) -->
                 <section id="page-5" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 04 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 04</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">選取與去背</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">套索工具家族、魔術棒去背與調整邊緣</h2>
@@ -432,7 +448,7 @@
 
                 <!-- PAGE 5 (遞補原第 6 & 7 頁) -->
                 <section id="page-6-7" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 05 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 05</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">漸層與光影</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">3/22 下午 漸層工具拉線與落地陰影製作</h2>
@@ -483,7 +499,7 @@
 
                 <!-- PAGE 6 (遞補原第 8 頁) -->
                 <section id="page-8" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 06 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 06</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">筆型與向量</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">向量筆型工具 (Pen Tool)、細部修飾與變形</h2>
@@ -534,7 +550,7 @@
 
                 <!-- PAGE 7 (遞補原第 9 & 10 頁) -->
                 <section id="page-9-10" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 07 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 07</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">實戰排版</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">7/8 上午 DM 酷卡設計尺寸、配色社群與字型排版</h2>
@@ -586,7 +602,7 @@
 
                 <!-- PAGE 8 (遞補原第 11 頁) -->
                 <section id="page-11" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 08 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 08</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">圖層快速選取</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">3/8 下午 圖層錨點極致快速選取與香水瓶身複製</h2>
@@ -647,7 +663,7 @@
 
                 <!-- PAGE 9 (遞補原第 12 頁) -->
                 <section id="page-12" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 09 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 09</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">漸層進階</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">漸層編輯器進階調校、雜訊與圖層混合模式</h2>
@@ -676,7 +692,7 @@
                                 <span class="font-bold text-[#001c3a]">💡 唯美聚光燈 (Spotlight) 效果製作：</span>
                                 <ol class="list-decimal list-inside space-y-1 text-slate-505">
                                     <li>新開圖層，拿白色霧狀大軟筆刷在畫布正中央點一下。</li>
-                                    <li>使用自由變形將該白色光點往左右拉伸、壓扁。</li>
+                                    <li>使用自由變形將該白色光點往左右拉伸、壓扁.</li>
                                     <li>將該圖層混合模式設定為「覆蓋」或「柔光」，即能在背景打出漂亮的立體聚光燈。</li>
                                 </ol>
                             </div>
@@ -686,7 +702,7 @@
 
                 <!-- PAGE 10 (遞補原第 13 頁) -->
                 <section id="page-13" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 10 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 10</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">液化與樣式</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">液化濾鏡修容、圖層樣式與水滴質感實作</h2>
@@ -737,7 +753,7 @@
 
                 <!-- PAGE 11 (遞補原第 14 頁) -->
                 <section id="page-14" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 11 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 11</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">圓角矩形與扭曲</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">圓角矩形半徑、波形濾鏡與背光漸層</h2>
@@ -777,7 +793,7 @@
 
                 <!-- PAGE 12 (遞補原第 15 頁) -->
                 <section id="page-15" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 12 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 12</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">印刷與輸出</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">7/15 上午 網頁完稿與印刷輸出完稿重要法則</h2>
@@ -813,7 +829,7 @@
 
                 <!-- PAGE 13 (遞補原第 16 頁) -->
                 <section id="page-16" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 13 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 13</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">文創與商標</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">文創形象設計、自訂字型下載與向量 LOGO 實作</h2>
@@ -853,7 +869,7 @@
 
                 <!-- PAGE 14 (遞補原第 17 頁) -->
                 <section id="page-17" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 14 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 14</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">群組與名片</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">圖層建立群組、跨檔案拖移與名片字型對齊</h2>
@@ -903,7 +919,7 @@
 
                 <!-- PAGE 15 (遞補原第 18 頁) -->
                 <section id="page-18" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 15 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 15</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">圖樣與紋理</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">自訂滿版背景圖樣定義與覆蓋操作限制</h2>
@@ -943,7 +959,7 @@
 
                 <!-- PAGE 16 (遞補原第 19 頁) -->
                 <section id="page-19" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 16 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 16</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">合版印刷</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">3/15 下午 合版印刷四大黃金法則與局部上光檔案</h2>
@@ -994,7 +1010,7 @@
 
                 <!-- PAGE 17 (遞補原第 20 頁) -->
                 <section id="page-20" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 17 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 17</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">鋼鐵拉絲字</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">TPC 鋼鐵拉絲字樣、色版曲線光澤與塑膠覆膜</h2>
@@ -1033,7 +1049,7 @@
 
                 <!-- PAGE 18 (遞補原第 21 頁) -->
                 <section id="page-21" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 18 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 18</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">文宣實戰</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">設計理念文宣、燈泡影像置入與文字遮色片</h2>
@@ -1069,7 +1085,7 @@
 
                 <!-- PAGE 19 (遞補原第 22 頁) -->
                 <section id="page-22" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 19 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 19</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">軟體協作</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">AI 3D文字突出效果製作與無損導入 PSD</h2>
@@ -1110,7 +1126,7 @@
 
                 <!-- PAGE 20 (遞補原第 23 頁) -->
                 <section id="page-23" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 20 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 20</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">人像與修圖</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">3/22 上午 頂級人像修相片合成與瑕疵修復三大工具</h2>
@@ -1158,7 +1174,7 @@
 
                 <!-- PAGE 21 (遞補原第 24 頁) -->
                 <section id="page-24" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 21 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 21</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">色調與曲線</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">影像色調符合、陰影/高光與相片色彩平衡</h2>
@@ -1188,7 +1204,7 @@
 
                         <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4 flex flex-col justify-between">
                             <h3 class="font-extrabold text-sm text-[#001c3a]"><i class="fa-solid fa-wand-magic-sparkles text-[#00a3e0] mr-1.5"></i> 快速自動增強與明暗</h3>
-                            <p class="text-xs text-slate-505">
+                            <p class="text-xs text-slate-550">
                                 影像選單下的三個快捷自動指令，在一般日常中能提供極佳的修飾效果：
                             </p>
                             <div class="space-y-2 text-xs text-slate-600">
@@ -1214,7 +1230,7 @@
 
                 <!-- PAGE 22 (遞補原第 25 頁) -->
                 <section id="page-25" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 22 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 22</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">RAW與暗房</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">Bridge 圖片管理、Camera Raw 頂級白平衡修片與高斯柔焦</h2>
@@ -1253,7 +1269,7 @@
 
                 <!-- PAGE 23 (遞補原第 26 & 27 頁) -->
                 <section id="page-26-27" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 23 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 23</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">色板與遮色片</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">放射漸層邊界、色相飽和度調色與色板黑白遮色片</h2>
@@ -1287,7 +1303,7 @@
 
                 <!-- PAGE 24 (遞補原第 28 頁) -->
                 <section id="page-28" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 24 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 24</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">紙張材質覆蓋</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">紙質紋理材質 (Paper Texture) 疊加、去雜點與高斯背景</h2>
@@ -1298,7 +1314,7 @@
                             <div class="bg-[#f5f8fa] p-5 rounded-xl border border-slate-200">
                                 <h3 class="font-extrabold text-sm text-[#001c3a] mb-2"><i class="fa-solid fa-scroll text-[#00a3e0] mr-1"></i> 紙張材質 (Paper Texture) 疊加技法</h3>
                                 <p class="text-xs text-slate-600 leading-relaxed">
-                                    若要讓畫面或字體產生復古、手繪或精緻的高級紙張顆粒質感：
+                                    若要讓畫面或字體產生復古、手繪 or 精緻的高級紙張顆粒質感：
                                     <br><br>
                                     <strong>操作</strong>：上網下載免費的高解析度 <strong>Paper Texture (材質檔)</strong> &rarr; 在 Photoshop 中開啟。
                                     <br><br>
@@ -1320,7 +1336,7 @@
 
                 <!-- PAGE 25 (遞補原第 29 頁) -->
                 <section id="page-29" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 25 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 25</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">批次自動化</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">3/22 下午 動作面板批次錄製與 DeviantArt 動作包載入</h2>
@@ -1361,7 +1377,7 @@
 
                 <!-- PAGE 26 (遞補原第 30 頁) -->
                 <section id="page-30" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 26 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 26</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">液化與去背</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">液化微調膨脹、頭髮髮絲極致去背與智慧型偵測</h2>
@@ -1400,7 +1416,7 @@
 
                 <!-- PAGE 27 (遞補原第 31 頁) -->
                 <section id="page-31" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 27 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 27</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">綜合實戰</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">林書豪衝刺動態海報 (Jeremy Lin) 步驟拆解</h2>
@@ -1446,7 +1462,7 @@
                                 </div>
                             </div>
                             
-                            <div class="text-[11px] text-slate-550 bg-white p-3 rounded-lg border mt-3 leading-relaxed">
+                            <div class="text-[11px] text-slate-555 bg-white p-3 rounded-lg border mt-3 leading-relaxed">
                                 <strong>💡 下載推薦</strong>：下載海報需要的字型、特殊刷子。可至網頁搜尋「PS動作下載」與「字型下載」。
                             </div>
                         </div>
@@ -1455,7 +1471,7 @@
 
                 <!-- PAGE 28 (遞補原第 32 頁) -->
                 <section id="page-32" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 28 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 28</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">網頁排版</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">非破壞性色彩平衡調整圖層與網頁版面警語</h2>
@@ -1490,7 +1506,7 @@
 
                 <!-- PAGE 29 (遞補原第 33 頁) -->
                 <section id="page-33" class="page-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md relative print-page-break">
-                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 29 / 32</span>
+                    <span class="absolute top-6 right-8 text-xs font-black text-slate-300 uppercase tracking-widest">Page 29</span>
                     <div class="flex items-center space-x-3 mb-6">
                         <span class="bg-[#001c3a] text-white text-xs font-bold px-3 py-1 rounded-full">動態網頁</span>
                         <h2 class="text-xl font-extrabold text-[#001c3a]">網頁 GIF 動畫時間軸面板與永遠重複循環</h2>
@@ -1528,9 +1544,14 @@
 
             </div>
             
+            <!-- Subtle Author Background Watermark -->
+            <div class="absolute bottom-16 right-16 pointer-events-none opacity-[0.03] select-none z-0 hidden lg:block">
+                <img src="B.png" alt="Watermark" class="w-64 h-auto object-contain filter grayscale contrast-125">
+            </div>
+
             <!-- Footer Signature (Hidden on Print) -->
             <footer class="no-print mt-16 pt-8 border-t border-slate-200 text-center text-slate-400 text-xs">
-                <p>© 2026 CHE-JUNG LEE Photoshop 課堂數位筆記手動重製寶典. All Rights Reserved.</p>
+                <p>© 2026 APPLE Photoshop 課堂數位筆記手動重製寶典. All Rights Reserved.</p>
                 <p class="mt-1">Designed by Gemini Web 3.0 CC Masterclass Suite.</p>
             </footer>
         </main>
@@ -1539,36 +1560,37 @@
     <!-- JavaScript block for rendering navigation links and interactive features -->
     <script>
         // Array of all 29 pages info (original Page 1 removed, Page 6-7 merged, Page 9-10 merged, Page 26-27 merged)
+        // All titles shortened strictly to <= 10 Traditional Chinese characters
         const pages = [
-            { id: "page-2", title: "Page 01: 企業識別系統 (CI) 與 LOGO 三大精神" },
-            { id: "page-3", title: "Page 02: 介面基本還原、新增畫布與 RGB/CMYK" },
-            { id: "page-4", title: "Page 03: 筆刷放大縮小、圖層分層與歷史紀錄" },
-            { id: "page-5", title: "Page 04: 磁性套索去背、魔術棒容許度與調整邊緣" },
-            { id: "page-6-7", title: "Page 05: 漸層打燈、高斯陰影與變形壓扁影子" },
-            { id: "page-8", title: "Page 06: 向量筆型工具 (P)、直接選取白箭頭錨點" },
-            { id: "page-9-10", title: "Page 07: DM設計尺寸出血、文字方塊折行與行距" },
-            { id: "page-11", title: "Page 08: Ctrl點縮圖快速選取、香水瓶身25°旋轉" },
-            { id: "page-12", title: "Page 09: 雜訊漸層與 70% 粗糙度、圖層混合模式" },
-            { id: "page-13", title: "Page 10: 液化修飾人臉五官、斜角/浮雕立體水滴" },
-            { id: "page-14", title: "Page 11: 圓角半徑屬性、波形濾鏡扭曲與背光漸層" },
-            { id: "page-15", title: "Page 12: 影像平面化與 150Dpi、CMYK色彩模式轉移" },
-            { id: "page-16", title: "Page 13: 鹿港VI形象設計、自訂字型、櫻桃向量LOGO" },
-            { id: "page-17", title: "Page 14: Ctrl+G圖層群組、跨檔案拖曳與對齊線" },
-            { id: "page-18", title: "Page 15: 定義愛心背景圖樣、樣式圖樣覆蓋縮放" },
-            { id: "page-19", title: "Page 16: 合版印刷、總量限200%與黑字純K100疊印" },
-            { id: "page-20", title: "Page 17: TPC鋼鐵字樣、建立圖層與S曲線拉絲質感" },
-            { id: "page-21", title: "Page 18: 設計海報、文字方塊貼字、燈泡遮色片" },
-            { id: "page-22", title: "Page 19: AI向量3D擠出 80pt 轉 PSD 導入" },
-            { id: "page-23", title: "Page 20: 人像修片合成、仿製印章、修補抹除物" },
-            { id: "page-24", title: "Page 21: 符合顏色色偏消除、陰影/高光明暗優化" },
-            { id: "page-25", title: "Page 22: Bridge與Camera Raw、人像高斯夢幻柔焦" },
-            { id: "page-26-27", title: "Page 23: 放射漸層邊界、色階對比與色版髮絲去背" },
-            { id: "page-28", title: "Page 24: 紙質紋理 Paper Texture 疊加覆蓋" },
-            { id: "page-29", title: "Page 25: 動作 Actions 批次錄製、DeviantArt動作包" },
-            { id: "page-30", title: "Page 26: 液化膨脹收縮微調、智慧型頭髮去背" },
-            { id: "page-31", title: "Page 27: 林書豪衝刺海報、放射狀動態殘影模糊" },
-            { id: "page-32", title: "Page 28: 非破壞性調整圖層、網頁平面文字轉向量" },
-            { id: "page-33", title: "Page 29: 時間軸 GIF 動畫影格建立、永遠重複循環" }
+            { id: "page-2", title: "企業識別系統" },
+            { id: "page-3", title: "介面與色彩" },
+            { id: "page-4", title: "筆刷圖層管理" },
+            { id: "page-5", title: "選取去背工具" },
+            { id: "page-6-7", title: "漸層光影陰影" },
+            { id: "page-8", title: "向量筆型工具" },
+            { id: "page-9-10", title: "DM排版與尺寸" },
+            { id: "page-11", title: "圖層快速選取" },
+            { id: "page-12", title: "雜訊與混合" },
+            { id: "page-13", title: "液化圖層樣式" },
+            { id: "page-14", title: "圓角與波形" },
+            { id: "page-15", title: "平面化與輸出" },
+            { id: "page-16", title: "文創商標設計" },
+            { id: "page-17", title: "群組跨檔對齊" },
+            { id: "page-18", title: "自訂背景圖樣" },
+            { id: "page-19", title: "合版印刷法" },
+            { id: "page-20", title: "鋼鐵拉絲質感" },
+            { id: "page-21", title: "創意海報設計" },
+            { id: "page-22", title: "向量3D擠出" },
+            { id: "page-23", title: "人像修圖合成" },
+            { id: "page-24", title: "色調與明暗" },
+            { id: "page-25", title: "RAW與柔焦" },
+            { id: "page-26-27", title: "色版精密去背" },
+            { id: "page-28", title: "紙質紋理疊加" },
+            { id: "page-29", title: "動作批次錄製" },
+            { id: "page-30", title: "液化精密去背" },
+            { id: "page-31", title: "動態殘影海報" },
+            { id: "page-32", title: "非破壞性調整" },
+            { id: "page-33", title: "時間軸動畫" }
         ];
 
         // Populate Sidebar Navigation
@@ -1583,6 +1605,28 @@
             `;
             sidebarMenu.appendChild(link);
         });
+
+        // Toggle Sidebar visibility helper function
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const toggleIcon = document.getElementById("toggleIcon");
+            
+            if (sidebar.classList.contains("lg:w-80")) {
+                // Hide sidebar classes
+                sidebar.classList.remove("lg:w-80", "p-4", "border-r");
+                sidebar.classList.add("w-0", "lg:w-0", "p-0", "border-0", "overflow-hidden");
+                // Rotate icon to show collapsed state
+                toggleIcon.classList.remove("fa-angles-left");
+                toggleIcon.classList.add("fa-angles-right");
+            } else {
+                // Show sidebar classes
+                sidebar.classList.remove("w-0", "lg:w-0", "p-0", "border-0", "overflow-hidden");
+                sidebar.classList.add("lg:w-80", "p-4", "border-r");
+                // Rotate icon to show expanded state
+                toggleIcon.classList.remove("fa-angles-right");
+                toggleIcon.classList.add("fa-angles-left");
+            }
+        }
 
         // Search Notes Functionality
         function searchNotes() {
@@ -1633,11 +1677,13 @@
             modal.classList.remove("hidden");
         }
 
+        // Close Print Helper Modal
         function closePrintModal() {
             const modal = document.getElementById("printModal");
             modal.classList.add("hidden");
         }
 
+        // Print Action
         function triggerSystemPrint() {
             try {
                 window.print();
