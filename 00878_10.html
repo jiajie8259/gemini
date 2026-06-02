@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>00878 小資滾雪球：3張調節與買回倍增試算</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 
+    HTML Comment:
+    1. Narrative Plan:
+       - Header: Strategic focus on 10 shares portfolio at $19.39 cost.
+       - The Action: Visualizing the selling of 3 shares at $32.
+       - The Reinvestment Logic: A dedicated bar chart showing the "Snowball Effect" (how many shares you can buy back at lower prices).
+       - Contextual Analysis: Explanation of why $18-19 cost zone is safe.
+    2. Visualization Selection:
+       - KPI Cards: For instant data digest (Sell price, Net Cash).
+       - Bar Chart (Chart.js): Comparing different price drop scenarios (30, 28, 26, 24, 22) against the potential number of shares.
+       - Method: Canvas-based rendering, NO SVG, NO MERMAID JS.
+    3. Mandatory Confirmations:
+       - NEITHER Mermaid JS NOR SVG were used. All visuals are HTML/Tailwind or Canvas.
+    -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+        .card { background: white; border-radius: 1.5rem; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); transition: transform 0.3s; border: 1px solid #e2e8f0; }
+        .gradient-text { background: linear-gradient(135deg, #2563eb 0%, #10b981 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .step-badge { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: #2563eb; color: white; font-weight: bold; margin-right: 0.75rem; }
+    </style>
+</head>
+<body class="pb-20">
+
+<header class="bg-white border-b border-slate-200 py-12 px-6 text-center mb-10">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">00878 小資滾雪球計畫</h1>
+        <p class="text-slate-500 text-lg">成本 19.39 元 | 10 張規模 | 高檔 32 元調節策略分析</p>
+    </div>
+</header>
+
+<main class="max-w-5xl mx-auto px-6 space-y-12">
+
+    <!-- Section 1: Portfolio Snapshot -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="card p-6 flex flex-col justify-center border-l-8 border-blue-600">
+            <p class="text-sm font-bold text-slate-400 uppercase tracking-wider">原始投入成本</p>
+            <p class="text-3xl font-bold text-slate-800">$193,900</p>
+            <p class="text-xs text-blue-600 mt-2">均價 19.39 元</p>
+        </div>
+        <div class="card p-6 flex flex-col justify-center border-l-8 border-emerald-500">
+            <p class="text-sm font-bold text-slate-400 uppercase tracking-wider">當前資產市值</p>
+            <p class="text-3xl font-bold text-slate-800">$320,000</p>
+            <p class="text-xs text-emerald-600 mt-2">現價 32.00 元</p>
+        </div>
+        <div class="card p-6 flex flex-col justify-center border-l-8 border-orange-400">
+            <p class="text-sm font-bold text-slate-400 uppercase tracking-wider">未實現損益</p>
+            <p class="text-3xl font-bold text-slate-800">+65.03 %</p>
+            <p class="text-xs text-orange-600 mt-2">獲利金額 $126,100</p>
+        </div>
+    </section>
+
+    <!-- Section 2: The Action -->
+    <section class="card p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="step-badge">1</span> 高檔調節：賣出 3 張鎖定獲利</h2>
+        <div class="bg-slate-50 rounded-2xl p-6 md:p-10 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-center md:text-left">
+                <p class="text-slate-500 mb-1">賣出 3,000 股所得現金</p>
+                <p class="text-5xl font-extrabold text-blue-600">$95,849</p>
+                <p class="text-sm text-slate-400 mt-2">已扣除證交稅 $96 與手續費 $55</p>
+            </div>
+            <div class="hidden md:block">
+                <div class="w-16 h-1 w-full bg-slate-200 rounded-full"></div>
+            </div>
+            <div class="text-center">
+                <div class="p-4 bg-white rounded-xl shadow-sm border border-slate-100">
+                    <p class="text-slate-500 text-sm">剩餘核心持股</p>
+                    <p class="text-3xl font-bold text-slate-700">7 張</p>
+                    <p class="text-xs text-slate-400">繼續領息，不影響基本盤</p>
+                </div>
+            </div>
+        </div>
+        <p class="mt-6 text-slate-600 leading-relaxed">
+            針對 10 張的小型資產，一次性調節 30%（3張）是平衡「心理穩定」與「複利效率」的最佳比例。這 9.6 萬元的資金將成為您未來向下承接的強力子彈。
+        </p>
+    </section>
+
+    <!-- Section 3: Reinvestment Strategy -->
+    <section class="card p-8 bg-gradient-to-br from-white to-slate-50">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="step-badge">2</span> 回檔買回：雪球能滾多大？</h2>
+        <p class="text-slate-600 mb-8 italic">
+            利用調節拿回的 <b>$95,849</b>，在股價回落時可以買入比原本 3 張更多的股份。
+        </p>
+        
+        <div class="chart-container mb-10">
+            <canvas id="buybackChart"></canvas>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-white p-4 rounded-xl border border-blue-100 shadow-sm text-center">
+                <p class="text-xs text-slate-400 mb-1">回檔至 30 元</p>
+                <p class="text-xl font-bold text-blue-700">可買 3.19 張</p>
+                <p class="text-[10px] text-blue-500">張數 +6.3%</p>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-blue-100 shadow-sm text-center">
+                <p class="text-xs text-slate-400 mb-1">回檔至 28 元</p>
+                <p class="text-xl font-bold text-blue-700">可買 3.42 張</p>
+                <p class="text-[10px] text-blue-500">張數 +14.0%</p>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-emerald-100 shadow-sm text-center">
+                <p class="text-xs text-slate-400 mb-1">回檔至 26 元</p>
+                <p class="text-xl font-bold text-emerald-600">可買 3.68 張</p>
+                <p class="text-[10px] text-emerald-500">張數 +22.7%</p>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-emerald-100 shadow-sm text-center">
+                <p class="text-xs text-slate-400 mb-1">回檔至 24 元</p>
+                <p class="text-xl font-bold text-emerald-600">可買 3.99 張</p>
+                <p class="text-[10px] text-emerald-500">張數 +33.0%</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Analyst Insights -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="card p-8 bg-blue-900 text-white shadow-xl shadow-blue-200">
+            <h3 class="text-xl font-bold mb-6 text-blue-300">💡 理財規劃師的深度分析</h3>
+            <div class="space-y-6 text-sm opacity-90 leading-relaxed">
+                <div class="flex items-start">
+                    <span class="mr-3 text-xl">🛡️</span>
+                    <p><b>極高的成本安全邊際：</b>您的成本為 19.39，與現價 32 元之間有巨大的獲利緩衝。調節 3 張即使未來大盤不回頭，您依然保有 70% 的核心部位享受噴發。</p>
+                </div>
+                <div class="flex items-start">
+                    <span class="mr-3 text-xl">📈</span>
+                    <p><b>零成本增張策略：</b>若股價回檔至 26 元以下買回，您的總持股會自動成長到約 10.7 張。這多出來的 0.7 張是「完全免錢」的，且能為您在 2026 下半年多貢獻股息。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-8 border-2 border-slate-100">
+            <h3 class="text-xl font-bold mb-6 text-slate-800">✅ 具體操作建議</h3>
+            <ul class="space-y-4">
+                <li class="flex items-center text-sm">
+                    <span class="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>
+                    <span><b>第一階段：</b>若除息後股價跌破 30.5 元，可先行接回 1 張。</span>
+                </li>
+                <li class="flex items-center text-sm">
+                    <span class="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>
+                    <span><b>第二階段：</b>其餘 2 張資金設定在 28.5 元以下分批承接。</span>
+                </li>
+                <li class="flex items-center text-sm text-slate-500 italic">
+                    <span class="w-2 h-2 bg-slate-300 rounded-full mr-3"></span>
+                    <span>註：若股價未回檔，可將資金轉投其他低基期債券 ETF。</span>
+                </li>
+            </ul>
+            <div class="mt-8 p-4 bg-emerald-50 rounded-xl border border-emerald-100">
+                <p class="text-xs text-emerald-800 font-bold">🎯 最終目標</p>
+                <p class="text-sm text-emerald-700">利用這次價差，在不增加本金投入的情況下，於 2027 年將持股自然推升至 12 張以上！</p>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="mt-20 py-10 bg-slate-100 border-t border-slate-200 text-center px-6">
+    <p class="text-slate-400 text-xs">
+        © 2026 專業理財分析工具 | 本試算基於成本 $19.39 與賣出價 $32.00 進行客觀推算，股市有風險，操作請謹慎。
+    </p>
+</footer>
+
+<script>
+    // --- Chart.js Setup ---
+    const ctx = document.getElementById('buybackChart').getContext('2d');
+    
+    // Label wrapping logic: ensures labels stay within 16 chars
+    const wrapLabel = (label) => {
+        if (label.length <= 16) return label;
+        const mid = Math.ceil(label.length / 2);
+        return [label.slice(0, mid), label.slice(mid)];
+    };
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [
+                wrapLabel('目標買回價 30 元'),
+                wrapLabel('目標買回價 28 元'),
+                wrapLabel('目標買回價 26 元'),
+                wrapLabel('目標買回價 24 元'),
+                wrapLabel('目標買回價 22 元')
+            ],
+            datasets: [{
+                label: '可用現金可買回張數',
+                data: [3.19, 3.42, 3.68, 3.99, 4.35],
+                backgroundColor: function(context) {
+                    const value = context.dataset.data[context.dataIndex];
+                    return value > 3.6 ? '#10b981' : '#3b82f6';
+                },
+                borderRadius: 12,
+                barThickness: 40
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    padding: 12,
+                    backgroundColor: '#1e293b',
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            return Array.isArray(label) ? label.join(' ') : label;
+                        },
+                        label: function(context) {
+                            return ' 可買回 ' + context.parsed.y + ' 張';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    min: 2.5,
+                    max: 4.5,
+                    ticks: { stepSize: 0.5 },
+                    grid: { color: '#f1f5f9' },
+                    title: { display: true, text: '張數 (1000股/張)', font: { size: 12 } }
+                },
+                x: {
+                    grid: { display: false }
+                }
+            }
+        }
+    });
+</script>
+<!-- 
+Final Confirmation:
+- Single HTML SPA file generated.
+- NO Mermaid JS used.
+- NO SVG used.
+- Chart logic correctly wraps labels and manages tooltip multiline data.
+- Responsive Tailwind grid applied.
+- All descriptive text is formatted inside the HTML card components.
+-->
+</body>
+</html>
