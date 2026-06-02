@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>00878 大戶資產倍增分析報告</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 
+    HTML Comment:
+    1. Narrative Plan:
+       - Header: Executive focus on 166.5 shares portfolio.
+       - KPI Section: High-level metrics for cost, value, and liquidity.
+       - Growth Section: Visualizing the massive gain from 18 to 32.
+       - Reinvestment Multiplier: NEW detailed visualization showing how 1.77M cash converts to more shares as price drops.
+       - Tax Optimization: Analysis of 2nd Gen Insurance savings for large holders.
+       - Strategy Cards: Actionable summary at the end.
+    2. Visualizations:
+       - Portfolio Bar: Cost vs Value (Chart.js Canvas).
+       - Shares Gain Bar: Reinvestment math (Chart.js Canvas).
+       - Tax Savings: Insurance cost comparison (Chart.js Canvas).
+    3. Justification:
+       - This layout allows a high-net-worth investor to see the "Cash as a Weapon" strategy clearly.
+       - Strictly NO SVG or MERMAID JS used.
+    -->
+    <!-- Chosen Palette: Brilliant Blues & Vibrant Accents (Blue: #2563eb, Emerald: #10b981, Amber: #f59e0b) -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #f1f5f9; color: #0f172a; overflow-x: hidden; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin: 0 auto; height: 350px; max-height: 400px; }
+        .card { background: white; border-radius: 1.5rem; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); padding: 2rem; border: 1px solid #e2e8f0; height: 100%; }
+        .hero-gradient { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); }
+        .stat-card { border-top: 5px solid #2563eb; }
+        .text-emerald { color: #10b981; }
+    </style>
+</head>
+<body class="pb-16">
+
+<header class="hero-gradient text-white pt-16 pb-24 px-6 text-center shadow-lg rounded-b-[4rem]">
+    <div class="max-w-5xl mx-auto">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight">00878 大戶資產倍增分析</h1>
+        <p class="text-xl opacity-90 font-medium">持股 166.5 張 | 成本 18.00 元 | $32 頂部調節與倍增策略</p>
+    </div>
+</header>
+
+<main class="max-w-6xl mx-auto px-6 -mt-12 space-y-8">
+
+    <!-- KPI Metrics -->
+    <section class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="card stat-card text-center p-6">
+            <p class="text-slate-400 text-sm font-bold uppercase mb-2">當前總市值</p>
+            <p class="text-3xl font-extrabold text-blue-700">$5,328,000</p>
+        </div>
+        <div class="card stat-card text-center p-6 border-blue-600">
+            <p class="text-slate-400 text-sm font-bold uppercase mb-2">未實現獲利</p>
+            <p class="text-3xl font-extrabold text-emerald">+$2,331,000</p>
+        </div>
+        <div class="card stat-card text-center p-6 border-amber-500">
+            <p class="text-slate-400 text-sm font-bold uppercase mb-2">調節 1/3 現金</p>
+            <p class="text-3xl font-extrabold text-orange-600">$1,773,212</p>
+        </div>
+        <div class="card stat-card text-center p-6 border-blue-400">
+            <p class="text-slate-400 text-sm font-bold uppercase mb-2">預估單季配息</p>
+            <p class="text-3xl font-extrabold text-blue-800">$109,890</p>
+        </div>
+    </section>
+
+    <!-- Visual Analysis: Growth -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="card">
+            <h2 class="text-2xl font-bold mb-4 flex items-center"><span class="w-2 h-8 bg-blue-600 mr-3 rounded"></span>資產翻倍實績分析</h2>
+            <p class="text-slate-500 text-sm mb-8">以每股 18 元布局，在 32 元的高位，您的資產已實現大幅度的噴發。目前總市值約為原始投入的 1.78 倍。</p>
+            <div class="chart-container"><canvas id="growthChart"></canvas></div>
+        </div>
+        <div class="card bg-blue-50/50">
+            <h2 class="text-2xl font-bold mb-4 flex items-center"><span class="w-2 h-8 bg-blue-800 mr-3 rounded"></span>大戶稅務與保費負擔</h2>
+            <p class="text-slate-500 text-sm mb-8">持有超過 100 張時，單季配息即觸發二代健保補充保費。調節 1/3 持股可有效降低約 33.4% 的保費支出。</p>
+            <div class="chart-container"><canvas id="taxChart"></canvas></div>
+        </div>
+    </section>
+
+    <!-- NEW Reinvestment Strategy Section -->
+    <section class="card bg-slate-900 text-white shadow-2xl">
+        <div class="md:flex md:items-center md:justify-between mb-10">
+            <div class="max-w-2xl">
+                <h2 class="text-3xl font-bold mb-4 text-emerald">調節後資金買回計畫：張數倍增試算</h2>
+                <p class="text-slate-400">如果您在 $32 元調節出 **55.5 張**（實拿 **$1,773,212**），當股價回檔時，同樣這筆錢能幫您「免費」多增加多少張股票？這就是資產加速的秘密。</p>
+            </div>
+            <div class="mt-6 md:mt-0 bg-blue-600 px-6 py-3 rounded-full font-bold">
+                待命資金：$1.77M
+            </div>
+        </div>
+
+        <div class="chart-container mb-12"><canvas id="reinvestChart"></canvas></div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700">
+                <h3 class="text-emerald font-bold text-lg mb-2">情境 A：小幅拉回 (30元)</h3>
+                <p class="text-sm text-slate-300">買回張數：<span class="text-white font-bold">59.1 張</span></p>
+                <p class="text-xs text-slate-500 mt-2">相較原部位增加 3.6 張 (約 10.8 萬市值)</p>
+            </div>
+            <div class="bg-slate-800 p-6 rounded-2xl border border-blue-500/30">
+                <h3 class="text-blue-400 font-bold text-lg mb-2">情境 B：強勢支撐 (28元)</h3>
+                <p class="text-sm text-slate-300">買回張數：<span class="text-white font-bold">63.3 張</span></p>
+                <p class="text-xs text-slate-500 mt-2">相較原部位增加 7.8 張 (約 21.8 萬市值)</p>
+            </div>
+            <div class="bg-blue-600/20 p-6 rounded-2xl border border-emerald/50">
+                <h3 class="text-emerald font-bold text-lg mb-2">情境 C：甜美買點 (26元)</h3>
+                <p class="text-sm text-slate-300">買回張數：<span class="text-white font-bold">68.2 張</span></p>
+                <p class="text-xs text-slate-500 mt-2">相較原部位增加 12.7 張 (約 33.1 萬市值)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Strategic Takeaways -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="card border-l-8 border-amber-500">
+            <h3 class="text-xl font-bold mb-4">💡 理財規劃師：大戶操作亮點</h3>
+            <div class="space-y-4 text-sm leading-relaxed text-slate-600">
+                <p><b>1. 張數倍增視覺化：</b> 您調節出的 177 萬現金在回檔 26 元時，能變出 68.2 張。比起原本賣出的 55.5 張多出了 12.7 張，這能顯著提升您未來的總配息量。</p>
+                <p><b>2. 心理優勢：</b> 您原本成本在 18 元，拿回 1/3 獲利後，即便市場極端重挫，您的核心部位依然是「零風險」心態。</p>
+            </div>
+        </div>
+        <div class="card border-l-8 border-blue-800">
+            <h3 class="text-xl font-bold mb-4">✅ 本次操作最後建議</h3>
+            <ul class="space-y-3 text-sm text-slate-600">
+                <li>● 建議設定 **$32.00** 為首波調節點，分三筆單執行賣出。</li>
+                <li>● 調節後的資金暫存於高利活存，年賺約 3 萬利息補貼。</li>
+                <li>● 接回價位鎖定在 **$31.30** 以下（避息後）或 **$28.50** 以下加碼。</li>
+            </ul>
+        </div>
+    </section>
+
+</main>
+
+<footer class="mt-20 py-10 bg-slate-800 text-slate-500 text-center px-6">
+    <div class="max-w-4xl mx-auto text-xs space-y-2">
+        <p>本報告僅供參考，實際交易應依各券商手續費及國泰投信官網公告為準。股市有風險，操作應謹慎。</p>
+        <p class="font-bold">理財規劃師 專屬分析報告 © 2026</p>
+    </div>
+</footer>
+
+<script>
+    // --- Chart.js Global Logic ---
+    const wrapLabel = (label) => {
+        if (typeof label !== 'string' || label.length <= 16) return label;
+        const mid = Math.ceil(label.length / 2);
+        return [label.slice(0, mid), label.slice(mid)];
+    };
+
+    const tooltipConfig = {
+        callbacks: {
+            title: function(tooltipItems) {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                return Array.isArray(label) ? label.join(' ') : label;
+            }
+        }
+    };
+
+    // 1. Growth Chart
+    new Chart(document.getElementById('growthChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: [wrapLabel('原始投入本金 (18元)'), wrapLabel('當前資產市值 (32元)')],
+            datasets: [{
+                data: [2997000, 5328000],
+                backgroundColor: ['#94a3b8', '#2563eb'],
+                borderRadius: 12
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: tooltipConfig },
+            scales: { y: { beginAtZero: true, grid: { display: false } } }
+        }
+    });
+
+    // 2. Reinvestment Multiplier Chart
+    new Chart(document.getElementById('reinvestChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: [
+                wrapLabel('調節賣出張數 ($32)'),
+                wrapLabel('回檔 30 元可買張數'),
+                wrapLabel('回檔 28 元可買張數'),
+                wrapLabel('回檔 26 元可買張數'),
+                wrapLabel('回檔 24 元可買張數')
+            ],
+            datasets: [{
+                label: '持股張數 (1000股/張)',
+                data: [55.5, 59.1, 63.3, 68.2, 73.8],
+                backgroundColor: ['#f59e0b', '#3b82f6', '#3b82f6', '#10b981', '#10b981'],
+                borderRadius: 8
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            plugins: { 
+                legend: { display: false }, 
+                tooltip: tooltipConfig 
+            },
+            scales: { 
+                y: { 
+                    beginAtZero: false, 
+                    min: 50,
+                    grid: { color: 'rgba(255,255,255,0.1)' },
+                    ticks: { color: '#94a3b8' }
+                },
+                x: {
+                    ticks: { color: '#94a3b8' }
+                }
+            }
+        }
+    });
+
+    // 3. Tax Savings Chart
+    new Chart(document.getElementById('taxChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: [wrapLabel('維持現狀 (166.5張)'), wrapLabel('調節部位後 (111張)')],
+            datasets: [{
+                label: '預估單季補充保費',
+                data: [812, 541],
+                backgroundColor: ['#ef4444', '#10b981'],
+                borderRadius: 8
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+            plugins: { legend: { display: false }, tooltip: tooltipConfig }
+        }
+    });
+</script>
+<!-- 
+Final Mandatory Confirmations:
+- NEITHER Mermaid JS NOR SVG were used.
+- All visualizations are rendered via Canvas (Chart.js).
+- Summary of plan and highlights are fully integrated into the HTML UI cards.
+- Multi-line tooltip configuration and 16-char label wrapping applied.
+-->
+</body>
+</html>
