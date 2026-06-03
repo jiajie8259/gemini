@@ -9,19 +9,16 @@
     <!-- 
     HTML Comment:
     1. Narrative Plan:
-       - Header: Executive focus on 166.5 shares portfolio.
-       - KPI Section: High-level metrics for cost, value, and liquidity.
-       - Growth Section: Visualizing the massive gain from 18 to 32.
-       - Reinvestment Multiplier: NEW detailed visualization showing how 1.77M cash converts to more shares as price drops.
-       - Tax Optimization: Analysis of 2nd Gen Insurance savings for large holders.
+       - Header: Executive focus on 166.5 shares portfolio at 34 NTD target.
+       - KPI Section: Updated metrics for cost, value, and liquidity at 34 NTD.
+       - Growth Section: Visualizing the massive gain from 18 to 34.
+       - Reinvestment Multiplier: Updated with 1.88M cash converting to more shares as price drops.
+       - Future Cash Flow: Detailed projection for the remaining 111 shares over the next 4 quarters.
        - Strategy Cards: Actionable summary at the end.
     2. Visualizations:
        - Portfolio Bar: Cost vs Value (Chart.js Canvas).
        - Shares Gain Bar: Reinvestment math (Chart.js Canvas).
-       - Tax Savings: Insurance cost comparison (Chart.js Canvas).
-    3. Justification:
-       - This layout allows a high-net-worth investor to see the "Cash as a Weapon" strategy clearly.
-       - Strictly NO SVG or MERMAID JS used.
+       - Cash Flow Bar: Quarterly projections (Chart.js Canvas).
     -->
     <!-- Chosen Palette: Brilliant Blues & Vibrant Accents (Blue: #2563eb, Emerald: #10b981, Amber: #f59e0b) -->
     <style>
@@ -39,7 +36,7 @@
 <header class="hero-gradient text-white pt-16 pb-24 px-6 text-center shadow-lg rounded-b-[4rem]">
     <div class="max-w-5xl mx-auto">
         <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight">00878 大戶資產倍增分析</h1>
-        <p class="text-xl opacity-90 font-medium">持股 166.5 張 | 成本 18.00 元 | $32 頂部調節與倍增策略</p>
+        <p class="text-xl opacity-90 font-medium">持股 166.5 張 | 成本 18.00 元 | <span class="bg-amber-500 text-slate-900 px-3 py-1 rounded-full font-bold ml-2">$34 頂部調節與倍增策略</span></p>
     </div>
 </header>
 
@@ -48,20 +45,20 @@
     <!-- KPI Metrics -->
     <section class="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div class="card stat-card text-center p-6">
-            <p class="text-slate-400 text-sm font-bold uppercase mb-2">當前總市值</p>
-            <p class="text-3xl font-extrabold text-blue-700">$5,328,000</p>
+            <p class="text-slate-400 text-sm font-bold uppercase mb-2">當前總市值 (@34元)</p>
+            <p class="text-3xl font-extrabold text-blue-700">$5,661,000</p>
         </div>
         <div class="card stat-card text-center p-6 border-blue-600">
             <p class="text-slate-400 text-sm font-bold uppercase mb-2">未實現獲利</p>
-            <p class="text-3xl font-extrabold text-emerald">+$2,331,000</p>
+            <p class="text-3xl font-extrabold text-emerald">+$2,664,000</p>
         </div>
-        <div class="card stat-card text-center p-6 border-amber-500">
-            <p class="text-slate-400 text-sm font-bold uppercase mb-2">調節 1/3 現金</p>
-            <p class="text-3xl font-extrabold text-orange-600">$1,773,212</p>
+        <div class="card stat-card text-center p-6 border-amber-500 bg-amber-50">
+            <p class="text-slate-400 text-sm font-bold uppercase mb-2">調節 1/3 現金火力</p>
+            <p class="text-3xl font-extrabold text-orange-600">$1,884,212</p>
         </div>
-        <div class="card stat-card text-center p-6 border-blue-400">
-            <p class="text-slate-400 text-sm font-bold uppercase mb-2">預估單季配息</p>
-            <p class="text-3xl font-extrabold text-blue-800">$109,890</p>
+        <div class="card stat-card text-center p-6 border-emerald-500">
+            <p class="text-slate-400 text-sm font-bold uppercase mb-2">保留部位 (111張)</p>
+            <p class="text-3xl font-extrabold text-emerald-700">市值 $3.77M</p>
         </div>
     </section>
 
@@ -69,25 +66,25 @@
     <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div class="card">
             <h2 class="text-2xl font-bold mb-4 flex items-center"><span class="w-2 h-8 bg-blue-600 mr-3 rounded"></span>資產翻倍實績分析</h2>
-            <p class="text-slate-500 text-sm mb-8">以每股 18 元布局，在 32 元的高位，您的資產已實現大幅度的噴發。目前總市值約為原始投入的 1.78 倍。</p>
+            <p class="text-slate-500 text-sm mb-8">以每股 18 元布局，若在 34 元高點調節，您的資產已實現驚人的噴發。目前總市值約為原始投入的 1.88 倍。</p>
             <div class="chart-container"><canvas id="growthChart"></canvas></div>
         </div>
         <div class="card bg-blue-50/50">
             <h2 class="text-2xl font-bold mb-4 flex items-center"><span class="w-2 h-8 bg-blue-800 mr-3 rounded"></span>大戶稅務與保費負擔</h2>
-            <p class="text-slate-500 text-sm mb-8">持有超過 100 張時，單季配息即觸發二代健保補充保費。調節 1/3 持股可有效降低約 33.4% 的保費支出。</p>
+            <p class="text-slate-500 text-sm mb-8">調節 1/3 持股降至 111 張後，不僅鎖定豐厚價差，單季還可有效降低二代健保補充保費支出，讓您的殖利率更「實拿」。</p>
             <div class="chart-container"><canvas id="taxChart"></canvas></div>
         </div>
     </section>
 
-    <!-- NEW Reinvestment Strategy Section -->
+    <!-- Reinvestment Strategy Section (34 Target Version) -->
     <section class="card bg-slate-900 text-white shadow-2xl">
         <div class="md:flex md:items-center md:justify-between mb-10">
             <div class="max-w-2xl">
-                <h2 class="text-3xl font-bold mb-4 text-emerald">調節後資金買回計畫：張數倍增試算</h2>
-                <p class="text-slate-400">如果您在 $32 元調節出 **55.5 張**（實拿 **$1,773,212**），當股價回檔時，同樣這筆錢能幫您「免費」多增加多少張股票？這就是資產加速的秘密。</p>
+                <h2 class="text-3xl font-bold mb-4 text-emerald">調節資金火力升級：張數倍增試算</h2>
+                <p class="text-slate-400">在 $34 元調節出 **55.5 張**（實拿 **$1,884,212**），比 32 元賣出多了近 11 萬現金。當股價回檔時，這筆擴大的「火力」能幫您買回極為可觀的額外股數。</p>
             </div>
-            <div class="mt-6 md:mt-0 bg-blue-600 px-6 py-3 rounded-full font-bold">
-                待命資金：$1.77M
+            <div class="mt-6 md:mt-0 bg-blue-600 px-6 py-3 rounded-full font-bold shadow-lg border border-blue-400">
+                待命資金：$1.88M
             </div>
         </div>
 
@@ -96,18 +93,18 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700">
                 <h3 class="text-emerald font-bold text-lg mb-2">情境 A：小幅拉回 (30元)</h3>
-                <p class="text-sm text-slate-300">買回張數：<span class="text-white font-bold">59.1 張</span></p>
-                <p class="text-xs text-slate-500 mt-2">相較原部位增加 3.6 張 (約 10.8 萬市值)</p>
+                <p class="text-sm text-slate-300">買回張數：<span class="text-white font-bold text-xl">62.8 張</span></p>
+                <p class="text-xs text-emerald-400 mt-2 font-bold">+ 相較原部位增加 7.3 張 (約 21.9 萬市值)</p>
             </div>
             <div class="bg-slate-800 p-6 rounded-2xl border border-blue-500/30">
                 <h3 class="text-blue-400 font-bold text-lg mb-2">情境 B：強勢支撐 (28元)</h3>
-                <p class="text-sm text-slate-300">買回張數：<span class="text-white font-bold">63.3 張</span></p>
-                <p class="text-xs text-slate-500 mt-2">相較原部位增加 7.8 張 (約 21.8 萬市值)</p>
+                <p class="text-sm text-slate-300">買回張數：<span class="text-white font-bold text-xl">67.3 張</span></p>
+                <p class="text-xs text-blue-400 mt-2 font-bold">+ 相較原部位增加 11.8 張 (約 33.0 萬市值)</p>
             </div>
             <div class="bg-blue-600/20 p-6 rounded-2xl border border-emerald/50">
                 <h3 class="text-emerald font-bold text-lg mb-2">情境 C：甜美買點 (26元)</h3>
-                <p class="text-sm text-slate-300">買回張數：<span class="text-white font-bold">68.2 張</span></p>
-                <p class="text-xs text-slate-500 mt-2">相較原部位增加 12.7 張 (約 33.1 萬市值)</p>
+                <p class="text-sm text-slate-300">買回張數：<span class="text-white font-bold text-xl">72.4 張</span></p>
+                <p class="text-xs text-emerald-400 mt-2 font-bold">+ 相較原部位增加 16.9 張 (約 43.9 萬市值)</p>
             </div>
         </div>
     </section>
@@ -115,7 +112,7 @@
     <!-- Future Cash Flow Projection -->
     <section class="card bg-emerald-50/30 border-2 border-emerald-100">
         <h2 class="text-2xl font-bold mb-4 flex items-center text-emerald-800"><span class="w-2 h-8 bg-emerald-500 mr-3 rounded"></span>保留核心部位：未來一年現金流預測</h2>
-        <p class="text-slate-600 mb-6">雖然您調節了 1/3 的持股來獲取戰略資金，但您剩餘的 <b>111 張</b> 核心部位依然能提供極為豐沛的被動收入。以下為未來 4 次配息的預估區間（以單季保守 0.55 元至樂觀 0.66 元估算）：</p>
+        <p class="text-slate-600 mb-6">雖然您在高檔抽回了高達 188.4 萬元的戰略現金，但您剩餘的 <b>111 張</b> 核心部位依然能提供極為豐沛的被動收入，完全不會影響您的生活品質。以下為未來 4 次配息的預估區間（單季 0.55 ~ 0.66 元）：</p>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
             <div class="md:col-span-2 chart-container">
@@ -130,7 +127,7 @@
                     <div class="absolute right-0 top-0 w-16 h-16 bg-blue-100 rounded-bl-full -z-10"></div>
                     <p class="text-sm font-bold text-slate-500 uppercase mb-1">未來一年總被動收入</p>
                     <p class="text-3xl font-extrabold text-blue-700">約 $26.7 萬</p>
-                    <p class="text-xs text-slate-500 mt-2 leading-relaxed">即使減碼，這筆現金流依然等同於每個月無痛為自己 <b>加薪 2.2 萬元</b>。</p>
+                    <p class="text-xs text-slate-500 mt-2 leading-relaxed">即便減碼 1/3，這筆現金流依然等同於每個月無痛為自己 <b>加薪 2.2 萬元</b>。</p>
                 </div>
             </div>
         </div>
@@ -139,18 +136,18 @@
     <!-- Strategic Takeaways -->
     <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div class="card border-l-8 border-amber-500">
-            <h3 class="text-xl font-bold mb-4">💡 理財規劃師：大戶操作亮點</h3>
+            <h3 class="text-xl font-bold mb-4">💡 理財規劃師：34元操作亮點</h3>
             <div class="space-y-4 text-sm leading-relaxed text-slate-600">
-                <p><b>1. 張數倍增視覺化：</b> 您調節出的 177 萬現金在回檔 26 元時，能變出 68.2 張。比起原本賣出的 55.5 張多出了 12.7 張，這能顯著提升您未來的總配息量。</p>
-                <p><b>2. 心理優勢：</b> 您原本成本在 18 元，拿回 1/3 獲利後，即便市場極端重挫，您的核心部位依然是「零風險」心態。</p>
+                <p><b>1. 現金火力最大化：</b> 相比於 32 元賣出，34 元讓您多出了約 11 萬元的可用資金，這讓您在股價回落至 26 元時，能變出高達 72.4 張股票，比原本賣出的 55.5 張淨多出 16.9 張。</p>
+                <p><b>2. 無壓力防守：</b> 手握 188.4 萬現金與 111 張零成本(甚至負成本)的核心部位，無論大盤接下來是漲是跌，您都處於絕對不敗的心理高地。</p>
             </div>
         </div>
         <div class="card border-l-8 border-blue-800">
             <h3 class="text-xl font-bold mb-4">✅ 本次操作最後建議</h3>
             <ul class="space-y-3 text-sm text-slate-600">
-                <li>● 建議設定 **$32.00** 為首波調節點，分三筆單執行賣出。</li>
-                <li>● 調節後的資金暫存於高利活存，年賺約 3 萬利息補貼。</li>
-                <li>● 接回價位鎖定在 **$31.30** 以下（避息後）或 **$28.50** 以下加碼。</li>
+                <li>● 建議設定 **$34.00** 為極致調節點，若大盤情緒過熱可嚴格執行 1/3 賣出。</li>
+                <li>● 接回價位鎖定在 **$30.00** 以下分批佈局，只要買得比 34 便宜，資產張數就是純增加。</li>
+                <li>● 資金空窗期可考慮轉入短天期美債或高利活存，賺取額外無風險利息。</li>
             </ul>
         </div>
     </section>
@@ -182,13 +179,13 @@
         }
     };
 
-    // 1. Growth Chart
+    // 1. Growth Chart (Updated for 34 target)
     new Chart(document.getElementById('growthChart').getContext('2d'), {
         type: 'bar',
         data: {
-            labels: [wrapLabel('原始投入本金 (18元)'), wrapLabel('當前資產市值 (32元)')],
+            labels: [wrapLabel('原始投入本金 (18元)'), wrapLabel('當前資產市值 (34元)')],
             datasets: [{
-                data: [2997000, 5328000],
+                data: [2997000, 5661000],
                 backgroundColor: ['#94a3b8', '#2563eb'],
                 borderRadius: 12
             }]
@@ -200,12 +197,12 @@
         }
     });
 
-    // 2. Reinvestment Multiplier Chart
+    // 2. Reinvestment Multiplier Chart (Updated for 1.88M cash)
     new Chart(document.getElementById('reinvestChart').getContext('2d'), {
         type: 'bar',
         data: {
             labels: [
-                wrapLabel('調節賣出張數 ($32)'),
+                wrapLabel('調節賣出張數 ($34)'),
                 wrapLabel('回檔 30 元可買張數'),
                 wrapLabel('回檔 28 元可買張數'),
                 wrapLabel('回檔 26 元可買張數'),
@@ -213,7 +210,7 @@
             ],
             datasets: [{
                 label: '持股張數 (1000股/張)',
-                data: [55.5, 59.1, 63.3, 68.2, 73.8],
+                data: [55.5, 62.8, 67.3, 72.4, 78.5],
                 backgroundColor: ['#f59e0b', '#3b82f6', '#3b82f6', '#10b981', '#10b981'],
                 borderRadius: 8
             }]
@@ -238,7 +235,7 @@
         }
     });
 
-    // 3. Tax Savings Chart
+    // 3. Tax Savings Chart (Unchanged)
     new Chart(document.getElementById('taxChart').getContext('2d'), {
         type: 'bar',
         data: {
@@ -257,7 +254,7 @@
         }
     });
 
-    // 4. Future Cash Flow Chart
+    // 4. Future Cash Flow Chart (Unchanged, represents remaining 111 shares)
     new Chart(document.getElementById('cashflowChart').getContext('2d'), {
         type: 'bar',
         data: {
@@ -294,12 +291,5 @@
         }
     });
 </script>
-<!-- 
-Final Mandatory Confirmations:
-- NEITHER Mermaid JS NOR SVG were used.
-- All visualizations are rendered via Canvas (Chart.js).
-- Summary of plan and highlights are fully integrated into the HTML UI cards.
-- Multi-line tooltip configuration and 16-char label wrapping applied.
--->
 </body>
 </html>
