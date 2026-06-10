@@ -87,9 +87,10 @@
     <div class="flex-1 w-full mx-auto flex flex-col lg:flex-row overflow-hidden relative">
         
         <!-- Left Side: Interactive Navigation -->
-        <nav id="sidebar" class="w-full lg:w-80 bg-white border-r border-slate-200 p-5 lg:h-[calc(100vh-80px)] lg:overflow-y-auto shrink-0 transition-all duration-300 z-10 hidden lg:block">
-            <div class="mb-5">
-                <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center">
+        <!-- Added overflow-x-hidden so text doesn't spill out when collapsing -->
+        <nav id="sidebar" class="w-full lg:w-80 bg-white border-r border-slate-200 p-5 lg:h-[calc(100vh-80px)] lg:overflow-y-auto overflow-x-hidden shrink-0 transition-all duration-300 z-10 hidden lg:block">
+            <div class="mb-5 sidebar-header-content">
+                <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center whitespace-nowrap">
                     <i class="fa-solid fa-book-open mr-2"></i> 食譜目錄
                 </h3>
                 <div class="h-1 w-12 bg-rose-500 rounded"></div>
@@ -2429,7 +2430,7 @@
                 // Render Sidebar Links
                 const link = document.createElement('a');
                 link.href = `#${recipe.id}`;
-                link.className = "flex items-center space-x-3 px-4 py-3 text-base font-medium rounded-xl text-slate-600 hover:text-rose-600 hover:bg-rose-50 transition-all duration-200 border border-transparent hover:border-rose-100 sidebar-link";
+                link.className = "flex items-center space-x-3 px-4 py-3 text-base font-medium rounded-xl text-slate-600 hover:text-rose-600 hover:bg-rose-50 transition-all duration-200 border border-transparent hover:border-rose-100 sidebar-link whitespace-nowrap";
                 link.dataset.target = recipe.id;
                 link.innerHTML = `
                     <span class="bg-slate-200 text-slate-700 font-bold w-6 h-6 rounded-full flex items-center justify-center text-xs shrink-0">${index + 1}</span>
@@ -2530,24 +2531,60 @@
             }
         }
 
-        // Sidebar Toggle for Mobile
+        // --- NEW SIDEBAR TOGGLE LOGIC ---
         function toggleSidebar() {
             const sidebar = document.getElementById("sidebar");
             const toggleIcon = document.getElementById("toggleIcon");
+            const isDesktop = window.innerWidth >= 1024;
             
-            if (sidebar.classList.contains("hidden")) {
-                sidebar.classList.remove("hidden");
-                // Sidebar active styles on mobile
-                sidebar.classList.add("absolute", "z-40", "shadow-2xl", "h-[calc(100vh-80px)]");
-                toggleIcon.classList.remove("fa-bars");
-                toggleIcon.classList.add("fa-xmark");
+            if (isDesktop) {
+                // 桌機版縮放邏輯：改變寬度與內距至0，左側就會平滑收起
+                if (sidebar.classList.contains("lg:w-80")) {
+                    // 收起左側欄
+                    sidebar.classList.remove("lg:w-80", "p-5", "border-r");
+                    sidebar.classList.add("lg:w-0", "p-0", "border-r-0");
+                } else {
+                    // 展開左側欄
+                    sidebar.classList.add("lg:w-80", "p-5", "border-r");
+                    sidebar.classList.remove("lg:w-0", "p-0", "border-r-0");
+                }
             } else {
+                // 手機版邏輯：使用 absolute 覆蓋在內容上方
+                if (sidebar.classList.contains("hidden")) {
+                    sidebar.classList.remove("hidden");
+                    sidebar.classList.add("absolute", "z-40", "shadow-2xl", "h-[calc(100vh-80px)]", "w-full", "left-0");
+                    toggleIcon.classList.remove("fa-bars");
+                    toggleIcon.classList.add("fa-xmark");
+                } else {
+                    sidebar.classList.add("hidden");
+                    sidebar.classList.remove("absolute", "z-40", "shadow-2xl", "h-[calc(100vh-80px)]", "w-full", "left-0");
+                    toggleIcon.classList.remove("fa-xmark");
+                    toggleIcon.classList.add("fa-bars");
+                }
+            }
+        }
+
+        // 監聽視窗大小改變，防止縮放視窗時選單卡住跑版
+        window.addEventListener('resize', () => {
+            const sidebar = document.getElementById("sidebar");
+            const toggleIcon = document.getElementById("toggleIcon");
+            const isDesktop = window.innerWidth >= 1024;
+            
+            if (isDesktop) {
+                // 恢復桌機預設展開狀態，清除手機版用的 absolute 等 class
+                sidebar.classList.remove("hidden", "absolute", "z-40", "shadow-2xl", "h-[calc(100vh-80px)]", "w-full", "left-0");
+                sidebar.classList.add("lg:w-80", "p-5", "border-r");
+                sidebar.classList.remove("lg:w-0", "p-0", "border-r-0");
+                toggleIcon.classList.remove("fa-xmark");
+                toggleIcon.classList.add("fa-bars");
+            } else {
+                // 恢復手機預設隱藏狀態
                 sidebar.classList.add("hidden");
-                sidebar.classList.remove("absolute", "z-40", "shadow-2xl", "h-[calc(100vh-80px)]");
+                sidebar.classList.remove("absolute", "z-40", "shadow-2xl", "h-[calc(100vh-80px)]", "w-full", "left-0");
                 toggleIcon.classList.remove("fa-xmark");
                 toggleIcon.classList.add("fa-bars");
             }
-        }
+        });
 
         // Active State highlighting on scroll
         const contentArea = document.getElementById("recipesContent");
