@@ -1,0 +1,2609 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>西餐廚藝筆記 | 專屬數位寶典</title>
+    <!-- Tailwind CSS for modern responsive layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght=300;400;500;700;900&display=swap');
+        
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        /* Beautiful glowing custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e11d48; /* Rose color for recipe theme */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-[#27272a] text-white shadow-lg sticky top-0 z-50 px-6 py-4 flex flex-wrap justify-between items-center">
+        <div class="flex items-center space-x-4">
+            <!-- Sidebar toggle button -->
+            <button onclick="toggleSidebar()" class="bg-zinc-700 hover:bg-zinc-600 border border-zinc-500/30 text-white p-2.5 rounded-lg transition-all flex items-center justify-center" title="顯示/隱藏目錄">
+                <i id="toggleIcon" class="fa-solid fa-bars text-lg"></i>
+            </button>
+            
+            <!-- Author Exclusive Widget (Preserved exactly as requested) -->
+            <div class="flex items-center space-x-2.5 hover:scale-105 transition-all duration-300 group">
+                <div class="relative w-11 h-11 rounded-full overflow-hidden bg-gradient-to-tr from-amber-400 via-rose-500 to-indigo-600 p-[2px] shrink-0 shadow-lg shadow-rose-500/20">
+                    <div class="w-full h-full rounded-full overflow-hidden bg-white flex items-center justify-center text-rose-500">
+                        <!-- Fallback icon if APPLE.png is missing -->
+                        <i class="fa-solid fa-crown text-xl"></i>
+                        <img src="APPLE.png" alt="Notes Author" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300 onerror='this.style.display=\"none\"'">
+                    </div>
+                </div>
+                <div class="hidden sm:block">
+                    <div class="flex items-center space-x-1">
+                        <span class="text-xs font-black text-white tracking-wider">專屬數位珍藏</span>
+                        <span class="bg-gradient-to-r from-amber-500 to-rose-500 text-white text-[9px] px-1.5 py-0.5 rounded-full font-bold shadow-sm">Pro</span>
+                    </div>
+                    <p class="text-[10px] text-rose-400 font-bold tracking-widest uppercase mt-0.5">Master Edition • APPLE</p>
+                </div>
+            </div>
+
+            <!-- Vertical Separator in Header -->
+            <div class="h-8 w-[1px] bg-zinc-600 hidden sm:block ml-2"></div>
+
+            <!-- Brand Logo Area -->
+            <div class="ml-2">
+                <h1 class="text-xl sm:text-2xl font-black tracking-wider flex items-center">
+                    <i class="fa-solid fa-utensils text-rose-500 mr-3"></i>
+                    廚藝筆記 <span class="text-rose-400 ml-2 text-base bg-zinc-800 px-2.5 py-1 rounded-md border border-rose-500/30 hidden md:inline-block">數位食譜寶典</span>
+                </h1>
+            </div>
+        </div>
+        
+        <div class="flex items-center mt-4 sm:mt-0 w-full sm:w-auto">
+            <div class="relative w-full sm:w-72">
+                <input type="text" id="searchInput" oninput="searchRecipes()" placeholder="搜尋食譜或食材..." 
+                       class="bg-zinc-800 text-white text-base px-5 py-2.5 pl-11 rounded-full border border-zinc-600 focus:border-rose-400 focus:ring-1 focus:ring-rose-400 focus:outline-none w-full transition-all duration-300">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-zinc-400"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container Layout -->
+    <div class="flex-1 w-full mx-auto flex flex-col lg:flex-row overflow-hidden relative">
+        
+        <!-- Left Side: Interactive Navigation -->
+        <nav id="sidebar" class="w-full lg:w-80 bg-white border-r border-slate-200 p-5 lg:h-[calc(100vh-80px)] lg:overflow-y-auto shrink-0 transition-all duration-300 z-10 hidden lg:block">
+            <div class="mb-5">
+                <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center">
+                    <i class="fa-solid fa-book-open mr-2"></i> 食譜目錄
+                </h3>
+                <div class="h-1 w-12 bg-rose-500 rounded"></div>
+            </div>
+            <div class="space-y-1.5" id="sidebarMenu">
+                <!-- Javascript will populate the list items with links -->
+            </div>
+        </nav>
+
+        <!-- Right Side: Content Area -->
+        <main class="flex-1 p-4 sm:p-6 lg:p-10 bg-slate-50 lg:h-[calc(100vh-80px)] overflow-y-auto scroll-smooth" id="recipesContent">
+            
+            <div class="max-w-5xl mx-auto space-y-10" id="cardsContainer">
+                <!-- Recipes will be injected here -->
+            </div>
+
+            <footer class="mt-20 pt-8 border-t border-slate-200 text-center text-slate-400 text-sm pb-8">
+                <p>© 2026 APPLE 專屬食譜筆記寶典. All Rights Reserved.</p>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // --- DATA SECTION ---
+        // Loaded with all parts from original file and newly added parts 11 to 14.
+        const recipesData = [
+          // --- PART 01 ---
+          {
+            "id": "recipe_p1",
+            "code": "301A",
+            "title": "煎法国土司",
+            "engTitle": "French toast",
+            "intro": "",
+            "ingredients": [
+              { "name": "吐司", "baseQty": 2, "unit": "片", "type": "pcs" },
+              { "name": "雞蛋", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "細砂糖", "baseQty": 1, "unit": "茶匙", "type": "g" },
+              { "name": "肉桂粉 / 香草精", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "牛奶", "baseQty": 2, "unit": "大匙", "type": "ml" },
+              { "name": "沙拉油 / 奶油", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "蜂蜜 or 果醬 or 奶油", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "糖粉", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "吐司去邊切對角 (2片對切 1份)。",
+              "雞蛋先打在小碗後再倒入大碗(1顆)，加入1茶匙細砂糖、肉桂粉、香草精，以及大匙牛奶。",
+              "吐司沾料(兩面沾上煎)，要把蛋液吸進去。",
+              "用平底鍋小火，加沙拉油與奶油，用手拿土司一起煎至金黃色。",
+              "煎好裝盤，蜂蜜、果醬或奶油附在盤子旁 (不能直接放在盤子上)。",
+              "撒糖粉，不可在磁盤上直接撒。"
+            ],
+            "tips": [
+              "土司不用放冰箱，室溫即可。",
+              "上色後可撒砂糖+肉桂粉。",
+              "除乳酪三明治不切角，其餘都要切。"
+            ]
+          },
+          {
+            "id": "recipe_p2",
+            "code": "301A",
+            "title": "小茴香黃瓜沙拉",
+            "engTitle": "Dill cucumber salad",
+            "intro": "",
+            "ingredients": [
+              { "name": "大黄瓜", "baseQty": 1, "unit": "條", "type": "pcs" },
+              { "name": "小茴香", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "塩", "baseQty": 1, "unit": "茶匙", "type": "g" },
+              { "name": "酸奶油", "baseQty": 1, "unit": "大匙", "type": "g" }
+            ],
+            "steps": [
+              "大黄瓜去皮切半去籽，切片(斜刀切)。",
+              "小茴香(取葉子)切小段，加入1茶匙塩(醃15分)，用手抓一抓，用保鮮膜包起來放入冰箱20分鐘。",
+              "戴手套把水份瀝乾。",
+              "加入酸奶油一大匙攪拌 (不能生水)。",
+              "放入盤子，不能有水。"
+            ],
+            "tips": [
+              "△大黄瓜用生飲水沖過就要用熱食砧板。"
+            ]
+          },
+          {
+            "id": "recipe_p3",
+            "code": "301A",
+            "title": "匈牙利牛肉湯",
+            "engTitle": "Hungarian goulash soup",
+            "intro": "",
+            "ingredients": [
+              { "name": "牛臀肉 (或牛腱)", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "匈牙利紅椒粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "月桂葉", "baseQty": 0.5, "unit": "片", "type": "pcs" },
+              { "name": "洋蔥", "baseQty": 2, "unit": "片", "type": "pcs" },
+              { "name": "紅蘿蔔", "baseQty": 3, "unit": "片", "type": "pcs" },
+              { "name": "馬鈴薯", "baseQty": 0.5, "unit": "個", "type": "pcs" },
+              { "name": "罐頭蕃茄粒", "baseQty": 2, "unit": "個", "type": "pcs" },
+              { "name": "大蒜碎 / 迷迭香 / 胡椒 / 百里香碎", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "蕃茄糊", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "高湯", "baseQty": 1, "unit": "份", "type": "ml" }
+            ],
+            "steps": [
+              "牛肉切丁(牛腱)。△ 牛肉丁加紅椒粉淹漬後要先炒过。",
+              "加入匈牙利紅椒粉+水燉煮小時(2碗水煮1碗湯)，牛肉丁煮爛 + 1/2月桂葉 (紅椒粉不要炒焦，会影响到湯的顏色)。",
+              "洋蔥(2片)、紅蘿蔔(3片)、馬鈴薯(半個)去皮切丁。不用的馬鈴薯可先泡水以防变色。罐頭蕃茄粒2個切丁 (用同一塊砧板)。",
+              "放油炒洋蔥，炒完再放入其他切丁食材+月桂葉片拌炒 (加大蒜碎提味較好)。",
+              "加入蕃茄糊+罐頭蕃茄粒+1茶匙塩+1点点迷迭香拌炒 (迷迭香加太重味道太重) (加入紅椒粉增加湯的顏色)。",
+              "加入高湯滾煮。",
+              "把煮爛的牛肉丁放入切丁食材高湯裡。",
+              "加胡椒，百里香碎(湯面)。"
+            ],
+            "tips": [
+              "P.S. 可加甜椒 (自己可加甜椒)。"
+            ]
+          },
+          {
+            "id": "recipe_p4",
+            "code": "301A",
+            "title": "奶油洋菇鱸魚排附香芹馬鈴薯",
+            "engTitle": "Fillet of seabass bonne femme style with parsley potatoes",
+            "intro": "",
+            "ingredients": [
+              { "name": "鱸魚", "baseQty": 1, "unit": "條", "type": "pcs" },
+              { "name": "馬鈴薯", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "蛋", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "高筋麵粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "奶油 / 沙拉油", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "白酒", "baseQty": 2, "unit": "瓶蓋", "type": "ml" },
+              { "name": "洋葱 / 洋菇", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "鮮奶 / 高湯", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "巴西里 (香芹)", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "將馬鈴薯去皮切片放入牛肉湯煮 (或水)。",
+              "切魚：魚頭先下 →切身(先切上半部再把魚身代骨全切下来)。",
+              "去皮：刀动魚不动(拉著魚皮切)。",
+              "1片魚肉切半斜切(1份)加盐、白糊椒淹漬。",
+              "打1顆蛋攪散。魚肉片沾高筋麵粉再沾蛋液。",
+              "熱鍋→ 小火→放入奶油、沙拉油→把魚肉片放入(肉面先煎)。魚肉片煎至上色 +白酒(2瓶蓋)。",
+              "魚片加水+奶油煮一下擺盤加些巴西里。",
+              "洋葱切丁、洋菇片用奶油拌炒+白酒擺盤。",
+              "奶油炒麵粉(慢慢加)+鮮奶+高湯，淋在魚肉片上(不能太稠)。",
+              "再添些巴西里在魚肉片上。"
+            ],
+            "tips": [
+              "P.S. 擺盤可加玉米粒、綠色花椰菜。",
+              "馬鈴薯上淋奶油醬再撒巴西里。",
+              "△可先做麵糊再煎魚,兩者之顏色要協調。"
+            ]
+          },
+          {
+            "id": "recipe_p5",
+            "code": "301B",
+            "title": "美式華爾道夫沙拉",
+            "engTitle": "Waldorf salad American style",
+            "intro": "",
+            "ingredients": [
+              { "name": "西芹 (西洋芹)", "baseQty": 1, "unit": "份", "type": "pcs" },
+              { "name": "蘋果", "baseQty": 1, "unit": "份", "type": "pcs" },
+              { "name": "葡萄乾", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "核桃", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "蛋黃醬 (美乃滋)", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "黃芥茉醬", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "檸檬汁 / 塩 / 糊椒塩", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "西芹(要去皮,皮可拿去熬湯)→過水後用生飲水沖涼；蘋果(要去皮)(先切片再切丁)→切丁(西芹量比蘋果少)，泡在水中加(檸檬汁)和塩。 (作沙拉才去皮)",
+              "葡萄乾泡熱水軟化1~2分(不能泡太久)。",
+              "核桃水洗後放烤箱烤10分鐘150℃ (或烤7~10分160℃)。",
+              "把西芹和蘋果、葡萄乾吸水。",
+              "蛋黃醬+黃芥茉醬+糊椒塩用刮刀拌一拌。",
+              "將西芹和蘋果倒入拌一拌再倒入葡萄乾攪拌。",
+              "撒些已烤好的核桃碎。"
+            ],
+            "tips": [
+              "核桃下如果黑 or烤出焦味不好可退还。"
+            ]
+          },
+
+          // --- PART 02 ---
+          {
+            "id": "recipe_p6",
+            "code": "301B",
+            "title": "雞骨肉汁",
+            "engTitle": "Chicken gravy",
+            "intro": "是不加鹽的",
+            "ingredients": [
+              { "name": "雞骨", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "紅蘿蔔", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "西芹", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "麵粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "蕃茄糊", "baseQty": 2, "unit": "大匙", "type": "g" },
+              { "name": "黑糊椒粒", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "百里香", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "月桂葉", "baseQty": 2, "unit": "片", "type": "pcs" },
+              { "name": "蕃茄 (可加)", "baseQty": 1, "unit": "顆", "type": "pcs" }
+            ],
+            "steps": [
+              "把雞骨拿進去烤箱(不能洗雞骨)。烤箱240℃(上下火)烤30分鐘後把雞汁倒出。",
+              "洋蔥、西芹、紅蘿蔔切塊~(三樣還要相同)。",
+              "雞骨有点上色後,把紅蘿蔔、西芹塊、洋蔥塊→灑些麵粉 (可加一顆蕃茄)在雞骨上烤30分。",
+              "加蕃茄糊2大匙攪拌烤20分(如果底盤烤焦可加沙拉油)。",
+              "再灑一些麵粉烤20分。",
+              "加入黑糊椒粒、百里香、月桂葉2片再進烤箱10分。",
+              "放入熱水中滾煮(如果時間不夠可用①把湯汁过濾後拿一些湯汁熬煮、(小火)②加入麵糊(油:粉,1:1.3)再倒入湯汁中)。",
+              "最後把湯汁过濾後再上桌(用湯匙撈大部份油脂,再用紙巾平劃过湯面吸油脂)。"
+            ],
+            "tips": []
+          },
+          {
+            "id": "recipe_p7",
+            "code": "301B",
+            "title": "洋菇煎豬排附橄欖形胡蘿蔔",
+            "engTitle": "Pork chop in brown mushroom sauce with turned carroty",
+            "intro": "",
+            "ingredients": [
+              { "name": "豬排 (帶骨)", "baseQty": 1, "unit": "片", "type": "pcs" },
+              { "name": "紅蘿蔔", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "洋菇", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "糊椒塩", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "白酒", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "奶油", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "糖", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "麵粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "沙拉油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "雞骨高湯", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "鮮奶油", "baseQty": 1, "unit": "少許", "type": "ml" }
+            ],
+            "steps": [
+              "1. 紅蘿蔔切塊削橄欖形放在冷水中。",
+              "2. 洋菇切片(最下面 and梗要去掉切碎)，洋蔥切碎。",
+              "3. 紅蘿蔔削好後放入鹽水中煮。",
+              "4. 豬排的筋要去掉 (1份1片)→把骨頭打碎(容易去一些骨)→把肉打一打→抹些糊椒塩,白酒醃漬 (豬排要帶骨)。",
+              "5. 奶油炒紅蘿蔔+糖+鹽。",
+              "6. 肉沾麵粉用沙拉油煎+少許奶油煎至金黄色→放入烤箱 200°C 3分 (先把油移到鍋邊 再把肉放入推到中間)。",
+              "7. 奶油炒洋葱碎→洋菇片→白酒→雞骨高湯>鮮奶油 (大火收汁)。",
+              "8. 把醬汁淋在豬排上。"
+            ],
+            "tips": []
+          },
+          {
+            "id": "recipe_p8",
+            "code": "301B",
+            "title": "沙巴翁焗水果",
+            "engTitle": "Seasonal fresh fruit gratinated with sabayon",
+            "intro": "",
+            "ingredients": [
+              { "name": "水果 (4種)", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "桔子酒", "baseQty": 2, "unit": "茶匙", "type": "ml" },
+              { "name": "糖", "baseQty": 3, "unit": "茶匙", "type": "g" },
+              { "name": "蛋黃", "baseQty": 2, "unit": "個", "type": "pcs" }
+            ],
+            "steps": [
+              "1. 水果(4種)切丁用1大匙桔子酒。小匙糖 放入冰箱醃漬 ☑切同樣大小。",
+              "2. 蛋黃2個+2茶匙糖攪拌打發後加1茶匙桔子酒 (蛋黃要打熟才不会出水)。",
+              "3. 水果醃漬好用漏網滴汁 (水溫不能太高)。",
+              "4. 隔水加熱 材料2.(要越打越快,加速起泡的時间) 至濃稠金黃色42°C。",
+              "5. 淋在水果丁上到烤箱烤上色就可以了(用上火烤 220°C 6~8分)。"
+            ],
+            "tips": [
+              "△隔水加熱功用:1、溶解糖 (糖是蛋的安定劑) 2.較好打發。",
+              "△加桔子酒作用:除去蛋的腥味。",
+              "△打沙巴翁時可不加酒類(減少水分)。",
+              "→如果加蛋白:先將打發好的蛋白加到打發好的蛋黃攪拌，再全部加到打發的蛋白。"
+            ]
+          },
+          {
+            "id": "recipe_p9",
+            "code": "301C",
+            "title": "火腿乳酪恩利蛋",
+            "engTitle": "Ham and cheese omelette",
+            "intro": "可不加起子",
+            "ingredients": [
+              { "name": "蛋", "baseQty": 3, "unit": "個", "type": "pcs" },
+              { "name": "鮮奶油", "baseQty": 30, "unit": "C.C.", "type": "ml" },
+              { "name": "塩", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "白糊椒", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "火腿片", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "乳酪絲", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "1. 1人3個蛋+鮮奶油30C.C.+塩少許+白糊椒少許拌打後要过濾。",
+              "2. 養鍋:先熱鍋→加油(用小火) 將多的油倒出 熱鍋 再加油 再倒出(重複2~3次)(如果周圍有脱落表示还要再養鍋) ☑可用动物性奶油養鍋。",
+              "3. 後放蛋液下去快速攪拌推到鍋子的前端→放火腿片 乳酪絲 (蛋周圍可加油)→用手敲一敲慢々把蛋捲起来(敲拿手柄的手) (怕不熟就可放烤箱燜,用餘溫起 150°C 10分)。"
+            ],
+            "tips": [
+              "△烹調順序:肉醬麵 鮮蝦盅→青豆湯→恩利蛋 (最後出)。",
+              "△乳酪 火腿算熟食。"
+            ]
+          },
+          {
+            "id": "recipe_p10",
+            "code": "301C",
+            "title": "鮮蝦盅附考克醬",
+            "engTitle": "Shrimp cocktail with cocktail sauce",
+            "intro": "",
+            "ingredients": [
+              { "name": "萵苣", "baseQty": 1, "unit": "片", "type": "pcs" },
+              { "name": "蝦子", "baseQty": 1, "unit": "份", "type": "pcs" },
+              { "name": "檸檬", "baseQty": 1, "unit": "個", "type": "pcs" },
+              { "name": "月桂葉", "baseQty": 1, "unit": "片", "type": "pcs" },
+              { "name": "魚骨", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "塩", "baseQty": 1, "unit": "茶匙", "type": "g" },
+              { "name": "白糊椒粒", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "白醋", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "蛋", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "蕃茄醬", "baseQty": 3, "unit": "大匙", "type": "g" },
+              { "name": "法式芥茉醬", "baseQty": 1, "unit": "小匙", "type": "g" },
+              { "name": "辣椒醬", "baseQty": 1, "unit": "大匙", "type": "g" },
+              { "name": "美奶滋", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "白蘭地", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "白酒", "baseQty": 2, "unit": "小匙", "type": "ml" }
+            ],
+            "steps": [
+              "1. 萵苣整片泡冰水(生水+冰塊) △生菜沙拉的生菜要用生飲水沖过, 要切用酒精消毒砧板(熟食)。",
+              "2. 洗蝦子去腸泥。",
+              "3. 檸檬切4分(1個要切花樣)。",
+              "4. 放水+月桂葉+魚骨+1茶匙塩+白糊椒粒+1/4檸檬汁煮湯 (加紅蘿蔔西芹,注意不要蓋過蝦味)。",
+              "5. 加白醋 塩煮蛋(從冷水開始煮)12分(全熟)。",
+              "6. 蝦子放至魚菜湯(4.)煮熟(浮起来就可以了)→放在室溫至涼→放入冰箱 (可用紙巾將蝦子捲起来吸水放入冰内)。",
+              "7. 擺盤: 萵苣絲埔在杯底→蝦子掛在杯邊→放檸檬→ 蝦殼用檸檬汁、塩、糊椒、白酒2小匙調味用夾子把蝦子排好→再放一片水煮蛋美生菜裝飾一点。",
+              "8. 作考克醬: 醬汁: 蕃茄醬3大匙, 法式芥茉醬1小匙, 檸檬汁1/2顆, (美奶滋,白蘭地), 辣椒醬1大匙, 糊椒, 塩 (拌勻过再加入)。"
+            ],
+            "tips": [
+              "△如果蝦子擺盤時太大,可切片。",
+              "▲蝦子不帶尾殼。",
+              "醬汁要隔水冷卻。"
+            ]
+          },
+
+          // --- PART 03 ---
+          {
+            "id": "recipe_p11",
+            "code": "301C",
+            "title": "青豆漿 附麵包丁",
+            "engTitle": "Puree of green pea soup with croutons",
+            "intro": "",
+            "ingredients": [
+              { "name": "橄欖油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "奶油", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "麵包丁", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "大蒜", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "培根", "baseQty": 2, "unit": "片", "type": "pcs" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "青豆", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "高湯", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "鮮奶油", "baseQty": 60, "unit": "C.C.", "type": "ml" },
+              { "name": "塩", "baseQty": 1, "unit": "小匙", "type": "g" },
+              { "name": "胡椒", "baseQty": 1, "unit": "小匙", "type": "g" }
+            ],
+            "steps": [
+              "1. (橄欖油+)、奶油炒麵包丁(好的時候可加些)。",
+              "2. 大蒜切碎、洋蔥切小丁。",
+              "3. 煎培根2片(煎完要留下半片)。",
+              "4. 再煎洋蔥丁→大蒜碎→培根片→去青白 →加入高湯煮、",
+              "5. 煮一陣子把剩下的青豆立川燙生加入果汁机打碎及湯(4.) (不要切培根下去一起打碎,会改湯的味道)。",
+              "6. 过濾後再下鍋煮。",
+              "7. 加期椒・塩小匙鮮奶油60C.C.攪勻。",
+              "8. 最後要上菜時再加入和剩下的培相切碎洲在上面。"
+            ],
+            "tips": []
+          },
+          {
+            "id": "recipe_p12",
+            "code": "301C",
+            "title": "義大利肉醬麵",
+            "engTitle": "Spaghetti bolonaise",
+            "intro": "",
+            "ingredients": [
+              { "name": "大蒜", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "紅蘿蔔", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "西芹", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "碎肉", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "月桂葉", "baseQty": 1, "unit": "片", "type": "pcs" },
+              { "name": "蕃茄糊", "baseQty": 2, "unit": "大匙", "type": "g" },
+              { "name": "紅椒粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "紅酒", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "牛高湯", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "蕃茄丁", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "塩", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "胡椒", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "麵", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "奶油", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "起司粉", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "1. 大蒜、紅蘿蔔、西芹(要)→切碎丁、洋蔥切丁。",
+              "2. 熱鍋炒碎肉炒8分熟取出(不能燒焦)。",
+              "3. 再炒洋蔥碎大蒜碎→月桂葉片→紅蘿蔔碎→西芹碎→2大匙蕃茄糊紅椒粉少許 紅酒→牛高湯→肉碎→ →蕃茄丁(田水煮 後去皮切丁)→期椒 塩煮至濃稠最後再放(要去)①(加入可再加麵粉会变调一點)。",
+              "4. 煮麵:滾水加塩後慢々把麵沒下去→加油会 (麵條中心要有点點的自色)(約20分鐘)。",
+              "5. 麵如果要泰上使用要把水瀝乾沒奶油拌炒+肉邊(3.)+起司粉，沒有馬上々要沖冷水把水瀝乾 (要熱的出)。"
+            ],
+            "tips": [
+              "△有蕃茄的味道都加奧力",
+              "▲步驟3 作肉醬時需慢火烩煮,但不能过乾",
+              "☑麵不可炒",
+              "白醬:奶油→麵粉→牛奶→塩、糊椒、香料、白酒→起司 (不田因意義大利看起来水水的,因為義大利最放入時而加入多的奶油,這樣注意,培根做法炒香炒出甜味。会吸醬汁,如果牛奶不夠多会变黏稠。)"
+            ]
+          },
+          {
+            "id": "recipe_p13",
+            "code": "301D",
+            "title": "薄片牛排三明治附高而菜沙拉",
+            "engTitle": "Minute steak sandwich with cabbage salad",
+            "intro": "",
+            "ingredients": [
+              { "name": "高丽菜", "baseQty": 0.5, "unit": "個", "type": "pcs" },
+              { "name": "紅蘿蔔", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "洋蔥", "baseQty": 3, "unit": "片", "type": "pcs" },
+              { "name": "蕃茄", "baseQty": 3, "unit": "片", "type": "pcs" },
+              { "name": "牛排", "baseQty": 2, "unit": "片", "type": "pcs" },
+              { "name": "糊椒盐", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "美奶滋", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "細砂糖", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "土司", "baseQty": 2, "unit": "片", "type": "pcs" },
+              { "name": "奶油", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "橄欖油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "辣醬油(梅林)", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "高湯", "baseQty": 1, "unit": "少許", "type": "ml" }
+            ],
+            "steps": [
+              "1. 高丽菜(半田)切絲、紅蘿蔔切絲。洋蔥(3片)切片、蕃茄(3片)切片。",
+              "2. 在砧板上敲打牛排(田保鮮膜把牛排包起来)三排，敲打後加糊椒塩入冰箱淹漬(2只 1份@60g)。",
+              "3. 把高而菜,紅蘿蔔絲加入糊椒鹽放入冰箱(要用保鮮膜蓋起)。",
+              "4. 洋蔥、蕃茄、高丽菜片放入二水箱(因為目前还不需要使用)。",
+              "5. 將淹漬好的高而菜、紅蘿蔔絲把水冷擠乾加入美奶滋,細砂糖少許。",
+              "6. 得土司去因去烤→塗奶油(塗一面)。",
+              "7. 用橄欖油煎牛排(不需太久時間)。",
+              "8. 熱鍋放入奶油+辣醬油(梅林)+高湯(一桌)[醬汁要濃稠]。",
+              "9. 盤次序:吐司2→高而菜元→牛排2元→蕃茄3片→洋蔥圈圈>再淋上醬汁(8.) 高而菜沙拉(5.)。"
+            ],
+            "tips": [
+              "△糊椒盐:2:10(白糊椒:塩)",
+              "△醬汁可淋到士司",
+              "△ 2 (平)→ () 蕃茄牛排2片→淋醬汁→洋蔥圈"
+            ]
+          },
+          {
+            "id": "recipe_p14",
+            "code": "301D",
+            "title": "蔬菜絲清湯",
+            "engTitle": "Clear vegetable soup with Julienne",
+            "intro": "",
+            "ingredients": [
+              { "name": "高丽菜", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "西芹", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "青蒜", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "紅蘿蔔", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "蕃茄", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "大蒜", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "橄欖油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "月桂葉", "baseQty": 3, "unit": "片", "type": "pcs" },
+              { "name": "高湯", "baseQty": 1, "unit": "少許", "type": "ml" }
+            ],
+            "steps": [
+              "1. 人高丽菜、西芹(要先)、青蒜(葉子部分也要)、紅蘿蔔→切絲。",
+              "2. 蕃茄加水滾煮→沖冷水皮切(不能煮太熟)。",
+              "3. 橄欖油炒大蒜爆香→紅蘿蔔絲、洋蔥絲→西芹絲、高丽菜絲>蕃茄條→月桂葉3片拌炒。",
+              "4. 再加入高湯熬煮,煮至出前用大火把雜質煮出濾掉,油脂也要濾掉。",
+              "5. 最後要起鍋前要再放入紅蘿蔔絲、青蒜絲起鍋。"
+            ],
+            "tips": []
+          },
+          {
+            "id": "recipe_p15",
+            "code": "301D",
+            "title": "紅酒烩牛肉附奶油雞蛋麵",
+            "engTitle": "Beef stew in red wine with buttered egg noodles",
+            "intro": "",
+            "ingredients": [
+              { "name": "紅蘿蔔", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "大蒜", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "花椰菜", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "牛腩", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "紅椒粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "紅酒", "baseQty": 0.5, "unit": "碗", "type": "ml" },
+              { "name": "沙拉油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "月桂葉", "baseQty": 2, "unit": "片", "type": "pcs" },
+              { "name": "蕃茄糊", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "高湯", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "牛骨肉汁", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "塩", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "麵", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "橄欖油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "奶油", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "麵粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "糊椒", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "1. 紅蘿蔔切塊、洋蔥少許切碎、大蒜少許切碎、花椰菜少許(盤飾用)。",
+              "2. 牛腩切塊利紅椒粉淹漬、②田紅酒20~30分。",
+              "3. 沙拉油炒牛腩至金黄色→撈出+紅蘿蔔塊~(要先一部分)。",
+              "4. 用炒过牛腩的鍋放入洋葱碎。大蒜碎爆香+月桂葉2片+一点點的蕃茄糊+半碗紅酒(慢慢加入)+牛腩+高湯(要蓋过牛腩)+牛骨肉汁少許 (如果肉汁可不加)。",
+              "5. 水滾後+少許鹽(麵有Q度)+麵(要不時的去动) (可蒸煮的会較快)。",
+              "6. 麵煮好後要馬上沖冷水(6分熟)+橄機油少許攪拌(以防黏在一起)。",
+              "7. 紅蘿蔔塊可放入湯中→勾欠(奶油+麵粉+湯汁攪勻再倒入中)。",
+              "8. 橄欖油(奶油)拌炒麵條+糊椒。",
+              "9. 擺盤:捲2~3個麵→再沒烩牛肉。"
+            ],
+            "tips": [
+              "△蒸菜体積要比牛腩体積小",
+              "△ 習慣:肉類加奶油，麵類加橄欖油",
+              "☑要有紅酒味,不可紅椒粉的味道去"
+            ]
+          },
+
+          // --- PART 04 ---
+          {
+            "id": "recipe_p16",
+            "code": "301E",
+            "title": "巧克力慕思",
+            "engTitle": "Chocolate mousse",
+            "intro": "",
+            "ingredients": [
+              { "name": "蛋白", "baseQty": 3, "unit": "個", "type": "pcs" },
+              { "name": "糖 (加入蛋白)", "baseQty": 15, "unit": "g", "type": "g" },
+              { "name": "鮮奶油", "baseQty": 240, "unit": "C.C.", "type": "ml" },
+              { "name": "蘭姆酒", "baseQty": 1, "unit": "大匙", "type": "ml" },
+              { "name": "香草精", "baseQty": 1, "unit": "小匙", "type": "ml" },
+              { "name": "巧克力", "baseQty": 120, "unit": "g", "type": "g" },
+              { "name": "糖 (加入巧克力)", "baseQty": 15, "unit": "g", "type": "g" },
+              { "name": "蛋黃", "baseQty": 3, "unit": "個", "type": "pcs" }
+            ],
+            "steps": [
+              "1. 蛋白3個打發起泡 (不能沾到油脂會打不發)，加入15g糖打至硬性發泡 (不能打太久)。",
+              "2. 鮮奶油240C.C.打發至硬性發泡，加入蘭姆酒大匙、香草精小匙拌勻。",
+              "3. 巧克力隔水加熱溶化120g (不能太熱)，加糖15g、3個蛋黃，隔水加熱攪拌 (不超過60℃)。",
+              "4. 將蛋白分次加入拌勻，再加入鮮奶油拌勻，隔冰水攪拌至濃稠。",
+              "5. 先擠一些在杯中放入冰箱冷凍，要交出時上面再裝飾 (巧克力或鮮奶油)。"
+            ],
+            "tips": [
+              "△ 蛋白發泡階段：溼性 → 乾性發泡(硬性) → 結花球狀態。",
+              "△ 可不加蛋白改成加鮮奶油 (1倍) 比較會成功。",
+              "△ (若加鮮奶油) 放入冷藏會較凝固。",
+              "△ 巧克力遇到水會沒有高度。",
+              "△ 鮮奶油在4℃較好打發 (打發時底下墊冰水攪拌) (最好使用植物性)。",
+              "△ 慕思最重要的是溫度的控制。"
+            ]
+          },
+          {
+            "id": "recipe_p17",
+            "code": "301E",
+            "title": "鮪魚沙拉三明治",
+            "engTitle": "Tuna fish salad sandwich",
+            "intro": "",
+            "ingredients": [
+              { "name": "鮪魚罐頭", "baseQty": 1, "unit": "罐", "type": "pcs" },
+              { "name": "西芹", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "沙拉醬", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "土司", "baseQty": 2, "unit": "片", "type": "pcs" }
+            ],
+            "steps": [
+              "1. 把鮪魚罐中的油瀝出壓乾。",
+              "2. 西芹去皮切小丁 → 過水後泡生飲水 → 瀝乾。",
+              "3. 沙拉醬拌鮪魚，西芹丁。",
+              "4. 土司要抹一層沙拉醬 → 再加上已攪拌好的鮪魚。",
+              "5. 把土司疊合 → 切對角。"
+            ],
+            "tips": [
+              "△ 羅絲瑪莉：迷迭香。",
+              "△ 2片土司切成1份。"
+            ]
+          },
+          {
+            "id": "recipe_p18",
+            "code": "301E",
+            "title": "雞肉清湯 附蔬菜小丁 (上)",
+            "engTitle": "Chicken consomme with vegetable \"brunoise\"",
+            "intro": "原稿作法(上)。作法部分接續至下頁。",
+            "ingredients": [
+              { "name": "雞腿", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "雞胸肉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "芹菜葉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "巴西里", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "月桂葉", "baseQty": 2, "unit": "片", "type": "pcs" },
+              { "name": "百里香", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "迷迭香", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "塩", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "胡椒", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "紅蘿蔔", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "西芹", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "黑胡椒粒", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "絞肉", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "1. 切雞肉：從雞腿開始切 → 切雞翅連雞胸肉拉起來 → 用刀前端切小里肌雞肉 → 把骨折2半清雞胸。",
+              "2. 剩下的雞骨川燙後 → 清洗放入芹菜葉、巴西里、紅蘿蔔。",
+              "3. 將洋蔥煎至焦黑狀的焦糖攪拌一下。",
+              "4. 加入水、月桂葉2片、百里香、迷迭香、塩、胡椒熬4小時 (不能蓋蓋子，用小火)。",
+              "5. 把熬好的湯汁過濾放入湯碗。",
+              "6. 把紅蘿蔔、西芹切小丁和雞肉碎川燙至熟加塩調味放入湯碗中。",
+              "作法又：將蔬菜碎(洋蔥、紅蘿蔔、芹菜)用手揉捏去出甜味 → 加黑胡椒粒、月桂葉片、百里香加入少許冰塊(降低肉溫) → 再入冷高湯 → 大火煮(要攪動一下絞肉防黏鍋) → 等溫高浮出一層固形肉 → 小火把固形物周圍留空隙，露出縫隙放入煎焦黑的洋蔥熬煮。"
+            ],
+            "tips": [
+              "△ (煮雞肉時間) 肉雞放入滾水後45分~50分 →抹油、酒。山雞30~35分。土雞40~45分。"
+            ]
+          },
+          {
+            "id": "recipe_p19",
+            "code": "301E",
+            "title": "雞肉清湯 附蔬菜小丁 (下)",
+            "engTitle": "Chicken consomme with vegetable \"brunoise\"",
+            "intro": "原稿作法(下)。",
+            "ingredients": [
+              { "name": "雞胸肉", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "蔬菜碎", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "黑胡椒粒", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "月桂葉", "baseQty": 2, "unit": "片", "type": "pcs" },
+              { "name": "百里香", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "蛋白", "baseQty": 3, "unit": "個", "type": "pcs" },
+              { "name": "冰塊", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "冷高湯", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "顆", "type": "pcs" }
+            ],
+            "steps": [
+              "1. 取雞胸 (去皮，去油，不能有血水) 切碎。",
+              "2. 蔬菜碎 + 雞肉碎 + 黑胡椒粒 + 月桂葉2片 + 百里香 + 蛋白2~3個 (視量而加，作用吸味道) + 冰塊少許 (作用降溫)，用柄或手攪拌至蛋白吸入肉裡 → 加入冷高湯，大火去煮滾 (不時翻動一下防黏鍋) → 滾後用小火去熬煮 (有點微滾狀) 煮至湯清澈。",
+              "3. 洋蔥切片約1公公厚乾煎 (用平底鍋煎) 至焦黑 (用中火煎，焦糖作用) → 將浮在界面的碎肉輕輕翻起，放入煎黑的洋蔥去煮至要出菜。",
+              "4. 將碎肉挑起，用咖啡濾紙將湯汁過濾。",
+              "5. 將蔬菜丁另外煮熟再放入清湯中 → 入湯碗。"
+            ],
+            "tips": [
+              "△ 用咖啡濾紙過濾，湯會沒有油脂。",
+              "△ Consomme' 清湯不可有油脂，蔬菜不可用炒的。",
+              "△ Clear soup 可有油脂，蔬菜可用炒的。",
+              "△ 清湯不可有胡椒粉。"
+            ]
+          },
+          {
+            "id": "recipe_p20",
+            "code": "301E",
+            "title": "佛羅倫斯雞胸 附香油飯",
+            "engTitle": "Chicken breast Florentine style with riçi biçi",
+            "intro": "",
+            "ingredients": [
+              { "name": "雞", "baseQty": 1, "unit": "隻", "type": "pcs" },
+              { "name": "麵粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "胡椒", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "塩", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "波菜", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "大蒜", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "沙拉油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "白酒", "baseQty": 1, "unit": "瓶蓋", "type": "ml" },
+              { "name": "奶油", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "雞高湯", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "鮮奶油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "起司粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "月桂葉", "baseQty": 1, "unit": "片", "type": "pcs" },
+              { "name": "青豆仁", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "飯", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "白胡椒", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "荳蔻粉", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "1. 去掉小雞翅 → 去雞皮 → 把雞翅中的小根骨頭去掉，雞胸修一下葉子的造型 → 雞胸肉可切 (每一桌)，切韌帶，骨頭部分的肉要去掉，拍打雞胸肉和小里肌肉。",
+              "2. 小里肌肉沾麵粉黏在雞胸肉上加胡椒、塩醃漬。",
+              "3. 準備波菜 (有梗的要挑掉)、大蒜切碎。",
+              "4. 沙拉油煎雞胸肉 (沾麵粉) (有小里肌的面先煎) → 翻面煎 → 加一個瓶蓋的白酒起鍋 (要煎至金黃色)。",
+              "5. 麵粉炒奶油 + 雞高湯 + 鮮奶油 + 胡椒粉炒勻，淋在雞胸肉上 → 加起司粉進烤箱烤上色 200℃ (順便將雞肉烤熟)。",
+              "6. 香油飯：奶油炒洋蔥 + 月桂葉 + 奶油 (如不夠再加) 炒香後，加入青豆仁 → 加飯、塩、白胡椒 → 放入盤中。",
+              "7. 沙拉油炒大蒜 → 加入波菜、塩、白胡椒、荳蔻粉 → 放入盤中。",
+              "8. 雞胸肉烤好後放在蔬菜上。"
+            ],
+            "tips": [
+              "△ 雞胸肉不用太大。",
+              "▲ 波菜不阻碎。"
+            ]
+          },
+
+          // --- PART 05 ---
+          {
+            "id": "recipe_p21",
+            "code": "301E",
+            "title": "香草奶油泡芙",
+            "engTitle": "Cream puff with vanilla custard filling",
+            "intro": "",
+            "ingredients": [
+              { "name": "水", "baseQty": 113, "unit": "g", "type": "g" },
+              { "name": "鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "沙拉油 (或奶油)", "baseQty": 49, "unit": "g", "type": "g" },
+              { "name": "高筋麵粉", "baseQty": 75, "unit": "g", "type": "g" },
+              { "name": "蛋 (泡芙用)", "baseQty": 135, "unit": "g", "type": "g" },
+              { "name": "牛奶 (內餡用)", "baseQty": 330, "unit": "g", "type": "g" },
+              { "name": "低筋麵粉 (內餡用)", "baseQty": 20, "unit": "g", "type": "g" },
+              { "name": "玉米粉 (內餡用)", "baseQty": 20, "unit": "g", "type": "g" },
+              { "name": "蛋 (內餡用)", "baseQty": 60, "unit": "g", "type": "g" },
+              { "name": "糖 (內餡用)", "baseQty": 60, "unit": "g", "type": "g" },
+              { "name": "奶油 (內餡用)", "baseQty": 15, "unit": "g", "type": "g" },
+              { "name": "香草精", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "鮮奶油", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "萊姆酒", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "糖粉", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "將水、鹽、沙拉油（或奶油）在鍋中加熱（注意不要煮滾）。",
+              "倒入高筋麵粉快速攪拌至麵糰結粒、熟化成團後熄火。",
+              "將麵糰倒入小容器中攪拌降溫至約 60°C（微溫），分次慢慢加入蛋液攪拌，直到用木匙提起時麵糊呈現倒三角形且長度約 4 公分。",
+              "在烤盤上鋪上烘焙紙，擠上泡芙麵糊（底部先擠滿約 4 至 5 公分直徑再向上疊，第 3 圈收尾），表面噴水後放入烤箱。",
+              "放入烤箱以上下火 200°C 烤至泡芙膨脹上色且定型，隨後調頭烤並開啟氣門（或稍微夾手套散熱氣）以上下火 180°C 烤乾 10 分鐘。",
+              "製作布丁內餡：將牛奶、低筋麵粉、玉米粉攪拌均勻。",
+              "加入蛋攪拌均勻後，隔水加熱（小火）至稠狀，過程中加入糖持續攪拌。",
+              "加入奶油攪拌（若需要調色或調味必須趁熱加入），再加入香草精辦勻，即可放入冰箱冷藏。",
+              "製作法式布丁餡：將打發的鮮奶油與冷藏後的布丁內餡混合拌勻，冷藏備用。",
+              "冷藏好的內餡加入少許萊姆酒拌勻，裝入擠花袋中，從泡芙底部擠入內餡，確保內餡飽滿且不外露。"
+            ],
+            "tips": [
+              "△考照時每個泡芙成品重量需達 40g 重。",
+              "△擠泡芙時不要擠太大，以免膨脹後形狀不佳。",
+              "△最後盛盤時要撒上糖粉裝飾。",
+              "△鮮奶油需打至發泡（打到冷面），前一晚提前打好效果較佳。",
+              "△布丁餡如果稠度不夠，可加入玉米粉與牛奶勾芡，打到用刮刀刮過去會有明顯痕跡。",
+              "△氣門開啟是為了烘乾泡芙內部的水分，使其不易塌陷。",
+              "△若要製作菠蘿泡芙，可在上方蓋一層菠蘿皮再進行培烤。"
+            ]
+          },
+          {
+            "id": "recipe_p22",
+            "code": "302A",
+            "title": "炒蛋附脆培根及蕃茄",
+            "engTitle": "Scrambled egg garnished with crispy bacon and tomato",
+            "intro": "",
+            "ingredients": [
+              { "name": "蛋", "baseQty": 2, "unit": "個", "type": "pcs" },
+              { "name": "牛奶", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "沙拉油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "奶油", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "培根", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "蕃茄", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "胡椒鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "麵粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "小蕃茄", "baseQty": 1, "unit": "適量", "type": "pcs" }
+            ],
+            "steps": [
+              "蕃茄切厚片，加入胡椒、鹽進行調味。",
+              "將 2 顆蛋打散，加入胡椒鹽及少許牛奶充分攪拌均勻。",
+              "熱鍋加入沙拉油與少許奶油（奶油多加一點，炒蛋會更好看且香濃），將蛋液倒入鍋中拌炒，呈軟嫩滑蛋狀（約七分熟）即可起鍋。",
+              "熱鍋不加油（若使用不沾鍋）乾煎培根，起鍋後用紙巾充分吸乾多餘油脂。",
+              "將蕃茄切口（有籽的那一面）沾裹少許麵粉，以沙拉油入鍋煎至上色，再移入烤箱烤至變軟。",
+              "小蕃茄進行切花，用奶油略微拌炒後作裝飾。"
+            ],
+            "tips": [
+              "△培根屬加工食品，不需清洗。",
+              "△小蕃茄切花方法：從中間切分（不切斷），將皮剝去一半呈現花瓣狀。"
+            ]
+          },
+          {
+            "id": "recipe_p23",
+            "code": "302A",
+            "title": "翠綠沙拉附藍紋乳酪醬",
+            "engTitle": "Green salad served with blue cheese dressing",
+            "intro": "",
+            "ingredients": [
+              { "name": "蘿蔓萵苣", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "小黃瓜", "baseQty": 1, "unit": "條", "type": "pcs" },
+              { "name": "青椒", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "大蒜", "baseQty": 1, "unit": "瓣", "type": "pcs" },
+              { "name": "藍紋乳酪", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "酸奶油", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "鮮奶油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "沙拉醬", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "胡椒鹽", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "準備蔬菜：將蘿蔓萵苣撕成一口大小，小黃瓜切片，青椒與洋蔥切成細圈（青椒、洋蔥用量約 1 至 2 片即可，切好後放入冰水冰鎮）。",
+              "將洗淨的蔬菜材料撈起，以網篩徹底瀝乾水分後，排入沙拉盤中。",
+              "製作乳酪醬：將大蒜切碎，加入藍紋乳酪（捏碎）、胡椒鹽充分攪拌均勻。",
+              "慢慢加入酸奶油、鮮奶油與沙拉醬攪拌均勻（若沒有酸奶油，僅用沙拉醬覺得過於稠濃，可以加入少許鮮奶油調整稀稠度）。"
+            ],
+            "tips": [
+              "△製作生菜沙拉時，蔬菜務必徹底瀝乾水分。",
+              "△小黃瓜最好於擺盤前再行切片，以防受凍凍傷變黑。"
+            ]
+          },
+          {
+            "id": "recipe_p24",
+            "code": "302A",
+            "title": "蒜苗馬鈴薯冷湯",
+            "engTitle": "Vichyssoise-potato and leek chilled soup",
+            "intro": "",
+            "ingredients": [
+              { "name": "洋蔥", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "青蔥 (或蒜苗)", "baseQty": 1, "unit": "支", "type": "pcs" },
+              { "name": "培根", "baseQty": 1, "unit": "片", "type": "pcs" },
+              { "name": "馬鈴薯", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "沙拉油 (或奶油)", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "月桂葉", "baseQty": 1, "unit": "片", "type": "pcs" },
+              { "name": "肉豆蔻粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "雞高湯", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "牛奶 (或鮮奶油)", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "胡椒鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "土司丁", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "將洋蔥、培根切成小丁；青蔥（或蒜苗）切小丁（保留部份切成細絲做裝飾）；馬鈴薯切成薄小片。",
+              "鍋中倒入沙拉油（或奶油），放入洋蔥丁、培根丁、青蔥丁（或蒜苗丁）以及月桂葉炒香（注意不要炒焦黑）。",
+              "加入少許肉豆蔻粉，再將馬鈴薯小薄片放入一同拌炒。",
+              "加入雞高湯煮沸，轉小火煮至馬鈴薯完全熟軟成糊狀。",
+              "熟軟後熄火放涼，倒入果汁機中打碎並過濾（注意：培根切勿一起放入打碎，否則會破壞湯的成色與風味）。",
+              "加入胡椒、鹽，並倒入牛奶（或鮮奶油）攪拌均勻（攪拌時要注意是否有未打碎的顆粒或粉粒）。",
+              "將調味好的湯倒入不鏽鋼鍋中放涼，再移入冰箱冷藏冰鎮。",
+              "盛盤時，在冷湯表面裝飾上步驟 1 的香蔥絲（細絲）與奶油炒過的土司丁即可。"
+            ],
+            "tips": []
+          },
+          {
+            "id": "recipe_p25",
+            "code": "302A",
+            "title": "煎豬排附燜紫高麗菜",
+            "engTitle": "Pan fried pork loin with braised red cabbage",
+            "intro": "",
+            "ingredients": [
+              { "name": "豬排", "baseQty": 1, "unit": "片", "type": "pcs" },
+              { "name": "紫高麗菜", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "蘋果", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "白酒醋", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "橄欖油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "蕃茄糊", "baseQty": 1, "unit": "大匙", "type": "g" },
+              { "name": "黑胡椒粗粒", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "麵粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "白酒", "baseQty": 1, "unit": "瓶蓋", "type": "ml" },
+              { "name": "奶油", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "胡椒鹽", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "將紫高麗菜切成細絲；洋蔥切碎；蘋果去皮後切成細絲。",
+              "將豬排拍打（去皮、斷筋），加入黑胡椒粗粒與鹽醃漬。",
+              "製作燜紫高麗菜：熱鍋加入橄欖油，先炒香洋蔥碎，隨後加入白酒醋、紫高麗菜絲與蘋果絲一同拌炒均勻。",
+              "加入約 1 大匙的蕃茄糊與少許水，蓋上鍋蓋燜至蔬菜軟化，最後加入胡椒鹽拌炒均勻調味（蕃茄糊不宜加入過多，否則會產生酸澀味；燜煮時間亦不能過長，否則紫高麗菜顏色會變深變暗）。",
+              "煎豬排：熱鍋倒入沙拉油，將醃漬好的豬排表面沾上少許麵粉（有黑胡椒的那一面先下鍋煎，另一面沾麵粉防黏鍋），以中火煎至熟透（剛好熟即可，不可過柴）。",
+              "豬排起鍋前，倒入 1 瓶蓋白酒與少許奶油提香，隨後起鍋裝盤。",
+              "利用煎豬排的餘熱原鍋醬汁調製成嗆汁，淋在豬排上即可上桌。"
+            ],
+            "tips": [
+              "△豬排要確實煎熟，但不要煎到過老過硬。"
+            ]
+          },
+          // --- PART 06 ---
+          {
+            "id": "recipe_p26",
+            "code": "302B",
+            "title": "火腿乳酪三明治",
+            "engTitle": "Griddle ham and cheese sandwich",
+            "intro": "",
+            "ingredients": [
+              { "name": "土司", "baseQty": 2, "unit": "片", "type": "pcs" },
+              { "name": "奶油", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "起司片", "baseQty": 2, "unit": "片", "type": "pcs" },
+              { "name": "火腿片", "baseQty": 1, "unit": "片", "type": "pcs" }
+            ],
+            "steps": [
+              "準備兩片土司，在其中一面均勻塗抹上奶油（注意：先前煎過或烤過的那面朝內，將未煎過的那面塗抹奶油朝外）。",
+              "以乾鍋不加油的方式，將塗有奶油的那面朝下放入平底鍋中煎製。",
+              "在土司內側鋪上一層起司，接著放上一片火腿，最後再鋪上一層起司（使其呈現起司-火腿-起司的夾心結構）。",
+              "將兩片土司對合起來，持續以小火乾煎至兩面金黃上色且內層起司完全融化軟化。",
+              "將煎好的三明治斜角對切（注意不可切斷，使其相連）即可盛盤。"
+            ],
+            "tips": [
+              "△有烤過的土司抹奶油，不要抹美奶滋。",
+              "△火腿、起司、培根等風乾與加工食品類，不需清洗。",
+              "△澄清奶油作法：將奶油加熱融化後，撇取浮在最上層的透明黃色奶油。使用澄清奶油來乾煎，三明治的成色與質感會更加好看。"
+            ]
+          },
+          {
+            "id": "recipe_p27",
+            "code": "302B",
+            "title": "尼亞斯沙拉",
+            "engTitle": "Nicoise salad",
+            "intro": "",
+            "ingredients": [
+              { "name": "蛋", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "馬鈴薯", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "四季豆", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "蘿蔓萵苣", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "罐頭鮪魚", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "鯷魚", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "黑橄欖", "baseQty": 1, "unit": "少許", "type": "pcs" },
+              { "name": "酸豆", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "蕃茄", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "橄欖油", "baseQty": 3, "unit": "大匙", "type": "ml" },
+              { "name": "白酒醋", "baseQty": 1, "unit": "大匙", "type": "ml" },
+              { "name": "胡椒鹽", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "將雞蛋放入冷水中開始煮沸，水滾後持續滾煮 12 分鐘至全熟，撈起浸泡涼水後去殼，切半或切成八分法備用。",
+              "將馬鈴薯洗淨，連皮整顆放入加鹽的水中滾煮（注意控制火候，不可煮得過於軟爛）。",
+              "四季豆洗淨放入加鹽的沸水中川燙滾煮，撈起後立即投入生飲冰水中冰鎮，瀝乾後切成段。",
+              "將蘿蔓萵苣清洗乾淨，最後用生飲水再次沖洗乾淨，剁成一口大小，與四季豆可一同浸泡在生飲水中備用（瀝乾後再行擺盤）。",
+              "將罐頭鮪魚的油脂與水分充分瀝乾備用。",
+              "將煮熟的馬鈴薯去皮，切成與四季豆長寬粗細一致的條狀（此處注意刀工）。",
+              "將黑橄欖切半（或保持整顆不切），酸豆保持原狀，洋蔥切成極薄的薄片。",
+              "擺盤：先將瀝乾的萵苣鋪在盤子中間，上方均勻擺上鮪魚、鯷魚、四季豆、馬鈴薯條、蕃茄塊、黑橄欖、酸豆，最後將洋蔥薄片隨意裝飾置於最上方。",
+              "製作油醋醬：將橄欖油、白酒醋、胡椒與鹽按比例混合調勻，隨後淋在沙拉上即可。"
+            ],
+            "tips": [
+              "△製作生菜沙拉時，所有生食蔬菜務必使用生飲水沖洗，並徹底瀝乾水分。",
+              "△馬鈴薯一定要當天現煮現切才會好吃；切條時要注意手工，必須與四季豆的形狀大小相同。"
+            ]
+          },
+          {
+            "id": "recipe_p28",
+            "code": "302B",
+            "title": "奶油青花菜濃湯",
+            "engTitle": "Cream of broccoli soup",
+            "intro": "",
+            "ingredients": [
+              { "name": "青花菜", "baseQty": 1, "unit": "顆", "type": "g" },
+              { "name": "洋蔥", "baseQty": 0.5, "unit": "顆", "type": "pcs" },
+              { "name": "培根", "baseQty": 1, "unit": "片", "type": "pcs" },
+              { "name": "月桂葉", "baseQty": 2, "unit": "片", "type": "pcs" },
+              { "name": "馬鈴薯 (洋芋)", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "雞高湯", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "鮮奶油", "baseQty": 80, "unit": "c.c.", "type": "ml" },
+              { "name": "橄欖油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "胡椒鹽", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "青花菜取 4 朵精美的小花保留，作為最後湯面點綴；其餘大株青花菜（連同切碎的菜梗）川燙（燙菜的水中要加鹽）後迅速泡冰水備用，川燙青花菜的水保留。",
+              "將洋蔥切成大丁狀；培根切碎（亦可切小丁）備用。",
+              "熱鍋倒入少許橄欖油，下培根碎炒至爆香、油脂釋出後撈起（培根不要煎太久，以免油脂變深影響湯色，撈出的培根碎備用）。",
+              "利用鍋中的培根油，放入洋蔥大丁炒香，隨後加入 2 片月桂葉、先前製作其他菜餚（如橄欖形馬鈴薯）剩餘的洋芋邊角料、以及川燙碎青花菜（連梗）一同拌炒。",
+              "倒入雞高湯，將湯汁熬煮至馬鈴薯完全熟軟（注意炒製及熬煮時間不可過長，否則青花菜色澤變深會影響視覺效果）。",
+              "煮好後撈出月桂葉，將其餘湯料倒入果汁機中徹底打碎。為增加翠綠顏色，可於此時加入少許保留的生青花菜碎一同攪打，隨後使用大孔網篩進行過濾。",
+              "過濾後的湯汁倒回鍋中加熱，倒入 80 c.c. 鮮奶油及胡椒、鹽攪拌均勻並煮滾。",
+              "將熱湯盛入湯碗，湯面擺上保留的 4 朵小青花菜與步驟 3 的培根碎進行裝飾。"
+            ],
+            "tips": [
+              "△洋蔥大丁亦可先川燙過後再去油炒，能縮短煮軟時間並減少辛辣感。",
+              "△培根煎出油脂即可撈起，不宜過度焦化以免使濃湯帶有雜色與焦味。"
+            ]
+          },
+          {
+            "id": "recipe_p29",
+            "code": "302B",
+            "title": "乳酪奶油焗鱸魚排附水煮馬鈴薯",
+            "engTitle": "Seabass fillet a la mornay with boiled potatoes",
+            "intro": "",
+            "ingredients": [
+              { "name": "鱸魚", "baseQty": 1, "unit": "尾", "type": "pcs" },
+              { "name": "馬鈴薯", "baseQty": 2, "unit": "顆", "type": "pcs" },
+              { "name": "麵粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "沙拉油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "奶油", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "白酒", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "牛奶", "baseQty": 100, "unit": "c.c.", "type": "ml" },
+              { "name": "高湯 (或水)", "baseQty": 130, "unit": "c.c.", "type": "ml" },
+              { "name": "起司粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "起司絲", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "巴西里", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "胡椒鹽", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "將馬鈴薯去皮，削成精緻的六至八面橄欖形，放入加鹽的冷水中滾煮至熟，撈起瀝乾備用。",
+              "處理鱸魚：務必將魚鱗完全刮除乾淨，切取魚片（切魚片時將肉撐開會比較好切，注意不要切破魚皮），修整形狀後抹上胡椒與鹽醃漬（擺盤時注意魚皮朝上）。",
+              "將醃好的魚片兩面均勻沾上薄薄一層麵粉（待片刻讓麵粉回潮受熱，粉會緊密附著在魚肉上，下鍋才不易黏鍋），放入沙拉油與奶油的混合油中煎熟（魚肉面先煎，再翻面煎魚皮面），起鍋前用少許白酒嗆香提味。",
+              "製作莫內醬汁（Mornay Sauce）：以小火融化奶油，加入麵粉炒香成麵糊，用打蛋器攪打均勻，再徐徐加入牛奶與高湯（為防結塊，亦可將液體加入麵糊中後倒入果汁機打碎再回鍋加熱），最後加入胡椒鹽、起司粉調味煮至濃稠。",
+              "將煎熟的魚片排入烤盤，淋上調製好的莫內醬汁，表面撒上起司絲，放入上火烤箱烤至表面乳酪融化且金黃上色。",
+              "熱鍋融化少許奶油，放入煮熟的橄欖形馬鈴薯與切碎的巴西里一同拌炒均勻，盛盤時作為配角裝飾於烤好的焗鱸魚旁。"
+            ],
+            "tips": [
+              "△配菜（裝飾用馬鈴薯）的總體積在視覺上必須比主菜主體小，以維持主次分明。",
+              "△若術科檢定當天現場未提供牛奶，需利用取下魚肉後的魚骨和魚頭先熬煮魚高湯。製作麵糊時，必須將放冷的魚高湯加入奶油麵糊中結合調製成魚麵醬沙司。"
+            ]
+          },
+          {
+            "id": "recipe_p30",
+            "code": "302C",
+            "title": "蛋黃醬通心麵沙拉",
+            "engTitle": "Macaroni salad with mayonnaise",
+            "intro": "",
+            "ingredients": [
+              { "name": "通心麵", "baseQty": 1, "unit": "人份", "type": "g" },
+              { "name": "西洋芹", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "青椒", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "甜椒 (紅或黃)", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "美奶滋", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "胡椒鹽", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "將西洋芹刨去外皮老筋，斜刀切成小薄片；將青椒、甜椒亦斜切成大小相似的小薄片。",
+              "燒一鍋熱水，將西洋芹片放入川燙至熟後撈起（西芹可與通心麵一起川燙以節省瓦斯時間）；青椒與甜椒片則不需川燙，保持生鮮脆口。",
+              "滾水中加鹽，放入通心麵（注意要水滾後再放入），中火滾煮約 20 分鐘至通心麵熟透（無白心且柔軟）。",
+              "將煮好的通心麵撈起，立刻投入生飲冰水中冰鎮，隨後用網篩徹底濾乾水分，放入冰箱冷藏降溫。",
+              "將冷藏好的通心麵、西洋芹片、青椒片、甜椒片放入大碗中，先加入少許胡椒與鹽調味。",
+              "加入適量美奶滋拌勻（建議先在小碗中將醬汁胡椒鹽調好，再加入大碗的固形物中拌勻，美奶滋不宜過多，以薄薄包裹食材為佳）即可盛盤。"
+            ],
+            "tips": [
+              "△本套題丙級檢定推薦的烹調工作順序：清洗蔬菜與器具 -> 製作焦糖布丁 -> 切菜 -> 熬煮蔬菜雞清湯 -> 進行烤全雞 -> 最後出餐前製作通心麵沙拉。"
+            ]
+          },
+          // --- PART 07 ---
+          {
+            "id": "recipe_p31",
+            "code": "302D",
+            "title": "蔬菜絲雞清湯",
+            "engTitle": "Chicken consomme a la Julienne",
+            "intro": "",
+            "ingredients": [
+              { "name": "紅蘿蔔", "baseQty": 1, "unit": "根", "type": "pcs" },
+              { "name": "西洋芹", "baseQty": 1, "unit": "瓣", "type": "pcs" },
+              { "name": "高麗菜", "baseQty": 0.25, "unit": "顆", "type": "pcs" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "雞胸肉與雞骨", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "蛋白", "baseQty": 2, "unit": "顆", "type": "pcs" },
+              { "name": "雞高湯", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "奶油", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "白胡椒粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "鹽", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "準備蔬菜絲：將西洋芹、紅蘿蔔、高麗菜切成細絲，注意長度需一致（規格約為 4 至 5 公分，若紅蘿蔔中心長得不好可取出另外切絲）。",
+              "處理雞肉：雞肉與雞骨放入沸水中川燙去血水，撈出清洗乾淨後，再放入湯鍋中準備熬湯。",
+              "將洋蔥切半，切面朝下在平底鍋上煎至焦黑（黑洋蔥），隨後放入湯鍋中一起熬煮以增加湯色與風味。",
+              "熱鍋加入少許奶油，將切好的蔬菜絲（紅蘿蔔、西芹、高麗菜）炒軟後，倒入雞高湯中一同熬煮。",
+              "澄清湯汁：將 2 顆蛋白略微攪打後加入湯中，用大火煮沸使其產生泡沫並吸附雜質，隨後用細網篩將表面的泡沫與雜質徹底濾掉，以確保湯汁清澈無油脂。",
+              "將熬湯用的蔬菜絲撈起瀝乾備用（亦可另外用水將蔬菜絲煮熟撈起備用）。",
+              "出菜前，將澄清的雞清湯再次加熱，加入煮熟的蔬菜絲，以胡椒鹽調味。",
+              "調味完成後盛入湯碗中，若表面仍有微量雜質，可以大火再次煮沸並濾掉，以呈現最完美的清透度。"
+            ],
+            "tips": [
+              "△清湯的關鍵在於絕對不能有油脂與雜質，必須徹底過濾泡沫。",
+              "△切蔬菜絲時，務必注意長度規格需整齊一致（4~5公分）。",
+              "△洋蔥煎至焦黑能賦予高湯美麗的金黃琥珀色澤與獨特香氣。"
+            ]
+          },
+          {
+            "id": "recipe_p32",
+            "code": "302D",
+            "title": "原汁烤全雞附煎烤馬鈴薯",
+            "engTitle": "Roasted chicken au jus with potato cocotte",
+            "intro": "",
+            "ingredients": [
+              { "name": "全雞", "baseQty": 1, "unit": "隻", "type": "pcs" },
+              { "name": "大蒜", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "西洋芹", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "紅蘿蔔", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "馬鈴薯", "baseQty": 2, "unit": "顆", "type": "pcs" },
+              { "name": "白里香 (百里香)", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "義大利香料", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "麵粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "奶油", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "培根", "baseQty": 1, "unit": "片", "type": "pcs" },
+              { "name": "青蔥", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "白胡椒粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "高湯", "baseQty": 1, "unit": "適量", "type": "ml" }
+            ],
+            "steps": [
+              "準備烤盤底料：將大蒜、洋蔥皮、西芹前端、紅蘿蔔皮等蔬菜碎墊在全雞下方，其餘蔬菜塞入全雞腔內。",
+              "綁全雞：將全雞的雞腿交叉綁緊，雞翅往後折至雞腿上方固定，在全雞表面抹上少許鹽、白胡椒與沙拉油。",
+              "將馬鈴薯切半，用鋁箔紙包好，與綁好的全雞一同放入預熱至 200°C 的烤箱中烤 30 至 40 分鐘（烤製期間需定時翻動全雞，使其均勻上色；若上色不足，最後可調高上火烘烤）。",
+              "製作煎烤馬鈴薯（Cocotte）：亦可將馬鈴薯削成精緻的橄欖形，先用奶油在平底鍋炒香炒軟，再放入烤箱中烤上色（出爐前 30 分鐘需確認馬鈴薯已烤熟烤熱）。",
+              "馬鈴薯烤軟後，於頂部切十字（底部不要切斷），使其呈花狀。可依喜好淋上少許奶油或與青蔥炒過的培根碎裝飾（考照不強求培根裝飾）。",
+              "全雞烤熟後取出，將叉子從雞屁股往脖子方向切入固定，去掉雞屁股與小雞翅，切開並取出雞胸中間的骨頭。全雞去骨切塊擺盤（最後裝盤雞肉可呈去骨狀態）。",
+              "製作原汁（Au Jus）：將烤全雞盤中流出的肉汁、取出的雞骨、百里香、義大利香料、白胡椒、少許麵粉、水（或高湯）一同調味，慢火熬煮過濾，使其呈現適當的稠度，最後淋在烤雞上。"
+            ],
+            "tips": [
+              "△全雞腿部一定要交叉綁緊，以維持烤後不變形並鎖住肉汁。",
+              "△若烘烤過程中擔心全雞烤焦，可在烤盤中適量加入少許高湯防焦。",
+              "△削馬鈴薯橄欖形（Cocotte）時，注意多角面的對稱與精緻度。"
+            ]
+          },
+          {
+            "id": "recipe_p33",
+            "code": "302D",
+            "title": "焦糖布丁",
+            "engTitle": "Creme caramel",
+            "intro": "",
+            "ingredients": [
+              { "name": "牛奶", "baseQty": 500, "unit": "g", "type": "ml" },
+              { "name": "細砂糖 (布丁液用)", "baseQty": 50, "unit": "g", "type": "g" },
+              { "name": "全蛋", "baseQty": 2, "unit": "顆", "type": "pcs" },
+              { "name": "蛋黃", "baseQty": 45, "unit": "g", "type": "g" },
+              { "name": "香草精", "baseQty": 0.5, "unit": "瓶蓋", "type": "ml" },
+              { "name": "細砂糖 (焦糖用)", "baseQty": 100, "unit": "g", "type": "g" },
+              { "name": "水 (焦糖用)", "baseQty": 30, "unit": "g", "type": "ml" }
+            ],
+            "steps": [
+              "製作布丁液：將牛奶與砂糖加入鍋中加熱攪拌，使砂糖溶解即可（溫度控制在微溫 50°C 左右，不可煮滾）。",
+              "將全蛋與蛋黃攪拌均勻，緩緩倒入溫牛奶糖液中混合，再加入半瓶蓋香草精攪拌均勻。",
+              "將布丁液靜置（或靜置數小時）以利表面泡泡消退，並用細網篩過濾去除多餘雜質與泡沫，備用。",
+              "製作焦糖：在乾淨的鍋中加入細砂糖 100g 與水 30g（糖與水的比例約 3:1），以小火熬煮至糖溶解（熬煮過程中絕對不要去攪拌，避免產生糖結晶塊）。",
+              "持續觀察糖液溫度：約 110°C 時呈現透絲狀，至 130°C 時開始轉變為琥珀色。煮至焦糖色產生後立即關火（煮過頭會產生苦味），趁熱倒入布丁模具底部並流平凝固。",
+              "待模具底部的焦糖冷卻凝固後，倒入過濾好的布丁液至模具約 7 分滿。",
+              "蒸烤布丁：在烤盤內鋪上一張紙巾（防止模具在烤箱內滑動），烤盤內注入高度大於 1 公分的熱水。放入預熱至 120°C 至 150°C 的烤箱中，蒸烤 35 至 50 分鐘。",
+              "烤至布丁表面凝固、微震動不呈液體狀即表示熟透（表面不可使其膨脹起泡）。出爐後完全冷卻，放入冰箱冷藏。出餐前用小刀在邊緣刮一圈，倒扣呈盤。"
+            ],
+            "tips": [
+              "△使用全脂牛奶做出來的布丁風味較為香濃；蛋黃量越少或使用低脂牛奶布丁質地會較嫩，蛋白成分多則口感較硬。",
+              "△細砂糖用量可依口味需求適度減少至 60~70g。",
+              "△煮焦糖時，若鍋邊有沾黏，可用毛刷沾少許水刷入鍋中防止結晶。"
+            ]
+          },
+          {
+            "id": "recipe_p34",
+            "code": "302D",
+            "title": "德式熱馬鈴薯沙拉",
+            "engTitle": "Warmed German potato salad",
+            "intro": "",
+            "ingredients": [
+              { "name": "馬鈴薯", "baseQty": 2, "unit": "顆", "type": "pcs" },
+              { "name": "洋蔥", "baseQty": 0.5, "unit": "顆", "type": "pcs" },
+              { "name": "培根", "baseQty": 2, "unit": "片", "type": "pcs" },
+              { "name": "沙拉油", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "白胡椒粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "芥末醬", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "白酒醋", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "巴西里 (洋香菜)", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "蝦夷蔥", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "將馬鈴薯去皮切成大丁（或三角形大塊），放入滾水中加鹽煮熟（亦可整顆帶皮煮熟後再去皮切塊）。",
+              "將洋蔥、培根切成薄片丁狀，備用。",
+              "熱鍋加入少許沙拉油，放入切好的洋蔥與培根片爆香炒香。",
+              "加入白酒醋、芥末醬、白胡椒調味拌炒，隨後倒入已煮熟的馬鈴薯丁共同拌炒均勻，使其充分吸收香氣。",
+              "炒好起鍋前，淋上少許沙拉油拌勻（主要是為了增加成品表面的亮澤感）。",
+              "將炒好的熱沙拉裝盤，表面撒上切碎的巴西里，若有蝦夷蔥則切細絲擺盤裝飾即可。"
+            ],
+            "tips": [
+              "△若培根與洋蔥炒好而馬鈴薯尚未完全熟透，可先用餘溫將馬鈴薯燜熟，再加入調味料拌炒。",
+              "△白酒醋與芥末醬是德式熱沙拉風味的核心，酸度與辛香味比例需拿捏得當。"
+            ]
+          },
+          {
+            "id": "recipe_p35",
+            "code": "302D",
+            "title": "奶油洋菇濃湯",
+            "engTitle": "Cream of mushroom soup",
+            "intro": "",
+            "ingredients": [
+              { "name": "洋菇", "baseQty": 10, "unit": "朵", "type": "pcs" },
+              { "name": "馬鈴薯 (洋芋)", "baseQty": 0.5, "unit": "顆", "type": "pcs" },
+              { "name": "奶油", "baseQty": 2, "unit": "大匙", "type": "g" },
+              { "name": "沙拉油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "月桂葉", "baseQty": 1, "unit": "片", "type": "pcs" },
+              { "name": "麵粉", "baseQty": 2, "unit": "大匙", "type": "g" },
+              { "name": "雞高湯", "baseQty": 500, "unit": "ml", "type": "ml" },
+              { "name": "牛奶", "baseQty": 1, "unit": "杯", "type": "ml" },
+              { "name": "鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "巴西里 (洋香菜)", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "準備工作：將洋菇切片；馬鈴薯去皮切成小丁（馬鈴薯可以增加濃湯的自然濃稠度）。",
+              "炒製麵糊（Roux）：以小火融化奶油與少許沙拉油，放入 1 片月桂葉，加入麵粉，小火慢炒至油與麵粉均勻融合且散發麵包香味。",
+              "加入雞高湯：緩緩倒入雞高湯，並用打蛋器快速攪拌避免麵糊結塊，加入適量鹽，轉小火煮滾。",
+              "加入 1 杯牛奶拌勻（若使用鮮奶油，用量應比牛奶少）。",
+              "炒菇：另起一平底鍋，以小火用少許奶油將洋菇丁與洋菇片炒香炒軟，隨後倒入熬煮好的濃湯底中共同慢火熬煮熟透（可預留幾片精美的洋菇片作為最後盤飾）。",
+              "攪打濃湯：將熬煮好的湯汁（撈出月桂葉）倒入果汁機中攪碎（不需要打得過於細碎，保留微小洋菇顆粒以增加口感，若太稠可加高湯稀釋）。",
+              "出菜盛碗：將打好的濃湯回溫裝碗，表面點綴先前預留的洋菇片，可挖入一小塊奶油使其融化增香，並撒上巴西里碎即可。"
+            ],
+            "tips": [
+              "△小火炒製麵糊是關鍵，油麵結合度要高且不可炒焦，否則會影響濃湯成色。",
+              "△牛奶或鮮奶油的比例需適中，鮮奶油的用量要比牛奶少，以免口感過於油膩。"
+            ]
+          },
+          // --- PART 08 ---
+          {
+            "id": "recipe_p36",
+            "code": "302D",
+            "title": "匈牙利燴牛肉附奶油飯",
+            "engTitle": "Hungarian Goulash with pilaf rice",
+            "intro": "",
+            "ingredients": [
+              { "name": "蒜頭", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "紅蘿蔔", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "西洋芹", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "牛肉 (牛肋條或牛腱)", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "洋菇", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "馬鈴薯 (洋芋)", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "米", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "奶油", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "沙拉油", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "高湯", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "蕃茄糊", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "紅椒粉", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "月桂葉", "baseQty": 3, "unit": "片", "type": "pcs" },
+              { "name": "迷迭香", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "百里香", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "白胡椒", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "巴西里", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "準備工作：蒜頭切碎；紅蘿蔔去皮切三角形（切塊，不要加太多）；西洋芹去皮切三角形備用。",
+              "處理牛肉：牛肉切塊，加入紅椒粉、鹽醃漬。熱鍋加入沙拉油將牛肉炒香後，放入滾水中煮至軟爛（約50至60分鐘，如中途加水需開大火，待水滾後快速收汁）。",
+              "製作奶油飯 (Pilaf rice) 方式一：將米洗淨。用奶油炒香洋蔥碎，加入米與高湯拌勻，加水蓋過米粒用小火煮（不加蓋）。煮到水快乾時再加水並加蓋，待水分被吸乾，將米飯攪拌並戳洞（讓蒸氣可跑出），放入180°C烤箱中烤18分鐘（需加蓋）。",
+              "製作奶油飯方式二：用奶油與沙拉油炒香洋蔥碎及2片月桂葉，加入煮好的白飯拌炒，並以鹽、白胡椒調味。",
+              "熬煮燴牛肉：熱鍋加沙拉油炒香大蒜碎，接著放入洋菇、紅蘿蔔、西芹、1片月桂葉炒香。",
+              "加入蕃茄糊、高湯以及煮爛的牛肉共同熬煮，並加入紅椒粉、迷迭香、百里香增添香氣。",
+              "大火熬煮收汁後轉中火，加入鹽與白胡椒調味（紅蘿蔔、西芹、馬鈴薯也可在快起鍋前加入煮熟，這樣較有甜味且不會糊掉）。",
+              "擺盤：將燴牛肉與奶油飯盛盤，挑除燴牛肉中的月桂葉，並在白飯上撒上切碎的巴西里裝飾。"
+            ],
+            "tips": [
+              "△成品需具備明顯的紅椒粉與香料風味，湯汁濃稠度需適中。",
+              "△牛肉建議選用牛肋條或牛腱，遇熱會縮小是正常現象，口感較佳且較具份量感。"
+            ]
+          },
+          {
+            "id": "recipe_p37",
+            "code": "302D",
+            "title": "烤蘋果奶酥",
+            "engTitle": "Apple crumble",
+            "intro": "",
+            "ingredients": [
+              { "name": "蘋果", "baseQty": 1, "unit": "適量", "type": "pcs" },
+              { "name": "葡萄乾", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "蘭姆酒 (或水)", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "肉桂粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "細砂糖", "baseQty": 15, "unit": "g", "type": "g" },
+              { "name": "糖粉", "baseQty": 50, "unit": "g", "type": "g" },
+              { "name": "奶油", "baseQty": 45, "unit": "g", "type": "g" },
+              { "name": "蛋液", "baseQty": 1, "unit": "小匙", "type": "ml" },
+              { "name": "奶粉", "baseQty": 60, "unit": "g", "type": "g" },
+              { "name": "高筋麵粉", "baseQty": 30, "unit": "g", "type": "g" }
+            ],
+            "steps": [
+              "準備蘋果：蘋果去皮、去籽，切成厚度約 0.5 公分的片狀。",
+              "準備葡萄乾：將葡萄乾浸泡於蘭姆酒或水中使其軟化（不需泡太久），隨後擠乾水分備用。",
+              "拌蘋果餡：將切好的蘋果片瀝乾多餘水分，加入少許肉桂粉、15g 細砂糖與泡軟的葡萄乾拌勻，均勻鋪排在烤盤底部。",
+              "製作奶酥：將 50g 糖粉過篩，與 45g 奶油攪拌均勻。接著慢慢加入 1 小匙打散的蛋液，攪拌至糖油完全融合。",
+              "加入 60g 奶粉與 30g 高筋麵粉，用手搓揉至呈乾爽的奶酥粒狀（若質地稍微黏稠，自己食用口感較佳）。",
+              "將搓好的奶酥均勻撒在鋪好蘋果的烤盤上（可用過篩方式均勻覆蓋）。",
+              "烘烤：放入預熱好的烤箱，以 180°C 至 190°C 烤約 10 至 15 分鐘，烤至表面呈現金黃上色即可。"
+            ],
+            "tips": [
+              "△在正常烘烤情況下，蘋果不會出水太多。若擔心出水，可先將蘋果略微炒過再鋪盤烘烤。",
+              "△蘋果加熱後味道會改變，因此蘋果相關的料理通常會搭配肉桂粉來提味。",
+              "△奶酥製作中，使用糖粉會比細砂糖更容易與奶油融合；蛋液需慢慢加入避免油水分離。"
+            ]
+          },
+          {
+            "id": "recipe_p38",
+            "code": "302E",
+            "title": "主廚沙拉附油醋汁",
+            "engTitle": "Chef's salad served with vinaigrette",
+            "intro": "",
+            "ingredients": [
+              { "name": "蘿蔓生菜或美生菜", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "紅蘿蔔", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "小黃瓜", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "蕃茄", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "雞胸肉", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "火腿片", "baseQty": 1, "unit": "適量", "type": "pcs" },
+              { "name": "牛肉片", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "水煮蛋", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "沙拉油", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "巴西里", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "蒜頭", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "白酒醋", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "橄欖油", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "白胡椒粉", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "處理蔬菜：蘿蔓生菜洗淨切片狀備用。紅蘿蔔去皮切條狀；小黃瓜切半去籽後切成條狀。",
+              "處理蕃茄與蛋：蕃茄底部切十字，放入滾水中短暫川燙（不要燙太爛），取出剝皮去籽，將皮肉切成條狀；水煮蛋亦切片或切條狀備用。",
+              "處理肉類：雞胸肉先去皮，用鹽、胡椒醃漬，以沙拉油煎上色後，放入 200°C 烤箱烤約 8至 10 分鐘至熟透（也可用水煮），取出順紋切條。火腿片去邊切條（熟食）；牛肉煎熟後切片再切條。",
+              "製作油醋汁 (Vinaigrette)：將巴西里碎與蒜碎混合均勻，加入胡椒鹽拌勻，隨後倒入白酒醋與橄欖油，使用打蛋器充分攪拌至乳化（個人食用可依喜好加入少許砂糖調整風味）。",
+              "擺盤：將切好的蘿蔓生菜墊底置於盤中，接著依序將紅蘿蔔條、小黃瓜條、蕃茄條、火腿條、牛肉條、雞胸肉條（及水煮蛋）整齊排於生菜上方。食用前淋上油醋汁即可。"
+            ],
+            "tips": [
+              "△各項食材切條時注意不要切得太細，需保持一定規格以維持口感與外觀。",
+              "△處理泡過生飲水的生菜或熟食時，務必使用熟食砧板以符合衛生規範。"
+            ]
+          },
+          {
+            "id": "recipe_p39",
+            "code": "302E",
+            "title": "蘇格蘭羊肉湯",
+            "engTitle": "Scotch broth",
+            "intro": "",
+            "ingredients": [
+              { "name": "羊肉", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "紅蘿蔔", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "白蘿蔔 (或大頭菜)", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "西洋芹", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "青蔥", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "高麗菜", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "培根", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "薏仁", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "沙拉油", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "雞高湯", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "月桂葉", "baseQty": 1, "unit": "片", "type": "pcs" },
+              { "name": "迷迭香", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "百里香", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "胡椒鹽", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "準備蔬菜丁：將洋蔥切大片後切條再切小丁；紅蘿蔔與白蘿蔔（先切一個平面固定較好操作）切片後切條再切成小丁；西洋芹切半後切條再切小丁。",
+              "其他蔬菜處理：青蔥切段後切小片；高麗菜切成小片備用。",
+              "肉類處理：培根切條後切成小丁；羊肉先去筋，切片、切條後切成小丁備用。",
+              "薏仁處理：薏仁需事先泡軟，並用水煮熟備用。",
+              "炒料：熱鍋加入沙拉油，先放入培根片與羊肉丁炒香，接著加入紅蘿蔔丁、白蘿蔔丁、洋蔥丁、西芹丁快速翻炒。",
+              "加入香料：炒香後加入青蔥、月桂葉、迷迭香與百里香（香料不可加太多以免搶味），並撒上少許胡椒鹽調味。",
+              "熬煮：倒入雞高湯，並加入事先煮軟的薏仁與高麗菜片，共同煮至所有食材熟透。",
+              "盛盤：起鍋前過濾掉表面過多的油脂（不需全部濾掉，此湯本身需要表面帶有少許油脂），即可盛碗。"
+            ],
+            "tips": [
+              "△薏仁務必事先煮熟再加入湯中，否則不易煮透且會吸收過多湯汁。",
+              "△各項蔬菜丁與肉丁的刀工需盡量一致，這將影響湯品的整體精緻度。"
+            ]
+          },
+          {
+            "id": "recipe_p40",
+            "code": "302E",
+            "title": "白酒燴雞附瑞士麵疙瘩",
+            "engTitle": "Chicken fricassee with spaetzle",
+            "intro": "",
+            "ingredients": [
+              { "name": "全雞", "baseQty": 1, "unit": "隻", "type": "pcs" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "大蒜", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "白酒", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "麵粉", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "雞高湯", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "鮮奶 (或鮮奶油)", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "蛋", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "高筋麵粉", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "沙拉油", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "奶油", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "橄欖油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "肉豆蔻粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "巴西里", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "白胡椒", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "準備工作：洋蔥切大片或碎丁；大蒜切片備用。",
+              "全雞分切：將全雞去頭去腳，取下雞脖子。雞胸切對半成 4 等分，雞腿分切為 3 等分（去除小雞翅及露出的骨頭），將分切好的雞塊用胡椒鹽醃漬。",
+              "煎雞塊：將醃好的雞塊表面均勻沾上少許麵粉。熱鍋加入沙拉油，將雞塊先煎皮面，煎至表面微上色後起鍋備用。",
+              "製作白酒醬底：原鍋保留油脂，放入大蒜片與洋蔥炒香，接著加入少許麵粉炒勻。倒入白酒刮淨鍋底精華（Deglaze），煮至白酒酸味揮發後，加入熱高湯（務必使用熱高湯，避免麵粉遇冷結塊）。",
+              "燴煮：將煎好的雞塊放回醬汁中，用小火慢煮，讓雞塊吸收湯汁風味熟透。",
+              "製作麵疙瘩麵糊：將蛋打散，加入鹽、白胡椒、少許肉豆蔻粉與少許水攪拌均勻。分次加入高筋麵粉，用手攪拌均勻並甩拍麵糊至產生筋性。",
+              "煮麵疙瘩：煮一鍋滾水加入少許鹽與沙拉油。將麵糊透過有大洞的漏杓壓入滾水中，煮至麵疙瘩浮起且水變清澈即可撈起瀝乾水分（不可泡冷水以免軟爛）。",
+              "拌炒麵疙瘩：平底鍋中加入奶油、少許橄欖油，放入瀝乾的麵疙瘩與巴西里碎拌炒（動作需輕柔以免破壞形狀）。",
+              "組合裝盤：將煮軟的雞塊撈出裝盤。在剩下的醬汁中加入適量鮮奶或鮮奶油拌勻，煮至微稠狀後淋在雞塊上。將炒好的麵疙瘩擺放於旁，撒上巴西里碎點綴即可。"
+            ],
+            "tips": [
+              "△製作白色湯汁料理時，應避免使用鐵鍋烹調以免醬汁氧化變色。",
+              "△炒醬汁麵糊時，加入的高湯必須是熱的，才能有效防止麵粉結塊。",
+              "△麵疙瘩煮熟撈起後不宜泡冷水，直接用油脂拌勻防沾黏即可保持口感。"
+            ]
+          },
+          // --- PART 09 ---
+          {
+            "id": "recipe_p41",
+            "code": "302E",
+            "title": "炸蘋果圈",
+            "engTitle": "Apple fritters",
+            "intro": "",
+            "ingredients": [
+              { "name": "蘋果", "baseQty": 1, "unit": "適量", "type": "pcs" },
+              { "name": "蘭姆酒", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "肉桂粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "細砂糖 (醃漬用)", "baseQty": 10, "unit": "g", "type": "g" },
+              { "name": "細砂糖 (麵糊用)", "baseQty": 250, "unit": "g", "type": "g" },
+              { "name": "蛋", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "高筋麵粉 (麵糊用)", "baseQty": 200, "unit": "g", "type": "g" },
+              { "name": "泡打粉", "baseQty": 15, "unit": "g", "type": "g" },
+              { "name": "高筋麵粉 (沾裹用)", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "沙拉油 (油炸用)", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "糖粉或肉桂粉 (裝飾用)", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "準備蘋果：蘋果去皮、去籽，切成厚度約 0.5 公分的圈狀（越厚越不容易斷裂，但也需適中以利油炸）。",
+              "醃漬：用少許蘭姆酒、肉桂粉與 10g 細砂糖均勻醃漬切好的蘋果圈，隨後濾乾水分備用。",
+              "製作麵糊：將 250g 細砂糖與蛋攪拌均勻，接著加入 200g 高筋麵粉與 15g 泡打粉充分拌勻成麵糊。",
+              "油炸：將蘋果圈先沾上一層高筋麵粉（乾粉），再均勻沾裹調製好的麵糊，放入 160°C 至 170°C 的油鍋中炸至金黃色。",
+              "起鍋與裝飾：起鍋後用廚房紙巾吸乾多餘油脂，表面均勻撒上糖粉或肉桂粉即可上桌。"
+            ],
+            "tips": [
+              "△炸硬性食材需先沾乾粉再沾麵糊，炸軟性食材則直接沾麵糊即可。",
+              "△若油溫太低，下鍋後會造成麵糊皮與果肉分離；麵糊調得太稠或太稀都會導致無法順利裹上蘋果。",
+              "△炸出來的蘋果圈形狀要完整圓潤，若形狀不佳會影響成品美觀。"
+            ]
+          },
+          {
+            "id": "recipe_p42",
+            "code": "303A",
+            "title": "煎恩利蛋",
+            "engTitle": "Plain omelette",
+            "intro": "",
+            "ingredients": [
+              { "name": "蛋", "baseQty": 2, "unit": "顆", "type": "pcs" },
+              { "name": "奶油", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "白胡椒粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "沙拉油", "baseQty": 1, "unit": "適量", "type": "ml" }
+            ],
+            "steps": [
+              "準備蛋液：將 2 至 3 顆蛋打入碗中，加入少許奶油（可依個人喜好決定是否添加）、少許鹽與白胡椒，攪拌均勻。",
+              "熱鍋（養鍋）：將平底鍋稍微燒熱（鍋子絕對不能太熱），倒入少許沙拉油潤鍋。",
+              "煎製：倒入蛋液，用工具快速將蛋液攪散，使其均勻受熱且保持滑嫩質地。",
+              "捲起成型：趁蛋液半熟尚未完全凝固時，將蛋皮從鍋邊往內捲起，捲成傳統的橄欖形（不一定要完全捲起，也可做成半月形狀）。",
+              "盛盤：將成型的恩利蛋輕輕滑入盤中即可。"
+            ],
+            "tips": [
+              "△恩利蛋的核心要求是「熟而嫩」，操作時火候要掌控好，絕對不能煎過火產生焦黃色澤（上色即不合格）。"
+            ]
+          },
+          {
+            "id": "recipe_p43",
+            "code": "303A",
+            "title": "義大利蔬菜湯",
+            "engTitle": "Minestrone",
+            "intro": "",
+            "ingredients": [
+              { "name": "高麗菜", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "培根", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "紅蘿蔔", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "馬鈴薯 (洋芋)", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "西洋芹", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "大蒜", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "蕃茄", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "橄欖油", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "蕃茄糊", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "月桂葉", "baseQty": 3, "unit": "片", "type": "pcs" },
+              { "name": "白酒", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "雞高湯", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "通心粉", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "巴西里碎", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "起司粉", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "備料：將高麗菜、培根、紅蘿蔔（去皮）、洋芋、西芹、洋蔥全部切成規格一致的小丁；大蒜切碎；蕃茄去籽切小丁（不一定要川燙去皮）。",
+              "炒香底料：熱鍋倒入橄欖油，依序放入大蒜碎、洋蔥丁、培根丁、紅蘿蔔丁與西芹丁炒香。",
+              "加入蕃茄糊與香料：加入蕃茄糊炒散，隨後放入 3 片月桂葉增添香氣。",
+              "加白酒與加湯：倒入少許白酒，煮至鍋底略微收乾後，倒入雞高湯煮滾。",
+              "熬煮蔬菜：湯滾後，加入高麗菜片、洋芋丁、蕃茄丁，並撒入少許巴西里碎慢火熬煮至蔬菜熟透。",
+              "煮通心粉：另起一鍋滾水，將通心粉放入煮約 8 分鐘至熟透，撈起沖冷水瀝乾，隨後加入蔬菜湯中共同煮熱。",
+              "盛盤：裝入湯碗中，表面撒上少許起司粉即可享用。"
+            ],
+            "tips": [
+              "△此湯的顏色要求呈現清澈的紅黃色澤（清清紅紅的感覺）。",
+              "△實務操作上，烹調步驟進行到加白酒炒乾後，可將底料放涼並放入冰箱冷凍儲存，以利後續快速出餐。"
+            ]
+          },
+          {
+            "id": "recipe_p44",
+            "code": "303A",
+            "title": "翠綠沙拉附法式沙拉醬",
+            "engTitle": "Green salad with French dressing",
+            "intro": "",
+            "ingredients": [
+              { "name": "萵苣 (蘿蔓或美生菜)", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "小黃瓜", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "芥末醬", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "白酒醋", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "美奶滋", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "高湯 (或水)", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "檸檬汁", "baseQty": 1, "unit": "少許", "type": "ml" }
+            ],
+            "steps": [
+              "處理生菜：將萵苣去心洗淨，用手撕成約一口大小的片狀。",
+              "處理小黃瓜：小黃瓜切花切片（切除兩端斜面部分可去除苦澀味）。",
+              "冰鎮與瀝乾：將生菜與小黃瓜泡入冰水中增加脆度，隨後徹底瀝乾水分（若需冷藏備用必須瀝乾）。",
+              "製作法式沙拉醬：將芥末醬與白酒醋攪拌均勻。慢慢加入美奶滋（分次少量加入以利乳化）。",
+              "調整濃稠度：緩緩加入常溫的高湯調整濃稠度，注意不可一次加太多以免油水分離（花掉）。可加入少許檸檬汁提升整體風味。",
+              "擺盤：將冰鎮瀝乾的生菜與小黃瓜均勻鋪於沙拉碗中，附上調製好的法式沙拉醬即可。"
+            ],
+            "tips": [
+              "△調製沙拉醬時，美奶滋與高湯必須慢慢混合，避免乳化失敗導致醬汁分離。",
+              "△正統法式沙拉醬（French dressing）由橄欖油、白酒醋、芥末醬與檸檬汁調製而成，添加美奶滋能讓質地更滑順；若太濃稠可加高湯稀釋，太酸可依喜好加糖。"
+            ]
+          },
+          {
+            "id": "recipe_p45",
+            "code": "303A",
+            "title": "藍帶豬排附炸圓柱形馬鈴薯泥",
+            "engTitle": "Pork Cordon bleu with potato croquettes",
+            "intro": "",
+            "ingredients": [
+              { "name": "馬鈴薯 (洋芋)", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "蛋黃", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "鮮奶油", "baseQty": 2, "unit": "大匙", "type": "ml" },
+              { "name": "鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "白胡椒粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "麵粉", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "蛋液", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "麵包粉", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "去骨豬排", "baseQty": 2, "unit": "片", "type": "pcs" },
+              { "name": "起司片", "baseQty": 1, "unit": "片", "type": "pcs" },
+              { "name": "火腿片", "baseQty": 1, "unit": "片", "type": "pcs" },
+              { "name": "沙拉油 (油炸用)", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "檸檬", "baseQty": 1, "unit": "片", "type": "pcs" },
+              { "name": "巴西里", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "製作馬鈴薯泥：洋芋去皮切片，放入滾水中煮熟。撈起搗碎成泥，加入 1 顆蛋黃、1~2 大匙鮮奶油（不可加太多以免太軟）、鹽與白胡椒辦勻，放置冷卻。",
+              "炸馬鈴薯泥 (Croquettes)：手沾少許麵粉，將冷卻的洋芋泥搓成長約 5cm、直徑 1cm 的圓柱形。依序沾裹麵粉、蛋液、麵包粉，放入熱油中炸至金黃上色，起鍋瀝油（可用大火逼出多餘油脂）。",
+              "處理豬排：將去骨豬排斷筋、拍打攤平（破壞筋絡防止油炸時縮水）。取兩片豬排，中間夾入起司片與火腿片，表面撒上少許白胡椒。",
+              "封口與沾粉：將豬排周圍輕輕拍打捏緊（封口一圈），依序均勻沾裹麵粉、蛋液、麵包粉。",
+              "油炸豬排：放入溫熱的油鍋中油炸（油量必須足夠蓋過豬排），炸至表面金黃熟透。（若擔心內部未熟，也可放入 150°C 烤箱烘烤 5 分鐘，但正統測驗建議純以油炸完成）。",
+              "擺盤裝飾：將豬排置於盤中（可依喜好切開展現斷面或不切），旁邊附上 3 個炸好的馬鈴薯泥，並以檸檬片與巴西里點綴即可。"
+            ],
+            "tips": [
+              "△馬鈴薯泥若太軟難以成型，可加入少許麵粉增加硬度；油炸時注意溫度控制，避免馬鈴薯泥爆裂溢出。",
+              "△豬排邊緣務必確實封口拍緊，以免油炸時夾層的乳酪餡流出導致失敗。",
+              "△沾裹的麵包粉越細膩，炸出來的色澤與外觀會越均勻好看。"
+            ]
+          },
+          // --- PART 10 ---
+          {
+            "id": "recipe_p46",
+            "code": "303B",
+            "title": "炒蛋附炒洋菇片",
+            "engTitle": "Scrambled egg with sauteed sliced mushroom",
+            "intro": "",
+            "ingredients": [
+              { "name": "洋蔥", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "洋菇", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "蕃茄", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "奶油", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "蛋", "baseQty": 2, "unit": "顆", "type": "pcs" },
+              { "name": "鮮奶油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "白胡椒", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "沙拉油", "baseQty": 1, "unit": "適量", "type": "ml" }
+            ],
+            "steps": [
+              "準備洋蔥與洋菇：將洋蔥切碎；洋菇去蒂後切片（厚度適中，不要切太薄為主）。",
+              "處理蕃茄配菜：將蕃茄從切口處對切，並切除蒂頭，表面塗抹少許奶油後進入烤箱烤熟（避免出水影響風味）。",
+              "準備蛋液：將蛋打散，加入少許鮮奶油與白胡椒攪拌均勻。",
+              "炒蛋：熱鍋（養鍋）後，加入奶油與少許沙拉油，倒入蛋液，用打蛋器快速攪拌炒至約九分熟即可起鍋。",
+              "炒洋菇片：原鍋加入少許奶油，先下洋蔥碎炒出香氣，接著加入洋菇片與白胡椒，炒至洋菇變軟。",
+              "盛盤：將炒蛋與炒洋菇一同盛盤，並附上烤好的蕃茄即可。"
+            ],
+            "tips": []
+          },
+          {
+            "id": "recipe_p47",
+            "code": "303B",
+            "title": "蔬菜片湯",
+            "engTitle": "Payannaire soup",
+            "intro": "",
+            "ingredients": [
+              { "name": "紅蘿蔔", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "白蘿蔔", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "西芹", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "高麗菜", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "蕃茄", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "馬鈴薯 (洋芋)", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "橄欖油", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "月桂葉", "baseQty": 2, "unit": "片", "type": "pcs" },
+              { "name": "高湯", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "胡椒鹽", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "蕃茄糊 (視情況添加)", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "巴西里碎", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "備料：將紅蘿蔔、白蘿蔔、西芹（去老筋）、洋蔥、高麗菜（去白色硬梗）、馬鈴薯與去皮去籽的蕃茄，全部切成大小一致的片狀小丁。",
+              "炒香底料：熱鍋倒入橄欖油，依序放入洋蔥、洋芋、紅蘿蔔、白蘿蔔、西芹、蕃茄、高麗菜，以及 2 片月桂葉辦炒均勻（若新鮮蕃茄不夠紅，可加入少許蕃茄糊增加顏色）。",
+              "熬煮湯底：倒入高湯熬煮至蔬菜熟透，並加入胡椒鹽調味。",
+              "去油與盛盤：將湯表面的浮油撈除。盛裝入湯碗時，挑起月桂葉丟棄，表面可淋上少許巴西里碎點綴即可。"
+            ],
+            "tips": [
+              "△紅色蕃茄較好，才會煮出顏色；綠色較不好處理，建議川燙去皮才好用。",
+              "△此道湯品的部分材料處理與 303A 義大利蔬菜湯相同。"
+            ]
+          },
+          {
+            "id": "recipe_p48",
+            "code": "303B",
+            "title": "高麗菜沙拉",
+            "engTitle": "Cole slaw",
+            "intro": "",
+            "ingredients": [
+              { "name": "高麗菜", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "紅蘿蔔", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "鹽", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "美乃滋", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "白酒醋", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "白胡椒粉", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "處理蔬菜：將高麗菜去除白色硬梗後切成細絲（可從旁邊開始切絲較方便）；紅蘿蔔切片後同樣切成細絲（僅作配色用，份量不需太多）。",
+              "殺青醃漬：將高麗菜絲與紅蘿蔔絲混合，加入適量鹽巴醃漬約 15 分鐘，使其軟化出水。",
+              "擠乾與調味：將醃好的蔬菜徹底擠乾水分，接著加入美乃滋、少許醋與胡椒拌勻即可（調味料建議邊試味道邊酌量加入）。"
+            ],
+            "tips": [
+              "△美乃滋的量要注意拿捏，不要加太多，以免整體口感過於膩口且影響外觀。"
+            ]
+          },
+          {
+            "id": "recipe_p49",
+            "code": "303B",
+            "title": "煎鱸魚排附奶油馬鈴薯",
+            "engTitle": "Seabass fillet meuniere with buttered potatoes",
+            "intro": "",
+            "ingredients": [
+              { "name": "檸檬", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "蕃茄", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "馬鈴薯 (洋芋)", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "鱸魚排", "baseQty": 1, "unit": "片", "type": "pcs" },
+              { "name": "白胡椒粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "白酒", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "麵粉", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "沙拉油", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "奶油", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "巴西里", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "辣醬油 (或鹽與胡椒)", "baseQty": 1, "unit": "少許", "type": "ml" }
+            ],
+            "steps": [
+              "準備裝飾配菜：檸檬切 4 片，蕃茄切 4 片備用。",
+              "煮馬鈴薯：將馬鈴薯切 4~6 塊並削成橄欖形。放入加了鹽的滾水中煮熟（可用牙籤刺入中心測試是否熟透）。",
+              "處理魚排：取鱸魚片去皮，對切成兩半。表面均勻撒上少許白胡椒、白酒與檸檬汁醃漬，隨後兩面沾裹薄薄一層麵粉。",
+              "煎魚排：平底鍋倒入沙拉油，將魚排煎至兩面金黃上色。若中心未熟透，可移入烤箱烘烤至熟（若平底鍋已煎熟則不需入烤箱）。",
+              "炒奶油馬鈴薯：另起一鍋融化少許奶油，放入煮熟的馬鈴薯塊拌炒，並撒上切碎的巴西里。",
+              "製作醬汁與盛盤：熱鍋融化奶油，加入檸檬汁、鹽、胡椒（或少許辣醬油）與巴西里碎煮成醬汁。將魚排與馬鈴薯盛盤，淋上醬汁，並附上檸檬片與蕃茄片裝飾即可。"
+            ],
+            "tips": []
+          },
+          {
+            "id": "recipe_p50",
+            "code": "303C",
+            "title": "總匯三明治附炸薯條",
+            "engTitle": "Club sandwich with French fries",
+            "intro": "",
+            "ingredients": [
+              { "name": "培根", "baseQty": 2, "unit": "片", "type": "pcs" },
+              { "name": "雞胸肉", "baseQty": 1, "unit": "塊", "type": "pcs" },
+              { "name": "吐司", "baseQty": 3, "unit": "片", "type": "pcs" },
+              { "name": "奶油", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "萵苣 (生菜)", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "美乃滋", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "蕃茄", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "馬鈴薯條", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "沙拉油 (油炸用)", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "鹽", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "處理肉類：用中火將 2 片培根乾煎至酥脆（火侯不可太小），取出吸油備用；雞胸肉用水小火煮一會兒，蓋上鍋蓋離火悶 15 分鐘至熟透，去皮切 3 片備用。",
+              "烤吐司與塗醬：將 3 片吐司放入烤箱或平底鍋稍微烤過，每片吐司均取單面塗抹上奶油。",
+              "組合三明治 (第一層)：取一片塗好奶油的吐司，放上拍平整形的萵苣，塗抹一層美乃滋，接著放上 3 片蕃茄片，再放上對切的培根，最後蓋上第二片吐司。",
+              "組合三明治 (第二層)：在第二片吐司上疊放 3 片去皮熟雞胸肉片，最後蓋上第三片吐司完成堆疊。",
+              "切製定型：可先用牙籤插入四角固定三明治，使用麵包刀（拉刀）切去吐司四邊，再對切成三角形（切妥後將牙籤取出）。",
+              "炸薯條與盛盤：將油鍋加熱至 160°C~190°C，放入薯條炸至金黃酥脆，撈起瀝油並撒上少許鹽巴。將三明治與炸薯條一同盛盤即可。"
+            ],
+            "tips": [
+              "△煎培根時火候不可太小，否則無法將油脂逼出達到酥脆口感。",
+              "△水煮雞胸肉採用「離火悶熟」的方式，可讓肉質保持軟嫩不乾柴。"
+            ]
+          },
+          
+          // --- PART 11 (51-55) ---
+          {
+            "id": "recipe_p51",
+            "code": "303C",
+            "title": "曼哈頓蛤蜊湯",
+            "engTitle": "Manhattan clam chowder",
+            "intro": "",
+            "ingredients": [
+              { "name": "大蒜", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "紅蘿蔔", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "西芹", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "蕃茄(去皮去籽)", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "培根", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "蛤蜊", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "白酒", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "青椒", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "糊椒鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "百里香", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "月桂葉", "baseQty": 2, "unit": "片", "type": "pcs" }
+            ],
+            "steps": [
+              "1. 大蒜、紅蘿蔔、西芹、蕃茄(去皮去籽)、培根、洋蔥切小片丁。",
+              "2. 蛤蜊加入滾水中煮至開口→撈起→取蛤蜊肉 (不新鮮蛤蜊, 会掉在鍋底,要拿掉)(洗一下去沙泥)。",
+              "3. 奶油炒洋蔥、大蒜碎、培根炒香→紅蘿蔔炒軟→西芹炒香→白酒燒乾，加蛤蜊湯、蕃茄丁、青椒煮熱→加糊椒鹽、百里香,月桂葉2片→加入蛤蜊肉煮滾。"
+            ],
+            "tips": [
+              "△海鮮類的若煮太久会產生腥味,所以都使用百里香提味。",
+              "△巧達湯材料: 西芹、紅蘿蔔、培根、洋芋。",
+              "湯面不可浮油。"
+            ]
+          },
+          {
+            "id": "recipe_p52",
+            "code": "303C",
+            "title": "義式海鮮飯",
+            "engTitle": "Seafood risotto",
+            "intro": "",
+            "ingredients": [
+              { "name": "洋蔥", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "大蒜", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "草蝦", "baseQty": 1, "unit": "份", "type": "pcs" },
+              { "name": "花枝", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "蛤蜊", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "淡菜", "baseQty": 1, "unit": "份", "type": "pcs" },
+              { "name": "白酒", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "白米", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "胡椒鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "高湯", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "起司粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "橄欖油 (可選)", "baseQty": 1, "unit": "少許", "type": "ml" }
+            ],
+            "steps": [
+              "1. 洋蔥切丁，大蒜切碎。草蝦去殼(頭尾留著,蝦殼頭尾相連的地方留一節,較不会斷)，殼肉分離(要留殼盤飾)。花枝切花。蜆泡水(吐沙)。",
+              "2. 油炒洋蔥,大蒜炒香，把草蝦排好→加花枝→加白酒少許，加蛤蜊、淡菜煮熟(加白酒煮)。",
+              "3. 先將淡菜、蝦→花枝撈起(海鮮很快就熟了)。",
+              "4. 原鍋加入白米(要先泡水) + 胡椒鹽 加 高湯炒熟 (如果時間不夠，加鍋蓋離開火悶熟,先作別的)。(考照時是不准蓋鍋的,如評審問起,回答說那是還未完成)。",
+              "5. 將海鮮再放入分白飯拌炒+少許起司粉拌勻。",
+              "6. 裝盤。"
+            ],
+            "tips": [
+              "△自己吃可加少許橄欖油、白酒拌炒 (在起鍋前加入,看起來較有光澤)。",
+              "擺盤方法二：1.海鮮川燙。2.半熟8分加川燙的海鮮一起烤熟。3.再拿些海鮮起來作盤飾。4.剩餘的海鮮留米料理中。"
+            ]
+          },
+          {
+            "id": "recipe_p53",
+            "code": "303D",
+            "title": "英式米布丁附香草醬",
+            "engTitle": "Rice pudding English style with vanilla sauce",
+            "intro": "",
+            "ingredients": [
+              { "name": "米", "baseQty": 2, "unit": "大匙", "type": "g" },
+              { "name": "鮮奶", "baseQty": 3, "unit": "杯", "type": "ml" },
+              { "name": "糖", "baseQty": 1, "unit": "大匙", "type": "g" },
+              { "name": "奶油", "baseQty": 1, "unit": "大匙", "type": "g" },
+              { "name": "香草精", "baseQty": 1, "unit": "茶匙", "type": "ml" },
+              { "name": "檸檬皮碎", "baseQty": 1, "unit": "茶匙", "type": "g" },
+              { "name": "鮮奶 (香草醬用)", "baseQty": 1, "unit": "杯", "type": "ml" },
+              { "name": "蛋黃 (香草醬用)", "baseQty": 2, "unit": "個", "type": "pcs" },
+              { "name": "糖 (香草醬用)", "baseQty": 1, "unit": "大匙", "type": "g" },
+              { "name": "香草精 (香草醬用)", "baseQty": 1, "unit": "茶匙", "type": "ml" }
+            ],
+            "steps": [
+              "【米布丁步驟】",
+              "1. 米+牛奶煮至熟爛呈稠狀(要看到米粒)。",
+              "2. 快要完成時再加入糖、奶油、香草精、檸檬皮碎拌勻。",
+              "3. 裝入布丁模冷卻→冷藏。",
+              "【香草醬步驟】",
+              "4. 鮮奶+蛋黃拌過濾>隔水加熱成稠狀→加糖，起鍋前加香草精 (如果覺得不夠稠可調玉米粉or太白粉+水勾芡)。",
+              "5. 淋在米布丁上。"
+            ],
+            "tips": [
+              "△.香草精不要太早加會變成揮發而不是香氣。"
+            ]
+          },
+          {
+            "id": "recipe_p54",
+            "code": "303D",
+            "title": "西班牙恩利蛋",
+            "engTitle": "Spanish omelette",
+            "intro": "",
+            "ingredients": [
+              { "name": "青椒", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "蕃茄 (去皮去籽)", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "培根 (或火腿)", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "大蒜", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "洋芋", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "蛋", "baseQty": 3, "unit": "顆", "type": "pcs" },
+              { "name": "糊椒鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "蕃茄醬", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "【作法一】",
+              "1. 青椒、蕃茄(去皮去籽)、培根(火腿)切小丁，大蒜切碎。洋芋(先煮熟再切小丁片)。",
+              "2. 蛋3顆+糊椒鹽打散。☑熱鍋熱油,油平均流平鍋底，煎出來的恩利蛋顏色才會好看 (△不可冷油煎,會黏鍋,顏色也不好看)。",
+              "3. 沙拉油炒大蒜至金黃色→培根炒香→青椒、蕃茄炒軟→加蕃茄醬→加糊椒鹽拌炒。",
+              "4. 養鍋後 熱鍋加油→加入蛋液鋪平至有點凝結再加入炒過的料3.→蛋周圍加油 慢慢把蛋捲起來整形。",
+              "【作法二】",
+              "1. 青椒、洋芋、蕃茄、火腿切小丁。",
+              "2. 炒香。",
+              "3. 先把蛋鋪平 再放料(防黏鍋)。",
+              "4. 最後快好時再放入料煎至熟放入盤中。",
+              "5. 可用明火烤箱烤上色，表面熟。",
+              "【作法三】",
+              "1. 青椒、洋芋、蕃茄、火腿切小丁。",
+              "2. 取出蛋一起攪拌均勻。",
+              "3. 倒入鍋中鋪平，有凝結時再加入料煎熟(烤熟)。"
+            ],
+            "tips": [
+              "△烹調順序:玉米濃湯→鮭魚→恩利蛋→三明治。"
+            ]
+          },
+          {
+            "id": "recipe_p55",
+            "code": "303D",
+            "title": "奶油玉米濃湯",
+            "engTitle": "Cream of corn soup",
+            "intro": "",
+            "ingredients": [
+              { "name": "沙拉油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "奶油", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "月桂葉", "baseQty": 2, "unit": "片", "type": "pcs" },
+              { "name": "麵粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "高湯", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "白胡椒粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "牛奶 (或鮮奶油)", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "玉米醬", "baseQty": 2, "unit": "大匙", "type": "g" },
+              { "name": "玉米粒", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "1. 沙拉油+奶油+月桂葉2片+麵粉炒均勻→加入高湯攪拌均勻。",
+              "2. 加入鹽、白胡椒粉、少許牛奶(鮮奶油)拌勻。",
+              "3. 奶油炒洋蔥碎→加2大匙玉米醬,少許玉米粒。",
+              "4. 最後起鍋前要+奶油拌勻再裝碗(湯面不會結膜)。"
+            ],
+            "tips": [
+              "湯之濃稠度要適當,要滑潤。",
+              "▲湯面可用 麵包丁、巴西里碎、鮮奶油裝飾。"
+            ]
+          },
+
+          // --- PART 12 (56-60) ---
+          {
+            "id": "recipe_p56",
+            "code": "303E",
+            "title": "培根、萵苣、蕃茄三明治",
+            "engTitle": "Bacon, lettuce and tomato sandwich",
+            "intro": "",
+            "ingredients": [
+              { "name": "土司", "baseQty": 3, "unit": "片", "type": "pcs" },
+              { "name": "奶油", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "培根", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "美奶滋", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "蕃茄", "baseQty": 4, "unit": "片", "type": "pcs" },
+              { "name": "萵苣", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "1. 土司烤過後方塗一面奶油。",
+              "2. 用中火乾煎培根至金黃色 (煎時要壓平) 起鍋吸油。",
+              "3. 萵苣拍平整形切割塗一層美奶滋 蕃茄片4片→培根切半→土司。",
+              "4. 切邊 → 切對角。"
+            ],
+            "tips": [
+              "△培根煎過後要馬上處理,不然冷掉會硬硬的,也較不好切。"
+            ]
+          },
+          {
+            "id": "recipe_p57",
+            "code": "303E",
+            "title": "炸麵糊鮭魚 附塔塔醬",
+            "engTitle": "Salmon Orly with Tar Tar sauce",
+            "intro": "",
+            "ingredients": [
+              { "name": "鮭魚", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "白糊椒", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "蛋", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "糊椒鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "糖", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "牛奶", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "沙拉油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "麵粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "發粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "白醋 (可選)", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "酸黃瓜", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "甜黃瓜 (可選)", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "巴西里", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "沙拉醬", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "蛋白", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "檸檬汁 (可選)", "baseQty": 1, "unit": "少許", "type": "ml" }
+            ],
+            "steps": [
+              "1. 鮭魚去皮切條塊,用鹽、白糊椒醃。",
+              "2. 麵糊: 1顆蛋+糊椒鹽、糖 加牛奶、沙拉油少許→加麵粉、發粉(泡打粉)攪拌均勻 (可加白醋顏色較白,也可不加)。",
+              "3. 鮭魚沾麵粉→沾麵糊油炸(油不要太熱)→起鍋吸油整形 (炸至最後用大火把油逼出來)。",
+              "4. 塔塔醬: 酸黃瓜碎+(甜黃瓜碎)+巴西里碎+沙拉醬+水煮蛋白碎拌勻。"
+            ],
+            "tips": [
+              "△ 麵糊要打勻無顆粒。",
+              "(塔塔醬也可加入酸豆、黑椒碎)。",
+              "塔塔醬另外配方: 洋蔥碎+酸黃瓜碎+胡椒,鹽+檸檬汁。",
+              "P.S. 如不加檸檬汁,加入白醋。"
+            ]
+          },
+          {
+            "id": "recipe_p58",
+            "code": "303E",
+            "title": "煎餅",
+            "engTitle": "Pancake",
+            "intro": "",
+            "ingredients": [
+              { "name": "糖", "baseQty": 60, "unit": "g", "type": "g" },
+              { "name": "鮮奶", "baseQty": 330, "unit": "g", "type": "ml" },
+              { "name": "麵粉", "baseQty": 280, "unit": "g", "type": "g" },
+              { "name": "蛋", "baseQty": 2, "unit": "顆", "type": "pcs" },
+              { "name": "沙拉油", "baseQty": 15, "unit": "g", "type": "ml" },
+              { "name": "香草水", "baseQty": 1, "unit": "t", "type": "ml" },
+              { "name": "鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "發粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "奶油", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "【一般作法】",
+              "1. 糖、鮮奶攪拌均勻 (糖加的越多煎出的顏色越深)。",
+              "2. 加入過篩的麵粉攪拌至稠狀→切拌均勻。",
+              "3. 慢慢加入蛋液攪拌 (不能打太用力,麵糊會出筋,煎出的煎餅會硬硬的)。",
+              "4. 慢慢加入沙拉油 (會變較黏稠) 攪拌。",
+              "5. 靜置20分鐘等麵糊起泡。",
+              "6. 養鍋，塗一層薄薄的奶油,不要多→倒入麵糊至泡泡都破裂了→再加1匙麵糊把洞補平→馬上翻面整形。",
+              "【另一種作法】",
+              "1. 將糖、鹽、過篩的麵粉、發粉慢慢加入牛奶拌 (不要太用力)。",
+              "2. 將蛋白獨自打發至硬性,再倒入材料1、拌勻。",
+              "3. 煎鬆餅 (用中小火煎最恰當)。"
+            ],
+            "tips": [
+              "△配方鬆軟。",
+              "△鬆餅油×3倍 (增加色澤)。",
+              "銅鑼燒油 一點+醬油少許 (可不用加)。",
+              "約份7片,大小約碗口大。",
+              "鍋子越厚受熱越平均。"
+            ]
+          },
+          {
+            "id": "recipe_p59",
+            "code": "303E",
+            "title": "海鮮沙拉附油醋汁",
+            "engTitle": "Seafood salad with vinaigrette",
+            "intro": "",
+            "ingredients": [
+              { "name": "草蝦", "baseQty": 1, "unit": "份", "type": "pcs" },
+              { "name": "小花枝", "baseQty": 1, "unit": "份", "type": "pcs" },
+              { "name": "鮭魚", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "淡菜", "baseQty": 1, "unit": "份", "type": "pcs" },
+              { "name": "蟹肉", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "萵苣", "baseQty": 1, "unit": "份", "type": "g" },
+              { "name": "小黃瓜", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "紅蘿蔔", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "蕃茄", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "大蒜", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "胡椒鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "油醋", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "巴西里", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "橄欖油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "檸檬角", "baseQty": 1, "unit": "份", "type": "pcs" }
+            ],
+            "steps": [
+              "1. 草蝦去腸泥。小花枝去皮切半切花 (先用刀子刮乾淨,眼睛不要)。鮭魚切片 (斜刀切)。淡菜殼肉分離。",
+              "2. 水滾後加入蝦、花枝、鮭魚煮熟→泡冰水 (生飲水+冰塊) 冷藏。(淡菜用蔬菜高湯煮熟)。蟹肉 (只要川燙就可)。",
+              "3. 萵苣剝一口大小或切絲 (較好)。小黃瓜切片，紅蘿蔔切片，蕃茄去皮泡冰水川燙 (小蕃茄不用去皮) 切開。",
+              "4. 油醋汁: 大蒜碎+胡椒鹽+油醋 (3:1)+巴西里碎攪拌均勻。"
+            ],
+            "tips": [
+              "要出菜時可將海鮮拌入橄欖油與巴西里碎,增加光澤度。",
+              "必須附檸檬角。"
+            ]
+          },
+          {
+            "id": "recipe_p60",
+            "code": "303E",
+            "title": "法式焗洋蔥湯",
+            "engTitle": "French onion soup au gratin",
+            "intro": "",
+            "ingredients": [
+              { "name": "洋蔥", "baseQty": 1, "unit": "盤", "type": "g" },
+              { "name": "大蒜", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "法式麵包", "baseQty": 1, "unit": "片", "type": "pcs" },
+              { "name": "奶油", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "紅椒粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "起司粉 (或起司絲)", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "沙拉油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "麵粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "高湯 (或水)", "baseQty": 1, "unit": "份", "type": "ml" },
+              { "name": "糊椒鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "月桂葉", "baseQty": 1, "unit": "片", "type": "pcs" },
+              { "name": "巴西里 (可選)", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "【作法一】",
+              "1. 洋蔥切絲 (1盤生)。大蒜切碎。法式麵包切片 (不要切太厚,在湯面上烤會膨脹)。",
+              "2. 奶油+紅椒粉+大蒜碎攪拌塗在麵包上→沾起司粉→烤上色 200/200 (自己吃可加新鮮的巴西里碎)。",
+              "3. 沙拉油炒洋蔥絲 (用中火把水分炒乾) 炒30分成褐色→加少許沙拉油 (辦炒中要切2次)→炒至有微焦黑→起鍋。",
+              "4. 沙拉油炒麵粉→加入高湯・炒過的洋蔥煮5~10分→加糊椒鹽調味 (防洋蔥的香味流失)。",
+              "【作法二】",
+              "3. 加沙拉油多一點 係防洋蔥黏鍋。",
+              "4. 放入洋蔥用大火炒約20分 (用大火炒較好吃) (在炒當中鍋子周圍有焦黑之處注意要擦掉用紙巾,不可讓評審看到)。",
+              "5. 後加入月桂葉、大蒜、奶油少許 (炒起來較香) 拌勻。",
+              "6. 後轉中火炒至金黃色,再加入大蒜碎辦炒。",
+              "7. 加麵粉→將麵粉平均撒在洋蔥上 (不用太多) 辦炒上色了。",
+              "8. 將水 (或高湯) 加入煮1小時15分。",
+              "9. 要出菜時再加糊椒鹽,把湯面上的雜質濾掉 (轉大火)。",
+              "10. 最後擺一片法式麵包，撒上起司粉放入烤箱烤上色。"
+            ],
+            "tips": [
+              "(多點大蒜能提達蔥香味)",
+              "法式麵包切太厚或太薄都不好 (如果切太小塊、會把湯汁吸光)。",
+              "烤麵包時不用上色，而起司絲去烤箱烤時會上色。"
+            ]
+          },
+
+          // --- PART 13 (61-65) ---
+          {
+            "id": "recipe_p61",
+            "code": "303E",
+            "title": "羅宋炒牛肉附菠菜麵疙瘩",
+            "engTitle": "Sauteed beef stroganoff with spinach spaetzle",
+            "intro": "",
+            "ingredients": [
+              { "name": "菠菜 (取葉子)", "baseQty": 40, "unit": "g", "type": "g" },
+              { "name": "牛奶", "baseQty": 80, "unit": "ml", "type": "ml" },
+              { "name": "蛋", "baseQty": 1, "unit": "顆", "type": "pcs" },
+              { "name": "蒜粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "鹽", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "橄欖油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "高筋麵粉", "baseQty": 120, "unit": "g", "type": "g" },
+              { "name": "洋蔥", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "洋菇 (去梗)", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "酸黃瓜", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "牛肉", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "胡椒", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "紅椒粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "麵粉", "baseQty": 1, "unit": "少許", "type": "g" },
+              { "name": "沙拉油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "奶油", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "紅酒", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "高湯", "baseQty": 1, "unit": "適量", "type": "ml" },
+              { "name": "鮮奶油", "baseQty": 1, "unit": "少許", "type": "ml" },
+              { "name": "酸奶", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "準備菠菜：菠菜取葉子 (用拉的把青梗拉掉，只要葉片) 約 40g，川燙後泡冷水。",
+              "製作菠菜汁：將菠菜加入 80c.c. 牛奶 (不用全加，慢慢加入) 放入果汁機打碎 (若打不動可加一點點的水)。",
+              "製作麵疙瘩糊：取 1 顆蛋加入蒜粉、鹽與少許橄欖油攪拌均勻，接著加入 120g 高筋麵粉攪拌，再慢慢加入菠菜汁拌至稠狀，拍打出筋。",
+              "煮麵疙瘩：用刮板將麵糊穿過大洞的漏杓，下入滾水中煮熟，撈起瀝乾水分備用。",
+              "備料：洋蔥切碎 (切條也可)；洋菇去梗切片；酸黃瓜切條。",
+              "醃牛肉：牛肉逆紋切薄片，加入胡椒、紅椒粉醃製，再加入少許麵粉與沙拉油拌勻。",
+              "炒牛肉：用大火將沙拉油與奶油燒熱，放入牛肉片炒香後起鍋備用。",
+              "熬煮羅宋醬汁：原鍋加入奶油炒香洋蔥碎，再加入洋菇片炒軟。倒入紅酒 (讓酒燒乾飄出香味)，接著加入高湯、少許鮮奶油與酸奶煮滾，最後將湯汁倒入牛肉片中一起熬煮。",
+              "組合與裝飾：用少許奶油、沙拉油將麵疙瘩稍微炒過並以鹽與胡椒調味，先裝盤。將羅宋牛肉淋在麵疙瘩上，最後放上幾根酸黃瓜裝飾即可。"
+            ],
+            "tips": [
+              "△主菜為牛肉，配菜為菠菜麵疙瘩。",
+              "△打菠菜汁時牛奶不可加太多，否則顏色會變淺不好看。",
+              "△羅宋醬汁應呈現紅潤色澤，避免煮至焦黑。"
+            ]
+          },
+          {
+            "id": "recipe_p62",
+            "code": "303E",
+            "title": "香草戚風蛋糕(捲)",
+            "engTitle": "Vanilla chiffon cake roll",
+            "intro": "",
+            "ingredients": [
+              { "name": "蛋黃", "baseQty": 204, "unit": "g", "type": "g" },
+              { "name": "細砂糖 (蛋黃用)", "baseQty": 306, "unit": "g", "type": "g" },
+              { "name": "鹽", "baseQty": 4, "unit": "g", "type": "g" },
+              { "name": "沙拉油", "baseQty": 204, "unit": "g", "type": "g" },
+              { "name": "水", "baseQty": 297, "unit": "g", "type": "ml" },
+              { "name": "香草精", "baseQty": 20, "unit": "g", "type": "g" },
+              { "name": "低筋麵粉", "baseQty": 407, "unit": "g", "type": "g" },
+              { "name": "發粉", "baseQty": 16, "unit": "g", "type": "g" },
+              { "name": "蛋白", "baseQty": 407, "unit": "g", "type": "g" },
+              { "name": "塔塔粉", "baseQty": 8, "unit": "g", "type": "g" },
+              { "name": "細砂糖 (蛋白用)", "baseQty": 244, "unit": "g", "type": "g" },
+              { "name": "葡萄乾", "baseQty": 1, "unit": "適量", "type": "g" }
+            ],
+            "steps": [
+              "烤盤準備：烤盤紙鋪在烤盤上 (光滑面向上)，對角剪開使其服貼。將葡萄乾泡水或酒軟化後，鋪在烤盤左右離邊約 3 公分處 (蛋糕捲起後葡萄乾才會在表面)。",
+              "製作蛋黃糊：蛋黃、糖與鹽攪拌至糖溶解，加入水 (或奶水)，再加入過篩的低筋麵粉與發粉拌勻，最後加入沙拉油 (水與麵粉可交叉慢慢加入拌勻)。",
+              "打發蛋白：蛋白加入塔塔粉打至起泡，分次加入糖辦打至濕性發泡，最後打至濕乾性發泡 (打太乾口感會較脆且孔洞較大)。",
+              "混合麵糊：將一部分打好的蛋白先與蛋黃麵糊拌勻，再倒回剩餘的蛋白中完全拌勻，然後倒入烤盤中抹平。",
+              "烘烤：放入烤箱前朝下敲一下震出大氣泡。以 180°C/150°C 烤約 20~25 分鐘 (依底部/表面溫度拿捏)。",
+              "冷卻與翻面：出爐後，表面鋪 1 張紙並翻面 (拿掉烤盤) 放涼。",
+              "捲蛋糕：翻面使葡萄乾朝下，將蛋糕切半。用擀麵棍壓在紙前，先在欲捲起的起點 (中心) 壓緊，慢慢往前捲起蛋糕，內部也隨之捲起，最後用紙包緊冷藏 10 分鐘定型後即可切割。"
+            ],
+            "tips": [
+              "△法式戚風為打發蛋白；天使蛋糕僅蛋白打發；海綿蛋糕為蛋黃與蛋白一起隔水加熱；一般戚風蛋糕為蛋白打發、蛋黃不加熱。",
+              "△白霜作法：奶油與白油打發，再加入糖漿或糖粉。",
+              "△高成份蛋糕：蛋白量多，糖比例達 120% (相對於蛋白)，做出的蛋糕較濕軟 (白蛋糕)。"
+            ]
+          },
+          {
+            "id": "recipe_p63",
+            "code": "303E",
+            "title": "甜麵包",
+            "engTitle": "Sweet bread",
+            "intro": "",
+            "ingredients": [
+              { "name": "高筋麵粉", "baseQty": 612, "unit": "g", "type": "g" },
+              { "name": "低筋麵粉", "baseQty": 153, "unit": "g", "type": "g" },
+              { "name": "糖", "baseQty": 137, "unit": "g", "type": "g" },
+              { "name": "鹽", "baseQty": 8, "unit": "g", "type": "g" },
+              { "name": "奶粉", "baseQty": 46, "unit": "g", "type": "g" },
+              { "name": "改良劑", "baseQty": 8, "unit": "g", "type": "g" },
+              { "name": "快溶酵母", "baseQty": 8, "unit": "g", "type": "g" },
+              { "name": "水 (冰水半水)", "baseQty": 382, "unit": "g", "type": "ml" },
+              { "name": "蛋", "baseQty": 76, "unit": "g", "type": "g" },
+              { "name": "奶油", "baseQty": 76, "unit": "g", "type": "g" },
+              { "name": "豆沙餡", "baseQty": 720, "unit": "g", "type": "g" },
+              { "name": "黑芝麻", "baseQty": 1, "unit": "適量", "type": "g" },
+              { "name": "全蛋液 (刷表面用)", "baseQty": 1, "unit": "適量", "type": "ml" }
+            ],
+            "steps": [
+              "混合乾粉：將高筋麵粉、低筋麵粉、鹽、糖、奶粉、改良劑與快溶酵母均勻拌合。",
+              "打麵糰：慢慢加入水與攪散的蛋液，打至表面光滑後，加入奶油繼續攪拌至完成階段。",
+              "基本發酵：將麵糰放入鋼盆，進行第一次發酵 1 小時。",
+              "包餡：將麵糰分割滾圓，包入豆沙餡 (底部務必收口捏緊，否則烤焙時容易露餡)，中間發酵 20 分鐘。",
+              "最後發酵：進行最後發酵約 1 小時。",
+              "烘烤：表面刷上一層全蛋液並撒上黑芝麻，放入烤箱以 200°C/160°C 烤約 12 分鐘。"
+            ],
+            "tips": [
+              "△表面不可只刷蛋黃，烤出來的顏色會過於焦黑不美觀。",
+              "△若麵糰打過頭進入斷筋階段，麵糰會變得十分黏手。",
+              "△較甜的麵包 (糖多、油多) 不適合將餡料外露；添加改良劑可使口感較綿密；外露餡料的款式不適合刷蛋白，且加改良劑會變乾硬。"
+            ]
+          },
+          {
+            "id": "recipe_p64",
+            "code": "303E",
+            "title": "海綿蛋糕",
+            "engTitle": "Sponge cake",
+            "intro": "",
+            "ingredients": [
+              { "name": "蛋白", "baseQty": 519, "unit": "g", "type": "g" },
+              { "name": "蛋黃", "baseQty": 400, "unit": "g", "type": "g" },
+              { "name": "細砂糖", "baseQty": 688, "unit": "g", "type": "g" },
+              { "name": "鹽", "baseQty": 14, "unit": "g", "type": "g" },
+              { "name": "低筋麵粉", "baseQty": 459, "unit": "g", "type": "g" },
+              { "name": "奶粉", "baseQty": 23, "unit": "g", "type": "g" },
+              { "name": "水", "baseQty": 92, "unit": "g", "type": "ml" },
+              { "name": "沙拉油", "baseQty": 92, "unit": "g", "type": "g" },
+              { "name": "香草精", "baseQty": 1, "unit": "少許", "type": "g" }
+            ],
+            "steps": [
+              "隔水加熱：將蛋白與蛋黃打散 (也可用全蛋 919g)，加入鹽與糖，隔水加熱攪拌至糖完全溶解 (加熱至約 42°C 即可停止加熱)。",
+              "打發：將加熱後的蛋液倒入攪拌盆，以中速攪拌打發。",
+              "準備奶水：將奶粉加入水攪拌均勻，並滴入少許香草精備用。",
+              "拌入乾粉與油脂：待蛋液攪拌至出現明顯紋路後，慢慢加入過篩的低筋麵粉用手拌勻；接著加入奶水拌勻，最後加入沙拉油確實拌勻 (務必確保油水完全融合)。",
+              "入模：將麵糊倒入模型 (如 8 吋圓模) 中，約裝 7~8 分滿。",
+              "震出氣泡與烘烤：入模後輕敲一下使底部流平並震出氣泡 (不可放置太久以免消泡，需盡快入爐)。以 190°C/170°C 烤約 20 分鐘。",
+              "出爐倒扣：出烤箱時向下敲一下，隨即倒扣放涼以防縮水。",
+              "脫模：完全冷卻後，將蛋糕周圍往中心輕壓即可脫模。"
+            ],
+            "tips": [
+              "△烤約 15 分鐘時可將烤盤調頭。若表面已均勻上色，可鋪上烤盤紙防止繼續烤至焦黑。",
+              "△若麵粉未拌勻，上層蛋白容易消泡，導致蛋糕底部形成約 1 公分的硬塊，且表面會出現明顯孔洞。",
+              "△若砂糖比例過高，烤好後表面會出現糖片結晶；麵糊辦得越均勻，蛋糕組織就會越綿密。"
+            ]
+          },
+          {
+            "id": "recipe_p65",
+            "code": "303E",
+            "title": "橄欖形麵包",
+            "engTitle": "Olive-shaped bread",
+            "intro": "",
+            "ingredients": [
+              { "name": "高筋麵粉", "baseQty": 566, "unit": "g", "type": "g" },
+              { "name": "低筋麵粉", "baseQty": 142, "unit": "g", "type": "g" },
+              { "name": "鹽", "baseQty": 7, "unit": "g", "type": "g" },
+              { "name": "糖", "baseQty": 113, "unit": "g", "type": "g" },
+              { "name": "奶粉", "baseQty": 28, "unit": "g", "type": "g" },
+              { "name": "改良劑", "baseQty": 7, "unit": "g", "type": "g" },
+              { "name": "快溶酵母", "baseQty": 7, "unit": "g", "type": "g" },
+              { "name": "水", "baseQty": 382, "unit": "g", "type": "ml" },
+              { "name": "蛋", "baseQty": 57, "unit": "g", "type": "g" },
+              { "name": "奶油", "baseQty": 51, "unit": "g", "type": "g" }
+            ],
+            "steps": [
+              "混合材料：將高、低筋麵粉、鹽、糖、奶粉、改良劑與快溶酵母辦勻。",
+              "打麵糰：加入水及打散的蛋液攪拌，打至麵糰表面光滑後，加入奶油繼續攪拌至完全擴展。",
+              "基本發酵：放入鋼盆中發酵約 60 分鐘。",
+              "分割與中間發酵：將麵糰分割滾成圓形 (每顆約 40g)，進行中間發酵 20 分鐘。",
+              "整形：將麵糰拍平翻面，往內部捲起，將接縫處捏緊朝下，並將兩端用手指搓尖，整成標準的橄欖形。",
+              "最後發酵：進行最後發酵約 60 分鐘，直至體積膨脹為原來的兩倍大。",
+              "刷蛋液與烘烤：發酵完成後，表面輕輕塗上一層全蛋液 (不可太大力，也不可塗太多以免容易烤焦)。放入烤箱以 200°C/160°C 烤約 12 分鐘 (中途需調頭)。"
+            ],
+            "tips": [
+              "△糖的用量越少，發酵時間需越長，但口感相對會較好。",
+              "△若為單位面積小的麵包，不適合在表面刷奶油，會產生油膩感。",
+              "△發酵判斷：發酵不足烤出來會均勻上色 (缺乏烘焙彈性) 且很快變硬；發酵剛剛好時底部會往內縮，烘焙彈性約 3 公分；發酵過頭則上色不均，底部變平且易老化發硬。",
+              "△若採用直接法 (打完麵糰不間斷直接做到底)，麵包成品會較容易發硬。"
+            ]
+          },
+
+          // --- PART 14 (66-69) ---
+          {
+            "id": "recipe_p66",
+            "code": "303E",
+            "title": "香草天使蛋糕",
+            "engTitle": "Vanilla angel cake",
+            "intro": "",
+            "ingredients": [
+              { "name": "蛋白", "baseQty": 1132, "unit": "g", "type": "g" },
+              { "name": "塔塔粉", "baseQty": 14, "unit": "g", "type": "g" },
+              { "name": "鹽", "baseQty": 9, "unit": "g", "type": "g" },
+              { "name": "細砂糖", "baseQty": 739, "unit": "g", "type": "g" },
+              { "name": "低筋麵粉", "baseQty": 416, "unit": "g", "type": "g" },
+              { "name": "香草精", "baseQty": 0.5, "unit": "瓶蓋", "type": "ml" }
+            ],
+            "steps": [
+              "打發蛋白：蛋白加入塔塔粉 (或檸檬汁) 先以慢速打起泡，接著轉中速攪打。",
+              "加糖打發：起泡後先加入 1/3 的糖，辦打至溶解性發泡，再加入剩餘的糖與鹽，打至濕性發泡 (介於乾濕中間口感較佳)。",
+              "辦入麵粉：分次加入過篩的低筋麵粉，用手掌五指張開輕輕撥辦均勻。",
+              "調味：加入香草精辦勻。",
+              "入模：將麵糊倒入模型約 8 分滿 (模型需事先擦乾，務必確保麵糊填滿模型底部)。",
+              "整平與烘烤：入模後輕敲一下使底部流平 (不可敲太大力以免消泡)。八吋空心模放入烤箱以 180°C/180°C (或視情況 180°C/150°C) 烤約 30 分鐘。",
+              "出爐倒扣：出爐時向下用力敲一下，隨即倒扣放涼以防縮水。",
+              "脫模：完全冷卻後，將蛋糕周圍往中心輕壓即可順利脫模。"
+            ],
+            "tips": [
+              "△ 此為唯一沒有添加油脂的蛋糕，因此潤澤性不高。",
+              "△ 烤出來的成品應呈現乾燥、潔白無瑕的狀態，如天使般純潔。",
+              "△ 糖在配方中扮演功能性角色 (越辦越綿密)，不可隨意減量。",
+              "△ 若烘烤份量較少，受熱較快，可適度縮短烘烤時間。"
+            ]
+          },
+          {
+            "id": "recipe_p67",
+            "code": "303E",
+            "title": "圓頂奶油土司",
+            "engTitle": "Round top butter toast",
+            "intro": "",
+            "ingredients": [
+              { "name": "高筋麵粉", "baseQty": 1185, "unit": "g", "type": "g" },
+              { "name": "奶粉", "baseQty": 71, "unit": "g", "type": "g" },
+              { "name": "鹽", "baseQty": 24, "unit": "g", "type": "g" },
+              { "name": "糖", "baseQty": 178, "unit": "g", "type": "g" },
+              { "name": "改良劑", "baseQty": 12, "unit": "g", "type": "g" },
+              { "name": "快溶酵母", "baseQty": 14, "unit": "g", "type": "g" },
+              { "name": "水", "baseQty": 628, "unit": "g", "type": "ml" },
+              { "name": "蛋", "baseQty": 107, "unit": "g", "type": "g" },
+              { "name": "奶油", "baseQty": 119, "unit": "g", "type": "g" }
+            ],
+            "steps": [
+              "混合乾粉：將高筋麵粉、奶粉、鹽、糖、改良劑與快溶酵母均勻辦合。",
+              "打麵糰：慢慢加入水與蛋液攪拌，攪打成糰後加入奶油，繼續攪拌至完成階段。",
+              "基本發酵：放入鋼盆中進行第一次發酵約 1 小時。",
+              "分割與中間發酵：將麵糰分割，每塊約 560g，滾圓後進行中間發酵 20 分鐘。",
+              "整形：將麵糰拍平、翻面並往內推捲起來，放入土司模中 (接縫處朝下，每個模型放 1 個)。",
+              "最後發酵：進行最後發酵約 1 小時，發至模型高度。",
+              "烘烤：放入烤箱以 160°C/210°C 烤約 35 分鐘 (後 15 分鐘需將烤盤調頭)。",
+              "裝飾與出爐：出爐後馬上在表面刷上一層奶油增加光澤，隨即脫模放涼。"
+            ],
+            "tips": [
+              "△ 配方中的蛋可增加土司鬆軟度，奶油則提升香味。",
+              "△ 烘烤時產生約幾公分的烤焙彈性高度是正常現象。",
+              "△ 發酵完成判斷：用手指輕按麵糰，若麵糰不會回彈即表示發酵完成。"
+            ]
+          },
+          {
+            "id": "recipe_p68",
+            "code": "303E",
+            "title": "重奶油蛋糕",
+            "engTitle": "Pound cake",
+            "intro": "",
+            "ingredients": [
+              { "name": "白油", "baseQty": 306, "unit": "g", "type": "g" },
+              { "name": "奶油", "baseQty": 204, "unit": "g", "type": "g" },
+              { "name": "細砂糖", "baseQty": 509, "unit": "g", "type": "g" },
+              { "name": "鹽", "baseQty": 10, "unit": "g", "type": "g" },
+              { "name": "蛋", "baseQty": 509, "unit": "g", "type": "g" },
+              { "name": "奶水", "baseQty": 170, "unit": "ml", "type": "ml" },
+              { "name": "低筋麵粉", "baseQty": 509, "unit": "g", "type": "g" },
+              { "name": "發粉", "baseQty": 2, "unit": "g", "type": "g" }
+            ],
+            "steps": [
+              "糖油辦合法：將糖、鹽與油脂 (先加奶油再加白油) 放入攪拌缸中攪拌。",
+              "打發：以中速攪拌打發至呈現些許毛狀 (將空氣打入會使麵糊顏色變白)。",
+              "加入蛋液：分 4~5 次慢慢加入蛋液攪拌，利用乳化作用使糖完全溶解成乳白色。",
+              "辦入乾粉：加入過篩的低筋麵粉與發粉攪拌均勻。",
+              "加入奶水：最後加入奶水，以慢速攪拌均勻 (避免麵糊過度出筋)。",
+              "入模：用擠花袋將麵糊擠入模型中 (每個約 500g)，輕敲模型使底部流平並將表面抹平。",
+              "烘烤：放入烤箱以 190°C/200°C 烤約 45 分鐘 (上下火溫差需達 30~40°C，表面才不會過度膨脹破裂)。",
+              "測試與出爐：用探針插入蛋糕中心，若無沾黏麵糊即可出爐，放涼後再進行切割。"
+            ],
+            "tips": [
+              "△ 配方中的鹽有助於消除重奶油蛋糕的油膩感。",
+              "△ 若需加入核果類，應先用萊姆酒浸泡 (防止烤焦)，待麵糊打至完成階段時再辦入 (需事先裹上少許高筋麵粉防沉澱)。",
+              "△ 蛋糕表面裝飾：可將鏡面果膠加水與糖塗抹於表面。",
+              "△ 蛋糕模型內可墊紙，方便脫模且有助於吸油；此款蛋糕冷藏後食用風味更佳。",
+              "△ 辨別麵粉：低筋麵粉用手用力抓一把會留下指痕，高筋麵粉則不會 (測試時施力需一致)。"
+            ]
+          },
+          {
+            "id": "recipe_p69",
+            "code": "303E",
+            "title": "山形白土司",
+            "engTitle": "Mountain-shaped white toast",
+            "intro": "",
+            "ingredients": [
+              { "name": "高筋麵粉", "baseQty": 2084, "unit": "g", "type": "g" },
+              { "name": "鹽", "baseQty": 42, "unit": "g", "type": "g" },
+              { "name": "糖", "baseQty": 104, "unit": "g", "type": "g" },
+              { "name": "奶粉", "baseQty": 83, "unit": "g", "type": "g" },
+              { "name": "改良劑", "baseQty": 21, "unit": "g", "type": "g" },
+              { "name": "快溶酵母", "baseQty": 21, "unit": "g", "type": "g" },
+              { "name": "水", "baseQty": 1313, "unit": "ml", "type": "ml" },
+              { "name": "白油", "baseQty": 83, "unit": "g", "type": "g" }
+            ],
+            "steps": [
+              "混合乾粉：將高筋麵粉、鹽、糖、奶粉、改良劑與快溶酵母放入攪拌缸辦勻。",
+              "打麵糰：加入半冰水攪拌 (先慢速後轉中速) 約 10 分鐘。麵糰打至擴展階段時加入白油，繼續攪拌至完成階段 (攪拌過程：水和→拾起→捲起→擴展→完成→斷筋)。",
+              "基本發酵：麵糰打至光滑狀後，用手稍微整型，放入內部抹有薄薄一層麵粉防沾黏的鋼盆中。基本發酵約 1 小時 (體積變為原來的 2 倍大即可)。",
+              "分割與第一次中間發酵：將麵糰分割成每顆約 180g (依模型大小調整) 並滾圓，進行中間發酵 20 分鐘。",
+              "第一次整形：將麵糰拍平、翻面，往內推捲起來。",
+              "第二次中間發酵：再次發酵 20 分鐘 (從第一顆整形好的麵糰開始計時)。",
+              "第二次整形與入模：將麵糰正面拍平、翻面，捲起來並往內收束，放入土司模中 (接縫處朝下，由模型中間開始放置)。",
+              "最後發酵：進行最後發酵約 1 小時，直至麵糰發至模型高度。",
+              "烘烤：放入烤箱以 160°C/220°C 烤約 40 分鐘 (後 20 分鐘需將烤盤調頭)。烘烤過程中若需觀察上色情況，請在烤箱內檢視以防麵糰失溫。",
+              "出爐與冷卻：烤至表面均勻上色後出爐，將土司倒出放在出爐架上。表面塗抹一層奶油，待完全冷卻後再切片。"
+            ],
+            "tips": [
+              "△ 配方中的白油可使烤出來的土司顏色較白；加冰水可降溫，防止攪拌過程中麵糰發酵過快。",
+              "△ 山形土司最後發酵至九分滿即可入爐；若製作帶蓋土司，則發酵至八分滿即可。",
+              "△ 發酵環境建議：發酵箱溫度設定在 38°C，濕度 85%。",
+              "△ 季節調整：春季可直接在室溫下發酵，表面蓋上一塊微濕抹布即可；冬季氣溫較低時，可將鋼盆隔熱水放置以幫助麵糰發酵。"
+            ]
+          }
+        ];
+
+        // --- APP LOGIC SECTION ---
+
+        // Sort Data by extracting the numeric part of the 'id' (e.g., recipe_p1 -> 1)
+        recipesData.sort((a, b) => {
+            const numA = parseInt(a.id.replace('recipe_p', ''));
+            const numB = parseInt(b.id.replace('recipe_p', ''));
+            return numA - numB;
+        });
+
+        const sidebarMenu = document.getElementById('sidebarMenu');
+        const cardsContainer = document.getElementById('cardsContainer');
+
+        function renderApp() {
+            sidebarMenu.innerHTML = '';
+            cardsContainer.innerHTML = '';
+
+            recipesData.forEach((recipe, index) => {
+                // Render Sidebar Links
+                const link = document.createElement('a');
+                link.href = `#${recipe.id}`;
+                link.className = "flex items-center space-x-3 px-4 py-3 text-base font-medium rounded-xl text-slate-600 hover:text-rose-600 hover:bg-rose-50 transition-all duration-200 border border-transparent hover:border-rose-100 sidebar-link";
+                link.dataset.target = recipe.id;
+                link.innerHTML = `
+                    <span class="bg-slate-200 text-slate-700 font-bold w-6 h-6 rounded-full flex items-center justify-center text-xs shrink-0">${index + 1}</span>
+                    <span class="truncate">${recipe.title}</span>
+                `;
+                sidebarMenu.appendChild(link);
+
+                // Build Ingredients HTML
+                let ingredientsHTML = '';
+                if (recipe.ingredients && recipe.ingredients.length > 0) {
+                    ingredientsHTML = `
+                        <div class="mb-6 bg-rose-50/50 p-5 rounded-2xl border border-rose-100">
+                            <h4 class="text-lg font-bold text-rose-800 mb-3 flex items-center">
+                                <i class="fa-solid fa-basket-shopping mr-2"></i> 食材準備
+                            </h4>
+                            <div class="flex flex-wrap gap-2 text-base">
+                                ${recipe.ingredients.map(ing => `
+                                    <span class="bg-white border border-rose-200 text-slate-700 px-3 py-1.5 rounded-lg shadow-sm font-medium">
+                                        ${ing.name} <span class="text-rose-500 ml-1 text-sm">${ing.baseQty} ${ing.unit}</span>
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Build Steps HTML
+                let stepsHTML = '';
+                if (recipe.steps && recipe.steps.length > 0) {
+                    stepsHTML = `
+                        <div class="mb-6">
+                            <h4 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2 flex items-center">
+                                <i class="fa-solid fa-list-ol mr-2 text-rose-500"></i> 料理步驟
+                            </h4>
+                            <ol class="space-y-4 list-decimal list-outside pl-6 text-base text-slate-700 leading-relaxed marker:text-rose-500 marker:font-bold">
+                                ${recipe.steps.map(step => `<li class="pl-2">${step}</li>`).join('')}
+                            </ol>
+                        </div>
+                    `;
+                }
+
+                // Build Tips HTML
+                let tipsHTML = '';
+                if (recipe.tips && recipe.tips.length > 0) {
+                    tipsHTML = `
+                        <div class="bg-amber-50 p-5 rounded-2xl border border-amber-200 mt-6">
+                            <h4 class="text-base font-bold text-amber-800 mb-3 flex items-center">
+                                <i class="fa-solid fa-lightbulb mr-2"></i> 小撇步與注意事項
+                            </h4>
+                            <ul class="space-y-2 text-base text-amber-900 list-none">
+                                ${recipe.tips.map(tip => `<li class="flex items-start"><i class="fa-solid fa-caret-right mt-1 mr-2 text-amber-500 shrink-0"></i><span>${tip}</span></li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                // Render Main Recipe Card
+                const card = document.createElement('section');
+                card.id = recipe.id;
+                card.className = "recipe-card bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-sm transition-all duration-300 hover:shadow-md relative scroll-mt-24";
+                
+                card.innerHTML = `
+                    <span class="absolute top-6 right-6 lg:top-8 lg:right-10 text-sm font-black text-slate-300 uppercase tracking-widest border border-slate-200 px-3 py-1 rounded-full bg-slate-50">#${index + 1}</span>
+                    
+                    <div class="mb-8 pr-12">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <span class="bg-zinc-800 text-white text-sm font-bold px-3 py-1 rounded-md shadow-sm">${recipe.code}</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#27272a] mb-2 leading-tight">${recipe.title}</h2>
+                        <p class="text-base text-rose-500 font-medium tracking-wide">${recipe.engTitle || ''}</p>
+                        ${recipe.intro ? `<p class="mt-4 text-base text-slate-500 italic border-l-4 border-rose-300 pl-4 py-1">${recipe.intro}</p>` : ''}
+                    </div>
+
+                    ${ingredientsHTML}
+                    ${stepsHTML}
+                    ${tipsHTML}
+                `;
+                
+                cardsContainer.appendChild(card);
+            });
+        }
+
+        // Initialize Render
+        renderApp();
+
+        // Search functionality
+        function searchRecipes() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.getElementsByClassName('recipe-card');
+            
+            for (let card of cards) {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            }
+        }
+
+        // Sidebar Toggle for Mobile
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const toggleIcon = document.getElementById("toggleIcon");
+            
+            if (sidebar.classList.contains("hidden")) {
+                sidebar.classList.remove("hidden");
+                // Sidebar active styles on mobile
+                sidebar.classList.add("absolute", "z-40", "shadow-2xl", "h-[calc(100vh-80px)]");
+                toggleIcon.classList.remove("fa-bars");
+                toggleIcon.classList.add("fa-xmark");
+            } else {
+                sidebar.classList.add("hidden");
+                sidebar.classList.remove("absolute", "z-40", "shadow-2xl", "h-[calc(100vh-80px)]");
+                toggleIcon.classList.remove("fa-xmark");
+                toggleIcon.classList.add("fa-bars");
+            }
+        }
+
+        // Active State highlighting on scroll
+        const contentArea = document.getElementById("recipesContent");
+        contentArea.addEventListener("scroll", () => {
+            const sections = document.querySelectorAll(".recipe-card");
+            let currentActiveId = "";
+            
+            sections.forEach(sec => {
+                const rect = sec.getBoundingClientRect();
+                // Check if element is near the top of the view
+                if (rect.top >= 0 && rect.top <= 300) {
+                    currentActiveId = sec.id;
+                }
+            });
+            
+            if (currentActiveId) {
+                const navLinks = sidebarMenu.querySelectorAll("a");
+                navLinks.forEach(link => {
+                    const targetId = link.dataset.target;
+                    if (targetId === currentActiveId) {
+                        link.classList.add("bg-rose-50", "text-rose-600", "border-rose-200");
+                        link.classList.remove("text-slate-600", "border-transparent");
+                        // Also change numbering circle color
+                        link.querySelector('span:first-child').classList.add("bg-rose-500", "text-white");
+                        link.querySelector('span:first-child').classList.remove("bg-slate-200", "text-slate-700");
+                    } else {
+                        link.classList.remove("bg-rose-50", "text-rose-600", "border-rose-200");
+                        link.classList.add("text-slate-600", "border-transparent");
+                        // Reset numbering circle
+                        link.querySelector('span:first-child').classList.remove("bg-rose-500", "text-white");
+                        link.querySelector('span:first-child').classList.add("bg-slate-200", "text-slate-700");
+                    }
+                });
+            }
+        });
+
+        // Add smooth scrolling specifically for sidebar links
+        document.querySelectorAll('#sidebarMenu a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                // For mobile, hide sidebar after click
+                if (window.innerWidth < 1024) {
+                    toggleSidebar();
+                }
+
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
